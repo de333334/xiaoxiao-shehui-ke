@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>晓晓老师社会现象分析课 · 第10课：全职儿女——在家上班的年轻人</title>
+<style>
+  :root{
+    --bg:#0f1226; --bg2:#171a36; --card:#1e2247; --card2:#262b57;
+    --ink:#eef1ff; --sub:#aeb6e6; --accent:#ffd166; --accent2:#06d6a0;
+    --pink:#ff6b9d; --blue:#5bc0eb; --warn:#ff6b6b; --line:#333a6b;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0;background:linear-gradient(160deg,var(--bg),var(--bg2));color:var(--ink);
+    font-family:"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;line-height:1.7}
+  .topbar{position:sticky;top:0;z-index:30;background:rgba(15,18,38,.92);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);padding:10px 14px}
+  .topbar h1{font-size:17px;margin:0 0 8px;font-weight:800;letter-spacing:.5px}
+  .topbar h1 .badge{background:var(--accent);color:#222;border-radius:999px;padding:1px 9px;font-size:12px;margin-right:8px}
+  .ctrl{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .btn{border:none;border-radius:10px;padding:8px 12px;font-size:14px;font-weight:700;cursor:pointer;
+    background:var(--card2);color:var(--ink);transition:.15s;display:inline-flex;align-items:center;gap:5px}
+  .btn:hover{filter:brightness(1.15)}
+  .btn.primary{background:linear-gradient(135deg,var(--accent),#ff9f1c);color:#241a00}
+  .btn.nav{background:var(--blue);color:#04263a}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .seekwrap{flex:1;min-width:160px;display:flex;align-items:center;gap:8px}
+  input[type=range]{-webkit-appearance:none;appearance:none;height:8px;border-radius:999px;
+    background:linear-gradient(90deg,var(--accent2),var(--accent));outline:none;width:100%}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;
+    background:#fff;border:3px solid var(--accent);cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+  input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--accent);cursor:pointer}
+  .pos{font-size:12px;color:var(--sub);min-width:74px;text-align:right;font-variant-numeric:tabular-nums}
+  .hint{font-size:12px;color:var(--sub);margin-top:6px}
+  .hint b{color:var(--accent)}
+  .stage{padding:14px 14px 150px;max-width:880px;margin:0 auto}
+  .sec{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin:0 0 14px;
+    box-shadow:0 6px 20px rgba(0,0,0,.25)}
+  .sec h2{font-size:16px;margin:0 0 10px;color:var(--accent);display:flex;align-items:center;gap:8px}
+  .sec h2 .dot{width:9px;height:9px;border-radius:50%;background:var(--accent2)}
+  .ln{margin:0;padding:6px 10px;border-radius:9px;color:var(--ink);font-size:15.5px;transition:.2s;border-left:3px solid transparent}
+  .ln.cur{background:var(--card2);border-left:3px solid var(--accent);font-weight:700}
+  .ln .who{color:var(--accent2);font-weight:800;margin-right:4px}
+  .diagram{margin:10px 0 4px;text-align:center}
+  .diagram svg{max-width:100%;height:auto}
+  .cap{font-size:12px;color:var(--sub);margin-top:4px}
+  .formula{background:var(--bg2);border:1px dashed var(--accent);border-radius:10px;padding:10px 12px;
+    font-size:15px;color:var(--accent);text-align:center;margin:8px 0;font-weight:700}
+  .jingle{background:linear-gradient(135deg,#2a2150,#3a2a5e);border-radius:12px;padding:12px 14px;margin:8px 0}
+  .jingle .t{color:var(--pink);font-weight:800;font-size:13px;margin-bottom:4px}
+  .jingle p{margin:4px 0;font-size:15px;color:#ffe6f3;letter-spacing:.3px}
+  .subbar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(8,10,24,.96);
+    border-top:2px solid var(--accent);padding:14px 16px 16px;box-shadow:0 -8px 24px rgba(0,0,0,.5)}
+  .subbar .now{font-size:19px;font-weight:800;color:#fff;text-align:center;max-width:860px;margin:0 auto;
+    line-height:1.5;min-height:27px}
+  .subbar .now .who{color:var(--accent2)}
+  .subbar .meta{text-align:center;color:var(--sub);font-size:12px;margin-top:6px}
+  .live{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent2);margin-right:6px;
+    animation:pulse 1s infinite}
+  @keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+  .toast{position:fixed;right:16px;bottom:120px;z-index:45;max-width:300px;background:var(--card2);
+    border:1px solid var(--line);border-radius:14px;padding:10px 12px;font-size:14px;box-shadow:0 6px 18px rgba(0,0,0,.4);
+    opacity:0;transform:translateY(12px);transition:.4s;pointer-events:none}
+  .toast.show{opacity:1;transform:translateY(0)}
+  .toast .nm{color:var(--pink);font-weight:800;margin-right:5px}
+  .mask{position:fixed;inset:0;z-index:60;background:rgba(4,6,18,.82);display:none;align-items:center;justify-content:center;padding:18px}
+  .mask.show{display:flex}
+  .quiz{background:var(--card);border:2px solid var(--pink);border-radius:18px;max-width:560px;width:100%;
+    padding:20px;box-shadow:0 12px 40px rgba(0,0,0,.6);max-height:88vh;overflow:auto}
+  .quiz h3{margin:0 0 6px;color:var(--pink);font-size:18px}
+  .quiz .asker{display:inline-block;background:var(--pink);color:#fff;border-radius:999px;padding:2px 10px;font-size:13px;font-weight:800;margin-bottom:8px}
+  .q{background:var(--bg2);border-radius:12px;padding:11px 13px;margin:10px 0;font-size:15px}
+  .q .lab{color:var(--accent);font-weight:800;margin-right:6px}
+  textarea{width:100%;min-height:64px;border-radius:10px;border:1px solid var(--line);background:var(--bg);
+    color:var(--ink);padding:10px;font-size:14px;font-family:inherit;resize:vertical}
+  .ans{display:none;background:#16331f;border:1px solid var(--accent2);border-radius:12px;padding:12px 14px;margin-top:8px;font-size:14px;color:#d6ffe6}
+  .ans b{color:var(--accent2)}
+  .quiz .row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+  .footnote{text-align:center;color:var(--sub);font-size:12px;padding:18px}
+  .warnbox{background:#2a1620;border:1px solid var(--warn);border-radius:12px;padding:12px;margin:8px 0;font-size:14px}
+  .warnbox .t{color:var(--warn);font-weight:800}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1><span class="badge">第10课</span>全职儿女：在家"上班"的年轻人</h1>
+  <div class="ctrl">
+    <button class="btn primary" id="playBtn">▶ 播放</button>
+    <button class="btn nav" id="prevBtn">⏮ 上一句</button>
+    <button class="btn nav" id="nextBtn">下一句 ⏭</button>
+    <div class="seekwrap">
+      <input type="range" id="seek" min="0" max="0" step="1" value="0">
+      <span class="pos" id="pos">0 / 0</span>
+    </div>
+  </div>
+  <div class="hint">💡 进度条可<b>自由拖动</b>调位置；「上一句 / 下一句」逐句跳转；晓晓老师神经网络语音朗读；底部字幕不挡讲解；课中会有小明/小红突袭提问，记得答完再继续～</div>
+</div>
+
+<div class="stage" id="stage"></div>
+
+<div class="subbar">
+  <div class="now" id="now">点「播放」，晓晓老师开讲啦～</div>
+  <div class="meta"><span class="live" id="liveDot" style="display:none"></span><span id="meta">已就绪 · 本课前半段复习「消费两副面孔」，再讲新课</span></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="mask" id="mask">
+  <div class="quiz" id="quizBox"></div>
+</div>
+
+<div class="footnote">懒脑袋锻炼计划 · 第10课 · 数据来自2026公开报道（智联招聘/中国社科院/熊丙奇/吕新雨/贝壳研究院等）· 本页为自包含离线课件，请用 Edge / Chrome 打开以启用晓晓老师语音</div>
+
+<script>
+/* ============ 讲解文稿（逐句，供语音+字幕） ============ */
+const SENT = [
+ "同学们好！我是晓晓老师，懒脑袋锻炼计划第10课开讲啦。",
+ "先复习上节课：我们讲了消费的两副面孔——同一拨人一边抠门、一边大方。",
+ "它的真名字叫清醒消费：该省省、该花花，标准是「值等于好等于我开心」。",
+ "口诀还记得吗？临期限量抠着花，兴趣体验大方花；省的是那虚面子，买的是我真牵挂。",
+ "为什么要复习？因为这节课的「全职儿女」，和上节课是同一棵藤上结的瓜——都在省钱、都在依赖家庭。",
+ "好，复习完毕，我们进入今天的新现象。",
+
+ "最近有个词特别火，叫「全职儿女」。",
+ "什么意思？就是二十到三十五岁的年轻人，大学毕业后不找工作、不考研、不结婚，回到家里。",
+ "每天做做家务、陪陪父母、刷刷手机、打打游戏，管这叫「全职儿女」。",
+ "他们吃住都在父母家，有的不向父母要钱，靠父母给的零花钱过日子。",
+ "有的更正规——每月从父母那儿领三千到五千块的「家庭工资」，美其名曰用劳动换生活。",
+ "数据吓人：智联招聘二零二六年说，全国全职儿女已经超过三百八十万，大多是本科以上，集中在二十五到三十岁。",
+ "社科院更狠：十八到三十五岁青年里，百分之十一点六处于既不上班也不深造的蛰伏状态，总人数突破一千万。",
+ "豆瓣上全职儿女工作交流中心小组，已经聚了四千多人，他们自称打工人——雇主是父母，工作内容是做饭、打扫、陪聊、跑腿。",
+
+ "先正名！一看到在家不工作，很多人第一反应是：这不就是啃老吗？",
+ "先别急着骂。二十一世纪教育研究院的熊丙奇院长，说了句大实话。",
+ "啃老是什么都不干靠父母养；全职儿女，相当于父母把请保姆的钱，花在了孩子身上。",
+ "你看，这不是白吃白喝，而是一份没有五险一金的家政合同——你干活，父母发工资。",
+ "不过光看到这一层还太浅。全职儿女其实分三种完全不同的形态，背后是三种不同的人生。",
+
+ "第一种，过渡缓冲型，占百分之六十二点三，是大多数。",
+ "他们平均在家六到十八个月，百分之八十九点七有明确重返职场的计划——说白了先喘口气、缓一缓，等机会好了再出去。",
+ "第二种，家庭照料型，占百分之二十三点五。多半是父母生病需要人照顾，子女用劳动，替代了每月五六千块的护工费。",
+ "第三种，主动选择型，占百分之十四点二。高学历、厌倦了职场内卷，主动回归家庭，追求自己的生活节奏。",
+ "你看，同一个词，背后是三种人生：暂时歇脚、照顾双亲、主动逃离内卷。所以别一刀切叫人啃老。",
+
+ "那这股风从哪刮起来的？五根线，记好。",
+ "第一根：就业冷。二零二六年毕业生预计一千二百七十万，十六到二十四岁失业率一度高达百分之十六点五——六个年轻人里就有一个找不到工作。",
+ "起薪普遍四五千，一二线城市扣掉房租通勤所剩无几；企业还卡三十五岁以下、接受加班；人工智能又在抢基础文员、客服的活。",
+ "第二根：生活贵。房租、通勤、吃饭三座大山，把刚毕业的工资吃得干干净净，努力多年看不到希望。",
+ "第三根：家底暖。中国社会讲究家庭兜底——百分之六十七的六十岁以上老人在资助成年子女，百分之七十六的八零九零后买房靠父母。",
+ "城市家庭里超过百分之六十五存在老养小——父母退休金养着成年孩子，家成了最后的避风港。",
+ "第四根：观念变。这代人不再迷信必须上班才算有出息。华东师大吕新雨教授说得好：父母陪我们长大，我们陪父母变老，这样的陪伴本身就有意义。",
+ "第五根：节奏喘。社会太快了，人人被推着跑，回家等于给自己按了个暂停键。",
+
+ "不过老师要泼冷水，几个坑必须警惕。",
+ "第一坑：角色固化。全职儿女当得越久，重返职场可能性越低。居家三年再求职，竞争力平均下降百分之四十——技能退化、社交退化、意志磨平。",
+ "第二坑：习得性无助。北大心理团队十年追踪发现，被包办长大的孩子，自主决策的肌肉会退化，久而久之连自己做决定都不敢。",
+ "第三坑：别学日本。日本九十年代泡沫破了之后，出现一百四十六万蛰居族，还有更惨的八零五零问题——八十岁的父母养着五十岁的孩子，父母一走，孩子连饭都不会做。",
+ "第四坑：阶层双标。同一件事，穷人叫啃老，中产叫托底，富人叫传承——同一种给予，穷人背骂名，富人获赞美，这才最荒诞。",
+ "还有，别光看孩子，父母也在搭进去：百分之三十二的老人因此推迟了养老储蓄，百分之十八的家庭甚至因此负债。",
+
+ "来，背口诀！正名口诀：不是懒，是缓冲；不是啃，是合同；三种形，莫混淆。",
+ "三形态口诀：过渡六成暂歇脚，照料两成护双亲，主动一成图自在。",
+ "五根线口诀：一冷二贵三家暖，四变五喘说得清。就业遇冷岗难寻，家底托底暖人心，观念一变送陪伴，加速社会按暂停。",
+ "反方口诀：久当固化失力气，莫学日本八零五零；双标荒诞莫较真，父母养老要心疼。",
+
+ "好，现在轮到你当老师了。用一句话说说全职儿女是什么？再想想它和上节课消费两副面孔的共同点；最后，假如你是父母，会怎么跟在家缓冲的孩子定一份合同？",
+ "（停顿，给学生思考时间——想好了再往下听答案。）",
+
+ "今天的课到这儿。记住：全职儿女不是非黑即白的啃老，它是一代人在风暴里抓住的一块浮木。",
+ "浮木能救命，但不能当船开——缓冲可以，停泊不行。下节课我们继续拆解新现象。作业：今晚跟爸妈聊五分钟，问问他们当年二十多岁在干嘛。同学们，再见！"
+];
+
+/* ============ 章节结构（含图示） ============ */
+const SVG_PHENOMENON = `<svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC,sans-serif">
+  <rect width="680" height="200" rx="16" fill="#171a36"/>
+  <text x="340" y="28" fill="#ffd166" font-size="16" font-weight="800" text-anchor="middle">全职儿女的一天</text>
+  <polygon points="200,82 340,42 480,82" fill="#262b57" stroke="#ffd166" stroke-width="2"/>
+  <rect x="212" y="82" width="256" height="104" fill="#1b1f40" stroke="#ffd166" stroke-width="2"/>
+  <circle cx="272" cy="122" r="15" fill="#5bc0eb"/>
+  <rect x="261" y="137" width="22" height="32" rx="8" fill="#5bc0eb"/>
+  <text x="272" y="186" fill="#aeb6e6" font-size="11" text-anchor="middle">父母：被陪伴</text>
+  <circle cx="402" cy="120" r="15" fill="#06d6a0"/>
+  <rect x="391" y="135" width="22" height="34" rx="8" fill="#06d6a0"/>
+  <line x1="417" y1="128" x2="442" y2="170" stroke="#ffd166" stroke-width="3"/>
+  <text x="402" y="186" fill="#aeb6e6" font-size="11" text-anchor="middle">子女：做家务</text>
+  <text x="338" y="116" fill="#ff6b9d" font-size="22" text-anchor="middle">♥</text>
+</svg>`;
+
+const SVG_CONTRACT = `<svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC,sans-serif">
+  <rect width="680" height="200" rx="16" fill="#171a36"/>
+  <text x="340" y="28" fill="#ffd166" font-size="16" font-weight="800" text-anchor="middle">不是啃老，是「家政合同」</text>
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto"><path d="M0 0 L8 3 L0 6 Z" fill="#ff6b9d"/></marker>
+    <marker id="arr2" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto"><path d="M0 0 L8 3 L0 6 Z" fill="#5bc0eb"/></marker>
+  </defs>
+  <rect x="40" y="58" width="240" height="92" rx="14" fill="#262b57" stroke="#ffd166" stroke-width="2"/>
+  <text x="160" y="88" fill="#ffd166" font-size="15" font-weight="800" text-anchor="middle">父母（雇主）</text>
+  <text x="160" y="112" fill="#aeb6e6" font-size="12" text-anchor="middle">提供吃住 + 发生活费</text>
+  <text x="160" y="130" fill="#aeb6e6" font-size="12" text-anchor="middle">≈ 请保姆的钱</text>
+  <rect x="400" y="58" width="240" height="92" rx="14" fill="#262b57" stroke="#06d6a0" stroke-width="2"/>
+  <text x="520" y="88" fill="#06d6a0" font-size="15" font-weight="800" text-anchor="middle">子女（家政）</text>
+  <text x="520" y="112" fill="#aeb6e6" font-size="12" text-anchor="middle">做饭/打扫/陪聊/跑腿</text>
+  <text x="520" y="130" fill="#aeb6e6" font-size="12" text-anchor="middle">用劳动换生活</text>
+  <path d="M285 92 H400" stroke="#ff6b9d" stroke-width="4" fill="none" marker-end="url(#arr)"/>
+  <path d="M395 100 H280" stroke="#5bc0eb" stroke-width="4" fill="none" marker-end="url(#arr2)"/>
+  <text x="342" y="84" fill="#ff6b9d" font-size="11" text-anchor="middle">发工资</text>
+  <text x="342" y="120" fill="#5bc0eb" font-size="11" text-anchor="middle">出力气</text>
+</svg>`;
+
+const SVG_THREE = `<svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC,sans-serif">
+  <rect width="680" height="200" rx="16" fill="#171a36"/>
+  <text x="340" y="28" fill="#ffd166" font-size="16" font-weight="800" text-anchor="middle">三种形态 · 占比</text>
+  <text x="118" y="70" fill="#5bc0eb" font-size="13" text-anchor="end" font-weight="700">过渡缓冲</text>
+  <rect x="128" y="56" width="349" height="26" rx="13" fill="#06d6a0"/>
+  <text x="486" y="74" fill="#fff" font-size="13" font-weight="800">62.3%</text>
+  <text x="118" y="114" fill="#5bc0eb" font-size="13" text-anchor="end" font-weight="700">家庭照料</text>
+  <rect x="128" y="100" width="132" height="26" rx="13" fill="#5bc0eb"/>
+  <text x="268" y="118" fill="#fff" font-size="13" font-weight="800">23.5%</text>
+  <text x="118" y="158" fill="#5bc0eb" font-size="13" text-anchor="end" font-weight="700">主动选择</text>
+  <rect x="128" y="144" width="80" height="26" rx="13" fill="#ff6b9d"/>
+  <text x="216" y="162" fill="#fff" font-size="13" font-weight="800">14.2%</text>
+  <text x="340" y="192" fill="#aeb6e6" font-size="12" text-anchor="middle">多数只是暂歇脚，不是赖着不走</text>
+</svg>`;
+
+const SVG_ROOTS = `<svg viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC,sans-serif">
+  <rect width="680" height="260" rx="16" fill="#171a36"/>
+  <rect x="285" y="20" width="110" height="46" rx="10" fill="#262b57" stroke="#ffd166" stroke-width="2"/>
+  <text x="340" y="48" fill="#ffd166" font-size="15" font-weight="800" text-anchor="middle">全职儿女</text>
+  <line x1="340" y1="66" x2="340" y2="120" stroke="#888" stroke-width="3"/>
+  <g stroke="#06d6a0" stroke-width="3" fill="none">
+    <path d="M340 120 C300 150 250 160 150 175"/>
+    <path d="M340 120 C310 155 280 175 220 195"/>
+    <path d="M340 120 C340 160 340 185 340 210"/>
+    <path d="M340 120 C370 155 400 175 460 195"/>
+    <path d="M340 120 C380 150 430 160 530 175"/>
+  </g>
+  <g font-size="12.5" font-weight="700" text-anchor="middle">
+    <text x="135" y="172" fill="#5bc0eb">①就业冷</text>
+    <text x="205" y="198" fill="#5bc0eb">②生活贵</text>
+    <text x="340" y="228" fill="#5bc0eb">③家底暖</text>
+    <text x="475" y="198" fill="#5bc0eb">④观念变</text>
+    <text x="545" y="172" fill="#5bc0eb">⑤节奏喘</text>
+  </g>
+  <text x="340" y="250" fill="#aeb6e6" font-size="12" text-anchor="middle">五根线托起「全职儿女」：根扎得清，缓冲才清醒</text>
+</svg>`;
+
+const SECTIONS = [
+  {t:"① 复习：消费的两副面孔（上节课）", lines:[0,1,2,3,4,5],
+     jingles:[{t:"上节课口诀回顾",items:["清醒消费：该省省、该花花","临期限量抠着花，兴趣体验大方花","省的是虚面子，买的是真牵挂"]}]},
+  {t:"② 新课导入：什么是「全职儿女」", lines:[6,7,8,9,10,11,12,13], svg:SVG_PHENOMENON, cap:"图：全职儿女的一天（住家·做家务·拿家庭工资）"},
+  {t:"③ 正名：不是啃老，是「家政合同」", lines:[14,15,16,17,18], svg:SVG_CONTRACT, cap:"图：父母(雇主) ↔ 子女(家政) 家政合同",
+     warn:["一看到「在家不工作」别急着骂啃老——先分清楚是「白吃白喝」还是「出力气换生活」"]},
+  {t:"④ 三种形态：同一个词，三种人生", lines:[19,20,21,22,23], svg:SVG_THREE, cap:"图：过渡缓冲62.3% / 家庭照料23.5% / 主动选择14.2%"},
+  {t:"⑤ 五根线（原因拆解）", lines:[24,25,26,27,28,29,30,31], svg:SVG_ROOTS, cap:"图：五根线托起全职儿女",
+     jingles:[{t:"五根线",items:["①就业冷：1270万毕业生、失业率16.5%、AI抢岗","②生活贵：房租通勤吃饭吃掉工资","③家底暖：67%老人资助、76%买房靠父母","④观念变：陪伴父母也算价值","⑤节奏喘：社会太快，回家按暂停"]}]},
+  {t:"⑥ 反方警惕：四个坑", lines:[32,33,34,35,36,37],
+     warn:["第一坑：角色固化——在家越久越难复出，三年竞争力降40%",
+           "第二坑：习得性无助——被包办长大，自主决策肌肉退化",
+           "第三坑：别学日本——146万蛰居族、8050问题（80岁养50岁）",
+           "第四坑：阶层双标——穷人叫啃老、中产叫托底、富人叫传承"]},
+  {t:"⑦ 口诀大合集", lines:[38,39,40,41],
+     jingles:[
+       {t:"正名口诀",items:["不是懒，是缓冲；","不是啃，是合同；","三种形，莫混淆。"]},
+       {t:"三形态口诀",items:["过渡六成暂歇脚，","照料两成护双亲，","主动一成图自在。"]},
+       {t:"五根线口诀",items:["一冷二贵三家暖，四变五喘说得清：","就业遇冷岗难寻，家底托底暖人心，","观念一变送陪伴，加速社会按暂停。"]},
+       {t:"反方口诀",items:["久当固化失力气，莫学日本八零五零；","双标荒诞莫较真，父母养老要心疼。"]}
+     ]},
+  {t:"⑧ 费曼检测", lines:[42,43]},
+  {t:"⑨ 结语", lines:[44,45]}
+];
+
+/* ============ 学生互动气泡（飘一下，不挡讲解） ============ */
+const BUBBLES = {
+  9:{nm:"小红",txt:"我表哥就这样！住家里不啃钱，每天给奶奶做饭，奶奶可高兴了😊"},
+  12:{nm:"小明",txt:"一千万？！我们班四十人，按比例得有四五个在家躺……有点后怕"},
+  21:{nm:"小明",txt:"我姐就是主动型，辞职学烘焙，说比当会计开心多了"},
+  28:{nm:"小红",txt:"我爷爷每月退休金都贴给我小叔……原来这叫老养小"},
+  35:{nm:"小明",txt:"80岁养50岁？太吓人了，我可不能变成那样"}
+};
+
+/* ============ 费曼突袭弹题（在指定句触发） ============ */
+const QUIZZES = {
+  23:{ // 三种形态讲完
+    asker:"小明", title:"突袭提问①",
+    intro:"晓晓老师，我姐辞职在家半年了，每天给奶奶做饭陪聊，奶奶开心得不得了。这算啃老还是全职儿女啊？我妈老说她「废了」，我该怎么跟妈妈解释？",
+    qs:[
+      {lab:"辨一辨",q:"用今天学的三种形态，说说你姐更像是哪一种？怎么跟妈妈解释这不是「废了」？"},
+      {lab:"想一想",q:"你怎么区分「缓冲」和「赖着不走」？给个简单的判断标准。"}
+    ],
+    ans:"<b>参考答案：</b>你姐大概率是<b>家庭照料型</b>（照顾奶奶=用劳动替代护工费）或<b>过渡缓冲型</b>（暂时歇脚）。跟妈妈解释：全职儿女不是白吃白喝，是份「家政合同」——她出了力（做饭陪聊），奶奶得了陪伴，这是双向奔赴，不是废了。区分「缓冲 vs 赖着」的简单标准：<b>有没有复出计划和时间线</b>。过渡型 89.7% 明确要回职场；若三年毫无动作、技能退化，才滑向「角色固化」（第六节第一坑）。"
+  },
+  31:{ // 五根线讲完
+    asker:"小红", title:"突袭提问②",
+    intro:"五根线里我最有感觉的是「家底暖」——我同学家就是，爸妈说「你先住着，不急」。你呢？五根线你能背几句？哪一根最能解释「为什么是我家」？",
+    qs:[
+      {lab:"背一背",q:"五根线你能背出几句？哪一根和你家最像？"},
+      {lab:"防坑",q:"依赖「家底暖」最要警惕什么？怎么避免变成角色固化？"}
+    ],
+    ans:"<b>参考答案：</b>五根线：①就业冷 ②生活贵 ③家底暖 ④观念变 ⑤节奏喘。依赖家底暖最要警惕<b>角色固化</b>——在家越久，重返职场可能性越低，竞争力三年降 40%。避免办法：把「缓冲」设 deadline（如 6-12 个月），期间保持投简历、学技能，别彻底脱离社会轨道。"
+  },
+  42:{ // 费曼检测主问
+    asker:"晓晓老师", title:"费曼检测（合上课本讲给我听）",
+    intro:"现在轮到你当老师了。别急着看答案，先自己讲，再对照。",
+    qs:[
+      {lab:"一句话",q:"用一句话解释「全职儿女」到底是什么？举个你身边的例子。"},
+      {lab:"勾连",q:"它和上节课「消费两副面孔」共同点是什么？（提示：都和依赖家庭/省钱有关）"},
+      {lab:"实战",q:"假如你是父母，会怎么跟在家缓冲的孩子定一份「合同」？"}
+    ],
+    ans:"<b>参考答案：</b>①全职儿女=年轻人毕业后不工作、回家以做家务/陪父母换父母供养的现象，更像一份没五险一金的家政合同，不是非黑即白的啃老。例子：26岁小江辞职后一年只花五千，每天给奶奶做饭陪聊。②共同点：都在「依赖家庭资源+省钱」——上一课省面子钱，本课省独立成本，都是把「别人眼里的标准」换成「自己/家庭舒服的标准」。③参考合同：明确角色（家务+陪聊+自我提升）、设截止线（缓冲≤6-12个月，到期投简历）、工资挂钩（做完家务+每周投N份简历才发生活费）、保留复出通道（帮改简历练面试）。核心：缓冲可以，停泊不行。"
+  }
+};
+
+/* ============ 渲染课堂笔记 ============ */
+const stage = document.getElementById('stage');
+let lineEls = [];
+SECTIONS.forEach((sec,si)=>{
+  const card = document.createElement('div'); card.className='sec';
+  const h = document.createElement('h2'); h.innerHTML='<span class="dot"></span>'+sec.t; card.appendChild(h);
+  if(sec.svg){const d=document.createElement('div');d.className='diagram';d.innerHTML=sec.svg;card.appendChild(d);
+    if(sec.cap){const c=document.createElement('div');c.className='cap';c.textContent='▲ '+sec.cap;card.appendChild(c);}}
+  if(sec.formula){const f=document.createElement('div');f.className='formula';f.textContent=sec.formula;card.appendChild(f);}
+  if(sec.warn){sec.warn.forEach(w=>{const b=document.createElement('div');b.className='warnbox';b.innerHTML='<span class="t">⚠ </span>'+w;card.appendChild(b);});}
+  if(sec.jingles){sec.jingles.forEach(j=>{
+    const jd=document.createElement('div');jd.className='jingle';
+    jd.innerHTML='<div class="t">'+j.t+'</div>'+j.items.map(i=>'<p>'+i+'</p>').join('');
+    card.appendChild(jd);});}
+  sec.lines.forEach(li=>{
+    const p=document.createElement('p'); p.className='ln'; p.id='ln'+li;
+    p.textContent=SENT[li];
+    card.appendChild(p); lineEls[li]=p;
+  });
+  stage.appendChild(card);
+});
+
+/* ============ 语音 + 播放控制 ============ */
+const seek=document.getElementById('seek');
+const pos=document.getElementById('pos');
+const now=document.getElementById('now');
+const meta=document.getElementById('meta');
+const liveDot=document.getElementById('liveDot');
+const playBtn=document.getElementById('playBtn');
+const prevBtn=document.getElementById('prevBtn');
+const nextBtn=document.getElementById('nextBtn');
+const toast=document.getElementById('toast');
+
+const N=SENT.length;
+seek.max=N-1; pos.textContent='0 / '+N;
+let cur=0, playing=false, autoplay=true, quizOpen=false;
+let voice=null, utter=null;
+
+function loadVoices(){
+  const vs = window.speechSynthesis ? speechSynthesis.getVoices() : [];
+  voice = vs.find(v=>/Xiaoxiao|晓晓| Xiao Xiao/i.test(v.name))
+        || vs.find(v=>v.lang==='zh-CN' && /female|女|Neural/i.test(v.name))
+        || vs.find(v=>v.lang && v.lang.toLowerCase().startsWith('zh'))
+        || null;
+}
+if(window.speechSynthesis){
+  loadVoices();
+  speechSynthesis.onvoiceschanged = loadVoices;
+}
+
+function stopSpeech(){ if(window.speechSynthesis) speechSynthesis.cancel(); }
+
+function speak(i){
+  if(!window.speechSynthesis) return;
+  stopSpeech();
+  const u=new SpeechSynthesisUtterance(SENT[i]);
+  if(voice) u.voice=voice;
+  u.lang='zh-CN'; u.rate=0.98; u.pitch=1.0; u.volume=1.0;
+  u.onend=()=>{
+    if(quizOpen) return;
+    if(autoplay && playing && cur < N-1){
+      go(cur+1, true);
+    }
+  };
+  utter=u; speechSynthesis.speak(u);
+}
+
+function highlight(i){
+  lineEls.forEach((el,idx)=>{ if(el) el.classList.toggle('cur', idx===i); });
+  const el=lineEls[i];
+  if(el){ el.scrollIntoView({behavior:'smooth',block:'center'}); }
+  now.innerHTML = '<span class="who"></span>'+SENT[i];
+  seek.value=i; pos.textContent=(i+1)+' / '+N;
+}
+
+function maybeBubble(i){
+  const b=BUBBLES[i];
+  if(b){
+    toast.innerHTML='<span class="nm">'+b.nm+'：</span>'+b.txt;
+    toast.classList.add('show');
+    setTimeout(()=>toast.classList.remove('show'),4200);
+  }
+}
+
+function maybeQuiz(i){
+  const q=QUIZZES[i];
+  if(q){ openQuiz(i,q); return true; }
+  return false;
+}
+
+function go(i, fromEnd){
+  i=Math.max(0,Math.min(N-1,i));
+  cur=i;
+  highlight(i);
+  maybeBubble(i);
+  if(maybeQuiz(i)){
+    stopSpeech(); playing=false; updatePlayBtn();
+    return;
+  }
+  if(playing){ speak(i); }
+}
+
+function updatePlayBtn(){ playBtn.textContent = playing? '⏸ 暂停':'▶ 播放'; liveDot.style.display = playing? 'inline-block':'none'; }
+
+playBtn.onclick=()=>{
+  if(quizOpen) return;
+  if(playing){ playing=false; stopSpeech(); updatePlayBtn(); meta.textContent='已暂停'; }
+  else{
+    if(cur>=N-1) cur=0;
+    playing=true; autoplay=true; updatePlayBtn(); meta.textContent='晓晓老师正在朗读…';
+    if(maybeQuiz(cur)){ playing=false; updatePlayBtn(); return; }
+    speak(cur);
+  }
+};
+prevBtn.onclick=()=>{ if(quizOpen)return; playing=false; updatePlayBtn(); go(cur-1); };
+nextBtn.onclick=()=>{ if(quizOpen)return; playing=false; updatePlayBtn(); go(cur+1); };
+seek.oninput=()=>{ if(quizOpen)return; const v=parseInt(seek.value,10); playing=false; updatePlayBtn(); go(v); };
+
+/* ============ 费曼弹题 ============ */
+const mask=document.getElementById('mask');
+const quizBox=document.getElementById('quizBox');
+function openQuiz(i,q){
+  quizOpen=true; autoplay=false; playing=false; updatePlayBtn();
+  meta.textContent='⏸ 突袭提问中，请先作答';
+  let html='<h3>'+q.title+'</h3>';
+  html+='<span class="asker">'+q.asker+' 问</span>';
+  html+='<div class="q" style="background:#2a1620;border-color:#ff6b9d">'+q.intro+'</div>';
+  q.qs.forEach((qq,k)=>{
+    html+='<div class="q"><span class="lab">'+qq.lab+'</span>'+qq.q+'</div>';
+    html+='<textarea id="ta'+i+'_'+k+'" placeholder="在这里用你自己的话写答案…"></textarea>';
+  });
+  html+='<div class="ans" id="ans'+i+'">'+q.ans+'</div>';
+  html+='<div class="row">';
+  html+='<button class="btn primary" id="reveal'+i+'">提交看答案</button>';
+  html+='<button class="btn nav" id="cont'+i+'">继续上课 ⏭</button>';
+  html+='</div>';
+  quizBox.innerHTML=html;
+  mask.classList.add('show');
+  document.getElementById('reveal'+i).onclick=()=>{ document.getElementById('ans'+i).style.display='block'; };
+  document.getElementById('cont'+i).onclick=()=>{ closeQuiz(i); };
+}
+function closeQuiz(i){
+  mask.classList.remove('show'); quizOpen=false;
+  if(cur < N-1){ cur=i; playing=true; autoplay=true; updatePlayBtn(); meta.textContent='晓晓老师继续朗读…'; go(i+1); }
+  else { meta.textContent='本课已讲完 🎉'; }
+}
+window.addEventListener('click',e=>{ if(e.target===mask) { /* 点遮罩不关闭，需作答 */ } });
+
+/* 初始 */
+highlight(0);
+meta.textContent='已就绪 · 本课前半段复习「消费两副面孔」，再讲新课';
+</script>
+</body>
+</html>

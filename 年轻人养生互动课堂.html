@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>晓晓老师社会现象分析课 · 第12课：年轻人为什么集体养生</title>
+<style>
+  :root{
+    --bg:#0f1226; --bg2:#171a36; --card:#1e2247; --card2:#262b57;
+    --ink:#eef1ff; --sub:#aeb6e6; --accent:#ffd166; --accent2:#06d6a0;
+    --pink:#ff6b9d; --blue:#5bc0eb; --warn:#ff6b6b; --line:#333a6b;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0;background:linear-gradient(160deg,var(--bg),var(--bg2));color:var(--ink);
+    font-family:"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;line-height:1.7}
+  .topbar{position:sticky;top:0;z-index:30;background:rgba(15,18,38,.92);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);padding:10px 14px}
+  .topbar h1{font-size:17px;margin:0 0 8px;font-weight:800;letter-spacing:.5px}
+  .topbar h1 .badge{background:var(--accent);color:#222;border-radius:999px;padding:1px 9px;font-size:12px;margin-right:8px}
+  .ctrl{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .btn{border:none;border-radius:10px;padding:8px 12px;font-size:14px;font-weight:700;cursor:pointer;
+    background:var(--card2);color:var(--ink);transition:.15s;display:inline-flex;align-items:center;gap:5px}
+  .btn:hover{filter:brightness(1.15)}
+  .btn.primary{background:linear-gradient(135deg,var(--accent),#ff9f1c);color:#241a00}
+  .btn.nav{background:var(--blue);color:#04263a}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .seekwrap{flex:1;min-width:160px;display:flex;align-items:center;gap:8px}
+  input[type=range]{-webkit-appearance:none;appearance:none;height:8px;border-radius:999px;
+    background:linear-gradient(90deg,var(--accent2),var(--accent));outline:none;width:100%}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;
+    background:#fff;border:3px solid var(--accent);cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+  input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--accent);cursor:pointer}
+  .pos{font-size:12px;color:var(--sub);min-width:74px;text-align:right;font-variant-numeric:tabular-nums}
+  .hint{font-size:12px;color:var(--sub);margin-top:6px}
+  .hint b{color:var(--accent)}
+  .stage{padding:14px 14px 150px;max-width:880px;margin:0 auto}
+  .sec{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin:0 0 14px;
+    box-shadow:0 6px 20px rgba(0,0,0,.25)}
+  .sec h2{font-size:16px;margin:0 0 10px;color:var(--accent);display:flex;align-items:center;gap:8px}
+  .sec h2 .dot{width:9px;height:9px;border-radius:50%;background:var(--accent2)}
+  .ln{margin:0;padding:6px 10px;border-radius:9px;color:var(--ink);font-size:15.5px;transition:.2s;border-left:3px solid transparent}
+  .ln.cur{background:var(--card2);border-left:3px solid var(--accent);font-weight:700}
+  .ln .who{color:var(--accent2);font-weight:800;margin-right:4px}
+  .diagram{margin:10px 0 4px;text-align:center}
+  .diagram svg{max-width:100%;height:auto}
+  .cap{font-size:12px;color:var(--sub);margin-top:4px}
+  .formula{background:var(--bg2);border:1px dashed var(--accent);border-radius:10px;padding:10px 12px;
+    font-size:15px;color:var(--accent);text-align:center;margin:8px 0;font-weight:700}
+  .jingle{background:linear-gradient(135deg,#2a2150,#3a2a5e);border-radius:12px;padding:12px 14px;margin:8px 0}
+  .jingle .t{color:var(--pink);font-weight:800;font-size:13px;margin-bottom:4px}
+  .jingle p{margin:4px 0;font-size:15px;color:#ffe6f3;letter-spacing:.3px}
+  .subbar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(8,10,24,.96);
+    border-top:2px solid var(--accent);padding:14px 16px 16px;box-shadow:0 -8px 24px rgba(0,0,0,.5)}
+  .subbar .now{font-size:19px;font-weight:800;color:#fff;text-align:center;max-width:860px;margin:0 auto;
+    line-height:1.5;min-height:27px}
+  .subbar .now .who{color:var(--accent2)}
+  .subbar .meta{text-align:center;color:var(--sub);font-size:12px;margin-top:6px}
+  .live{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent2);margin-right:6px;
+    animation:pulse 1s infinite}
+  @keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+  .toast{position:fixed;right:16px;bottom:120px;z-index:45;max-width:300px;background:var(--card2);
+    border:1px solid var(--line);border-radius:14px;padding:10px 12px;font-size:14px;box-shadow:0 6px 18px rgba(0,0,0,.4);
+    opacity:0;transform:translateY(12px);transition:.4s;pointer-events:none}
+  .toast.show{opacity:1;transform:translateY(0)}
+  .toast .nm{color:var(--pink);font-weight:800;margin-right:5px}
+  .mask{position:fixed;inset:0;z-index:60;background:rgba(4,6,18,.82);display:none;align-items:center;justify-content:center;padding:18px}
+  .mask.show{display:flex}
+  .quiz{background:var(--card);border:2px solid var(--pink);border-radius:18px;max-width:560px;width:100%;
+    padding:20px;box-shadow:0 12px 40px rgba(0,0,0,.6);max-height:88vh;overflow:auto}
+  .quiz h3{margin:0 0 6px;color:var(--pink);font-size:18px}
+  .quiz .asker{display:inline-block;background:var(--pink);color:#fff;border-radius:999px;padding:2px 10px;font-size:13px;font-weight:800;margin-bottom:8px}
+  .q{background:var(--bg2);border-radius:12px;padding:11px 13px;margin:10px 0;font-size:15px}
+  .q .lab{color:var(--accent);font-weight:800;margin-right:6px}
+  textarea{width:100%;min-height:64px;border-radius:10px;border:1px solid var(--line);background:var(--bg);
+    color:var(--ink);padding:10px;font-size:14px;font-family:inherit;resize:vertical}
+  .ans{display:none;background:#16331f;border:1px solid var(--accent2);border-radius:12px;padding:12px 14px;margin-top:8px;font-size:14px;color:#d6ffe6}
+  .ans b{color:var(--accent2)}
+  .quiz .row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+  .footnote{text-align:center;color:var(--sub);font-size:12px;padding:18px}
+  .warnbox{background:#2a1620;border:1px solid var(--warn);border-radius:12px;padding:12px;margin:8px 0;font-size:14px}
+  .warnbox .t{color:var(--warn);font-weight:800}
+  .calcbox{background:#152a3a;border:1px solid var(--blue);border-radius:12px;padding:12px;margin:8px 0}
+  .calcbox .ct{color:var(--blue);font-weight:800;font-size:14px;margin-bottom:8px}
+  .calcbox .step{background:var(--bg2);border-radius:10px;padding:10px 12px;margin:8px 0}
+  .calcbox .sq{color:var(--accent);font-weight:800;font-size:14px;margin-bottom:4px}
+  .calcbox .sa{color:var(--ink);font-size:14px;line-height:1.6}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1><span class="badge">第12课</span>年轻人为什么集体养生：中式养生年轻化</h1>
+  <div class="ctrl">
+    <button class="btn primary" id="playBtn">▶ 播放</button>
+    <button class="btn nav" id="prevBtn">⏮ 上一句</button>
+    <button class="btn nav" id="nextBtn">下一句 ⏭</button>
+    <div class="seekwrap">
+      <input type="range" id="seek" min="0" max="0" step="1" value="0">
+      <span class="pos" id="pos">0 / 0</span>
+    </div>
+  </div>
+  <div class="hint">💡 进度条可<b>自由拖动</b>调位置；「上一句 / 下一句」逐句跳转；晓晓老师神经网络语音朗读；底部字幕不挡讲解；课中会有小明/小红突袭提问，记得答完再继续～</div>
+</div>
+
+<div class="stage" id="stage"></div>
+
+<div class="subbar">
+  <div class="now" id="now">点「播放」，晓晓老师开讲啦～</div>
+  <div class="meta"><span class="live" id="liveDot" style="display:none"></span><span id="meta">已就绪 · 本课前半段复习「人机恋」，再讲新课</span></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="mask" id="mask">
+  <div class="quiz" id="quizBox"></div>
+</div>
+
+<div class="footnote">懒脑袋锻炼计划 · 第12课 · 数据来自2026公开报道（新华网/国家体育总局/惊蛰研究所/今日头条等）· 本页为自包含离线课件，请用 Edge / Chrome 打开以启用晓晓老师语音</div>
+
+<script>
+/* ============ 讲解文稿（逐句，供语音+字幕） ============ */
+const SENT = [
+ "同学们好！我是晓晓老师，懒脑袋锻炼计划第12课开讲啦。",
+ "先复习上节课：我们讲了人机恋——年轻人去手机里，找一个永远秒回、永远不扫兴的恋人。",
+ "它和更早的玄学热是亲兄弟：玄学热去庙里抓确定感，人机恋去手机里抓被回应感。",
+ "今天这课，我们讲第三块拼图：年轻人开始疯狂养生，去身体里抓一种「我能掌控自己」的感觉。",
+ "精神（玄学）→ 关系（人机恋）→ 身体（养生），三块拼起来，就是这届年轻人又慌又想自救的样子。",
+ "好，复习完毕，进入今天的新现象。",
+
+ "最近你一定刷到过：八段锦、晒背、艾灸、中药奶茶、保温杯里泡枸杞……全成了年轻人的新宠。",
+ "十年前年轻人还嘲笑爸妈养生，现在自己成了「脆皮年轻人」——二十多岁，身体却像用了十年的旧手机：电量掉得快、动不动卡顿、还会自动关机。",
+ "数据吓人：二零二六年一季度，八段锦相关视频在抖音、B站播放破八十四亿次；小红书养生话题浏览一百六十七亿次，主力是十八到三十五岁的年轻人。",
+ "单条八段锦跟练视频，B站最高播放超五千万；抖音八段锦话题累计近二十五亿次。",
+ "小红书晒背笔记超五万条，三伏天晒背笔记超一百万篇，晒背衣搜索量同比涨了三倍。",
+ "钱也砸进来了：药食同源市场近一年销售额两千三百亿元，二零二五年预计冲到三千二百亿。",
+ "新华网报告显示，十八到三十五岁占养生消费人群百分之八十三点七；城市常住居民年均花超一千块在养生上。",
+
+ "先正名！一看到年轻人养生，很多人第一反应是：跟风、矫情、吃泡枸杞的智商税。",
+ "先别急着笑。真正该问的是：为什么这届年轻人，身体会「脆」成这样？",
+ "有个概念叫「脆皮」——表面是自嘲梗，背后是真实的亚健康：颈腰椎病、失眠、肠胃差、动不动就累。",
+ "它不是懒，是身体在报警：久坐十小时、熬夜、外卖奶茶不离手，年纪轻轻就透支了。",
+ "所以别把养生当笑话，它是一代人的自救信号。",
+
+ "要真懂养生热，先抓三个核心概念。",
+ "第一个：脆皮。刚才说了，身体像旧手机，电量掉得快、一碰就碎。这是养生热的「土壤」。",
+ "第二个：朋克养生。一边作死一边补救——熬夜涂眼霜、蹦迪吃护肝片、啤酒里加枸杞。听着叛逆，其实是对放肆损耗的「心理补偿」，治标不治本。",
+ "第三个：治未病。中医老话，意思是别等生病再治，日常就主动养护。把养生融进碎片时间——工位上练八段锦、阳台上晒背。",
+ "记住这三词：土壤（脆皮）、假补（朋克养生）、真路（治未病）。后面全靠它们串。",
+
+ "那这股风从哪刮起来的？五根线，记好。",
+ "第一根：身体真脆。久坐、熬夜、外卖把身体造脆了，体检异常越来越年轻化，颈椎腰椎没一个好的。",
+ "第二根：心理要稳。工作、钱、婚恋都抓不住，至少能抓住「今天我喝了枸杞水、练了八段锦」——身体是少数还能自己说了算的事，养的是掌控感。",
+ "第三根：钱包省钱。一杯枸杞水、一套十二分钟八段锦，几乎零成本，比办健身卡吃灰、去医院花钱便宜太多。这和上一课消费两副面孔的「该省省」同源。",
+ "第四根：国潮赋能。国潮让中医、八段锦变酷了；中药奶茶、晒背局、汉服加八段锦，养生成了社交货币，发朋友圈有面儿。",
+ "第五根：算法推爆。小红书、抖音把「打卡」推成潮流；AI动作纠正APP、五分钟工位版，又把门槛降到地板上。",
+ "五根线合起来：身体先报警，心里要抓稳，钱包图省钱，国潮加算法来添火。",
+
+ "不过老师要泼冷水，几个坑必须警惕。",
+ "第一坑：朋克养生自欺。一边熬夜一边枸杞，等于一边挖坑一边填，身体净亏。真补是少熬、早睡、看医生。",
+ "第二坑：养生被收割。养生市场三千二百亿，产品良莠不齐，养生成了新镰刀——和玄学热里的信仰红利同理。",
+ "第三坑：把养生当唯一解。身体出问题的根，在作息、压力、劳动关系，养生只是贴创可贴；真要紧的是睡够、少熬、必要时看医生。",
+ "第四坑：盲目跟风伤身。三伏晒背晒伤、乱吃中药伤肝——传统不等于人人适用，阳虚才适合晒背。",
+ "所以养生是缓冲垫，不是救生圈。补可以，迷信不行。",
+
+ "来，背口诀！正名口诀：先破脆皮笑，别当智商税；身体在报警，自救才是对。",
+ "三概念口诀：土壤脆皮假补朋克，真路治未病碎片里做。",
+ "五根线口诀：一脆二稳三省钱，四潮五算添把火；身体报警心要稳，国潮算法推成河。",
+ "反方口诀：朋克自欺净亏损，养生镰刀莫当真；唯一解是大坑，盲跟伤身看医生。",
+
+ "下面练练读数的眼睛，三道数据题，一步步算。",
+
+ "好，现在轮到你当老师了。用一句话说说年轻人为什么集体养生；再想想它和玄学热、人机恋的共同点；最后，假如你是朋克养生选手，会怎么把它改成真养生？",
+ "（停顿，给学生思考时间——想好了再往下听答案。）",
+
+ "今天的课到这儿。记住：年轻人养生，表面是保温杯，里子是在抓不住的世界里，想抓住一点自己。",
+ "它和玄学热、人机恋是同一棵树的三根枝——都在不确定里，给自己找块能踩稳的石头。但真累了，先睡一觉，比什么都管用。",
+ "下节课我们继续拆解新现象。作业：今晚喝杯枸杞水，然后比个早睡——同学们，再见！"
+];
+
+/* ============ 章节结构（含图示） ============ */
+const SVG_PHENOMENON = `<svg viewBox="0 0 680 210" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC,sans-serif">
+  <rect width="680" height="210" rx="16" fill="#171a36"/>
+  <text x="340" y="26" fill="#ffd166" font-size="16" font-weight="800" text-anchor="middle">脆皮年轻人 = 旧手机 + 养生自救</text>
+  <defs><marker id="ar" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto"><path d="M0 0 L8 3 L0 6 Z" fill="#ffd166"/></marker></defs>
+  <rect x="60" y="50" width="110" height="130" rx="14" fill="#262b57" stroke="#ff6b6b" stroke-width="2"/>
+  <rect x="72" y="64" width="86" height="96" rx="6" fill="#0f1226"/>
+  <text x="115" y="92" fill="#ff6b6b" font-size="12" text-anchor="middle">电量 9%</text>
+  <rect x="95" y="74" width="40" height="8" rx="4" fill="#ff6b6b"/>
+  <path d="M120 64 L100 120 L130 130 L108 160" stroke="#ff6b6b" stroke-width="2" fill="none"/>
+  <text x="115" y="196" fill="#aeb6e6" font-size="11" text-anchor="middle">旧手机：一碰就碎</text>
+  <path d="M180 115 H250" stroke="#ffd166" stroke-width="4" fill="none" marker-end="url(#ar)"/>
+  <g transform="translate(300,55)">
+    <circle cx="40" cy="20" r="14" fill="#06d6a0"/>
+    <rect x="30" y="34" width="20" height="44" rx="8" fill="#06d6a0"/>
+    <line x1="40" y1="40" x2="10" y2="20" stroke="#06d6a0" stroke-width="4"/>
+    <line x1="40" y1="40" x2="70" y2="20" stroke="#06d6a0" stroke-width="4"/>
+    <text x="40" y="110" fill="#aeb6e6" font-size="11" text-anchor="middle">八段锦·双手托天</text>
+  </g>
+  <g transform="translate(500,60)">
+    <circle cx="40" cy="40" r="26" fill="#ffd166"/>
+    <g stroke="#ffd166" stroke-width="3">
+      <line x1="40" y1="2" x2="40" y2="-10"/><line x1="78" y1="40" x2="90" y2="40"/>
+      <line x1="68" y1="12" x2="78" y2="2"/><line x1="68" y1="68" x2="78" y2="78"/>
+    </g>
+    <text x="40" y="92" fill="#aeb6e6" font-size="11" text-anchor="middle">晒背·补阳气</text>
+  </g>
+</svg>`;
+
+const SVG_CONCEPT = `<svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC,sans-serif">
+  <rect width="680" height="200" rx="16" fill="#171a36"/>
+  <text x="340" y="26" fill="#ffd166" font-size="16" font-weight="800" text-anchor="middle">三概念：土壤 / 假补 / 真路</text>
+  <rect x="40" y="50" width="180" height="110" rx="14" fill="#262b57" stroke="#ff6b6b" stroke-width="2"/>
+  <text x="130" y="80" fill="#ff6b6b" font-size="15" font-weight="800" text-anchor="middle">脆皮</text>
+  <text x="130" y="104" fill="#aeb6e6" font-size="12" text-anchor="middle">土壤</text>
+  <text x="130" y="126" fill="#aeb6e6" font-size="11" text-anchor="middle">身体像旧手机</text>
+  <text x="130" y="146" fill="#aeb6e6" font-size="11" text-anchor="middle">一碰就碎</text>
+  <rect x="250" y="50" width="180" height="110" rx="14" fill="#262b57" stroke="#5bc0eb" stroke-width="2"/>
+  <text x="340" y="80" fill="#5bc0eb" font-size="15" font-weight="800" text-anchor="middle">朋克养生</text>
+  <text x="340" y="104" fill="#aeb6e6" font-size="12" text-anchor="middle">假补</text>
+  <text x="340" y="126" fill="#aeb6e6" font-size="11" text-anchor="middle">熬夜+枸杞</text>
+  <text x="340" y="146" fill="#aeb6e6" font-size="11" text-anchor="middle">一边挖坑一边填</text>
+  <rect x="460" y="50" width="180" height="110" rx="14" fill="#262b57" stroke="#06d6a0" stroke-width="2"/>
+  <text x="550" y="80" fill="#06d6a0" font-size="15" font-weight="800" text-anchor="middle">治未病</text>
+  <text x="550" y="104" fill="#aeb6e6" font-size="12" text-anchor="middle">真路</text>
+  <text x="550" y="126" fill="#aeb6e6" font-size="11" text-anchor="middle">日常主动养护</text>
+  <text x="550" y="146" fill="#aeb6e6" font-size="11" text-anchor="middle">碎片时间做</text>
+</svg>`;
+
+const SVG_ROOTS = `<svg viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC,sans-serif">
+  <rect width="680" height="260" rx="16" fill="#171a36"/>
+  <rect x="285" y="20" width="110" height="46" rx="10" fill="#262b57" stroke="#ffd166" stroke-width="2"/>
+  <text x="340" y="48" fill="#ffd166" font-size="15" font-weight="800" text-anchor="middle">养生热</text>
+  <line x1="340" y1="66" x2="340" y2="120" stroke="#888" stroke-width="3"/>
+  <g stroke="#06d6a0" stroke-width="3" fill="none">
+    <path d="M340 120 C300 150 250 160 150 175"/>
+    <path d="M340 120 C310 155 280 175 220 195"/>
+    <path d="M340 120 C340 160 340 185 340 210"/>
+    <path d="M340 120 C370 155 400 175 460 195"/>
+    <path d="M340 120 C380 150 430 160 530 175"/>
+  </g>
+  <g font-size="12.5" font-weight="700" text-anchor="middle">
+    <text x="135" y="172" fill="#5bc0eb">①身体真脆</text>
+    <text x="205" y="198" fill="#5bc0eb">②心理要稳</text>
+    <text x="340" y="228" fill="#5bc0eb">③钱包省钱</text>
+    <text x="475" y="198" fill="#5bc0eb">④国潮赋能</text>
+    <text x="545" y="172" fill="#5bc0eb">⑤算法推爆</text>
+  </g>
+  <text x="340" y="250" fill="#aeb6e6" font-size="12" text-anchor="middle">五根线托起「养生热」：根扎得清，自救才清醒</text>
+</svg>`;
+
+const SECTIONS = [
+  {t:"① 复习：人机恋（上节课）", lines:[0,1,2,3,4,5],
+     jingles:[{t:"上节课一句话",items:["人机恋：去手机里抓「永远秒回」的恋人","玄学热：去庙里抓确定感","今天：去身体里抓掌控感"]}]},
+  {t:"② 新课导入：年轻人集体养生", lines:[6,7,8,9,10,11,12], svg:SVG_PHENOMENON, cap:"图：脆皮年轻人 = 旧手机 + 八段锦/晒背"},
+  {t:"③ 正名：不是跟风，是身体报警", lines:[13,14,15,16,17],
+     warn:["一看到年轻人养生别急着笑「智商税」——先问：为什么这届年轻人身体会「脆」？"]},
+  {t:"④ 三个核心概念", lines:[18,19,20,21,22], svg:SVG_CONCEPT, cap:"图：土壤(脆皮) / 假补(朋克养生) / 真路(治未病)"},
+  {t:"⑤ 五根线（原因拆解）", lines:[23,24,25,26,27,28,29], svg:SVG_ROOTS, cap:"图：五根线托起养生热",
+     jingles:[{t:"五根线",items:["①身体真脆：久坐熬夜外卖造脆","②心理要稳：抓可控的掌控感","③钱包省钱：零成本，和该省省同源","④国潮赋能：中医变酷成社交货币","⑤算法推爆：打卡成潮流降门槛"]}]},
+  {t:"⑥ 反方警惕：四个坑", lines:[30,31,32,33,34,35],
+     warn:["第一坑：朋克养生自欺——一边挖坑一边填","第二坑：养生成新镰刀——市场3200亿良莠不齐","第三坑：把养生当唯一解——根是作息压力","第四坑：盲目跟风伤身——传统≠人人适用"]},
+  {t:"⑦ 口诀大合集", lines:[36,37,38,39],
+     jingles:[
+       {t:"正名口诀",items:["先破脆皮笑，别当智商税；","身体在报警，自救才是对。"]},
+       {t:"三概念口诀",items:["土壤脆皮假补朋克，","真路治未病碎片里做。"]},
+       {t:"五根线口诀",items:["一脆二稳三省钱，","四潮五算添把火；","身体报警心要稳，国潮算法推成河。"]},
+       {t:"反方口诀",items:["朋克自欺净亏损，养生镰刀莫当真；","唯一解是大坑，盲跟伤身看医生。"]}
+     ]},
+  {t:"⑧ 数据演练（练读数的眼睛）", lines:[40],
+     calc:{title:"三道数据题，点「下一步」逐题揭晓", steps:[
+       {q:"题1：养生大盘子有多大？", s:"小红书养生 167.2亿 ÷ 抖音八段锦 25亿 ≈ 6.7 倍——总盘子比单一爆款大近 7 倍。"},
+       {q:"题2：八段锦真有用吗？", s:"国家体育总局 1200人对照：练12周，颈椎 +22%、腰椎 +18%，平均 ≈ 20%（温和但实在）。"},
+       {q:"题3：养生市场涨多快？", s:"药食同源 2300亿 → 2025预计 3200亿，增幅 = (3200−2300)/2300 ≈ 39%（一年涨近四成）。"}
+     ]}},
+  {t:"⑨ 费曼检测", lines:[41,42]},
+  {t:"⑩ 结语", lines:[43,44,45]}
+];
+
+/* ============ 学生互动气泡（飘一下，不挡讲解） ============ */
+const BUBBLES = {
+  8:{nm:"小红",txt:"我妈天天泡枸杞我以前笑她，现在我自己也泡上了😅"},
+  11:{nm:"小明",txt:"晒背衣搜索+300%？我妈已经下单了，说要拉我一起晒"},
+  17:{nm:"小红",txt:"所以不是矫情，是身体在求救啊，我得对我腰椎好点"},
+  25:{nm:"小明",txt:"我每天加班到半夜，原来抓掌控感才是关键，怪不得我爱喝枸杞"},
+  34:{nm:"小红",txt:"我同事晒背晒出水泡了，果然不能盲跟，阳虚才适合"}
+};
+
+/* ============ 费曼突袭弹题（在指定句触发） ============ */
+const QUIZZES = {
+  22:{ // 三概念讲完
+    asker:"小明", title:"突袭提问①",
+    intro:"晓晓老师，我每天熬夜打游戏到两点，然后喝枸杞水、吃护肝片，觉得自己挺会养生。我姐说我这是「假养生」，我冤不冤？这到底算真养生还是朋克养生啊？",
+    qs:[
+      {lab:"辨一辨",q:"用今天学的三概念，说说小明这是哪一种？为什么姐说他假？"},
+      {lab:"改一改",q:"怎么把他从「假补」改成「真路」？给个简单标准。"}
+    ],
+    ans:"<b>参考答案：</b>小明这是典型的<b>朋克养生（假补）</b>——一边熬夜损耗、一边枸杞补救，等于一边挖坑一边填，身体净亏。姐说假，因为真养生是「治未病」：少熬、早睡、把养护融进日常，而不是事后贴创可贴。改成真路的简单标准：<b>看「因」而不是「果」</b>——少熬是去因，枸杞是补果；先把熬夜这口坑填上，再谈补。记住：土壤（脆皮）靠作息养，不靠护肝片养。"
+  },
+  29:{ // 五根线讲完
+    asker:"小红", title:"突袭提问②",
+    intro:"五根线里我最有感觉的是「心理要稳」——我每天加班到半夜，唯一让我觉得「今天我还能掌控点什么」的，就是睡前那杯八段锦加枸杞。你呢？五根线你能背几句？哪一根最像你家？",
+    qs:[
+      {lab:"背一背",q:"五根线你能背出几句？哪一根和你最像？"},
+      {lab:"防坑",q:"靠养生找掌控感，最要警惕什么？怎么别变成盲目跟风？"}
+    ],
+    ans:"<b>参考答案：</b>五根线：①身体真脆 ②心理要稳 ③钱包省钱 ④国潮赋能 ⑤算法推爆。靠养生找掌控感最要警惕<b>把养生当唯一解</b>和<b>盲目跟风伤身</b>——养生是缓冲垫不是救生圈；真累了是先睡、少熬、看医生，不是晒背晒到出水泡。别让「掌控感」变成新焦虑：传统不等于人人适用，阳虚才适合晒背，乱吃中药伤肝。"
+  },
+  41:{ // 费曼检测主问
+    asker:"晓晓老师", title:"费曼检测（合上课本讲给我听）",
+    intro:"现在轮到你当老师了。别急着看答案，先自己讲，再对照。",
+    qs:[
+      {lab:"一句话",q:"用一句话解释年轻人为什么集体养生？举个你身边的例子。"},
+      {lab:"勾连",q:"它和玄学热、人机恋的共同点是什么？（提示：都在不确定里抓一样东西）"},
+      {lab:"实战",q:"假如你是朋克养生选手，会怎么把它改成真养生？写个你的小计划。"}
+    ],
+    ans:"<b>参考答案：</b>①年轻人集体养生=身体被久坐熬夜外卖造「脆」后，用低门槛、低成本的方式（八段锦/晒背/枸杞）自救，抓回一点掌控感。例子：25岁程序员小江，工位午休练八段锦，说练完脖子不僵了。②共同点：都在「不确定」里抓一样东西——玄学热抓确定感（去庙里）、人机恋抓被回应感（去手机里）、养生抓身体掌控感（去身体里），是同一棵树的三根枝。③真养生小计划：把「因」填上——23点前睡、每周3次工位八段锦、少点外卖；枸杞当辅助不当事后补救。核心：缓冲可以，迷信不行；真累了先睡觉。"
+  }
+};
+
+/* ============ 渲染课堂笔记 ============ */
+const stage = document.getElementById('stage');
+const calcState = {};
+let lineEls = [];
+SECTIONS.forEach((sec,si)=>{
+  const card = document.createElement('div'); card.className='sec';
+  const h = document.createElement('h2'); h.innerHTML='<span class="dot"></span>'+sec.t; card.appendChild(h);
+  if(sec.svg){const d=document.createElement('div');d.className='diagram';d.innerHTML=sec.svg;card.appendChild(d);
+    if(sec.cap){const c=document.createElement('div');c.className='cap';c.textContent='▲ '+sec.cap;card.appendChild(c);}}
+  if(sec.formula){const f=document.createElement('div');f.className='formula';f.textContent=sec.formula;card.appendChild(f);}
+  if(sec.warn){sec.warn.forEach(w=>{const b=document.createElement('div');b.className='warnbox';b.innerHTML='<span class="t">⚠ </span>'+w;card.appendChild(b);});}
+  if(sec.jingles){sec.jingles.forEach(j=>{
+    const jd=document.createElement('div');jd.className='jingle';
+    jd.innerHTML='<div class="t">'+j.t+'</div>'+j.items.map(i=>'<p>'+i+'</p>').join('');
+    card.appendChild(jd);});}
+  if(sec.calc){
+    const cd=document.createElement('div'); cd.className='calcbox';
+    cd.innerHTML='<div class="ct">'+sec.calc.title+'</div><div class="steps" id="steps_'+si+'"></div><button class="btn primary" id="calcb_'+si+'">下一步 ▶</button>';
+    card.appendChild(cd);
+    calcState[si]={n:0,steps:sec.calc.steps};
+    document.getElementById('calcb_'+si).onclick=function(){
+      const st=calcState[si]; if(st.n>=st.steps.length) return;
+      const step=st.steps[st.n];
+      const se=document.getElementById('steps_'+si);
+      const d=document.createElement('div'); d.className='step';
+      d.innerHTML='<div class="sq">'+step.q+'</div><div class="sa">'+step.s+'</div>';
+      se.appendChild(d); st.n++;
+      if(st.n>=st.steps.length){ const b=document.getElementById('calcb_'+si); b.textContent='全部揭晓 ✔'; b.disabled=true; }
+    };
+  }
+  sec.lines.forEach(li=>{
+    const p=document.createElement('p'); p.className='ln'; p.id='ln'+li;
+    p.textContent=SENT[li];
+    card.appendChild(p); lineEls[li]=p;
+  });
+  stage.appendChild(card);
+});
+
+/* ============ 语音 + 播放控制 ============ */
+const seek=document.getElementById('seek');
+const pos=document.getElementById('pos');
+const now=document.getElementById('now');
+const meta=document.getElementById('meta');
+const liveDot=document.getElementById('liveDot');
+const playBtn=document.getElementById('playBtn');
+const prevBtn=document.getElementById('prevBtn');
+const nextBtn=document.getElementById('nextBtn');
+const toast=document.getElementById('toast');
+
+const N=SENT.length;
+seek.max=N-1; pos.textContent='0 / '+N;
+let cur=0, playing=false, autoplay=true, quizOpen=false;
+let voice=null, utter=null;
+
+function loadVoices(){
+  const vs = window.speechSynthesis ? speechSynthesis.getVoices() : [];
+  voice = vs.find(v=>/Xiaoxiao|晓晓| Xiao Xiao/i.test(v.name))
+        || vs.find(v=>v.lang==='zh-CN' && /female|女|Neural/i.test(v.name))
+        || vs.find(v=>v.lang && v.lang.toLowerCase().startsWith('zh'))
+        || null;
+}
+if(window.speechSynthesis){
+  loadVoices();
+  speechSynthesis.onvoiceschanged = loadVoices;
+}
+
+function stopSpeech(){ if(window.speechSynthesis) speechSynthesis.cancel(); }
+
+function speak(i){
+  if(!window.speechSynthesis) return;
+  stopSpeech();
+  const u=new SpeechSynthesisUtterance(SENT[i]);
+  if(voice) u.voice=voice;
+  u.lang='zh-CN'; u.rate=0.98; u.pitch=1.0; u.volume=1.0;
+  u.onend=()=>{
+    if(quizOpen) return;
+    if(autoplay && playing && cur < N-1){
+      go(cur+1, true);
+    }
+  };
+  utter=u; speechSynthesis.speak(u);
+}
+
+function highlight(i){
+  lineEls.forEach((el,idx)=>{ if(el) el.classList.toggle('cur', idx===i); });
+  const el=lineEls[i];
+  if(el){ el.scrollIntoView({behavior:'smooth',block:'center'}); }
+  now.innerHTML = '<span class="who"></span>'+SENT[i];
+  seek.value=i; pos.textContent=(i+1)+' / '+N;
+}
+
+function maybeBubble(i){
+  const b=BUBBLES[i];
+  if(b){
+    toast.innerHTML='<span class="nm">'+b.nm+'：</span>'+b.txt;
+    toast.classList.add('show');
+    setTimeout(()=>toast.classList.remove('show'),4200);
+  }
+}
+
+function maybeQuiz(i){
+  const q=QUIZZES[i];
+  if(q){ openQuiz(i,q); return true; }
+  return false;
+}
+
+function go(i, fromEnd){
+  i=Math.max(0,Math.min(N-1,i));
+  cur=i;
+  highlight(i);
+  maybeBubble(i);
+  if(maybeQuiz(i)){
+    stopSpeech(); playing=false; updatePlayBtn();
+    return;
+  }
+  if(playing){ speak(i); }
+}
+
+function updatePlayBtn(){ playBtn.textContent = playing? '⏸ 暂停':'▶ 播放'; liveDot.style.display = playing? 'inline-block':'none'; }
+
+playBtn.onclick=()=>{
+  if(quizOpen) return;
+  if(playing){ playing=false; stopSpeech(); updatePlayBtn(); meta.textContent='已暂停'; }
+  else{
+    if(cur>=N-1) cur=0;
+    playing=true; autoplay=true; updatePlayBtn(); meta.textContent='晓晓老师正在朗读…';
+    if(maybeQuiz(cur)){ playing=false; updatePlayBtn(); return; }
+    speak(cur);
+  }
+};
+prevBtn.onclick=()=>{ if(quizOpen)return; playing=false; updatePlayBtn(); go(cur-1); };
+nextBtn.onclick=()=>{ if(quizOpen)return; playing=false; updatePlayBtn(); go(cur+1); };
+seek.oninput=()=>{ if(quizOpen)return; const v=parseInt(seek.value,10); playing=false; updatePlayBtn(); go(v); };
+
+/* ============ 费曼弹题 ============ */
+const mask=document.getElementById('mask');
+const quizBox=document.getElementById('quizBox');
+function openQuiz(i,q){
+  quizOpen=true; autoplay=false; playing=false; updatePlayBtn();
+  meta.textContent='⏸ 突袭提问中，请先作答';
+  let html='<h3>'+q.title+'</h3>';
+  html+='<span class="asker">'+q.asker+' 问</span>';
+  html+='<div class="q" style="background:#2a1620;border-color:#ff6b9d">'+q.intro+'</div>';
+  q.qs.forEach((qq,k)=>{
+    html+='<div class="q"><span class="lab">'+qq.lab+'</span>'+qq.q+'</div>';
+    html+='<textarea id="ta'+i+'_'+k+'" placeholder="在这里用你自己的话写答案…"></textarea>';
+  });
+  html+='<div class="ans" id="ans'+i+'">'+q.ans+'</div>';
+  html+='<div class="row">';
+  html+='<button class="btn primary" id="reveal'+i+'">提交看答案</button>';
+  html+='<button class="btn nav" id="cont'+i+'">继续上课 ⏭</button>';
+  html+='</div>';
+  quizBox.innerHTML=html;
+  mask.classList.add('show');
+  document.getElementById('reveal'+i).onclick=()=>{ document.getElementById('ans'+i).style.display='block'; };
+  document.getElementById('cont'+i).onclick=()=>{ closeQuiz(i); };
+}
+function closeQuiz(i){
+  mask.classList.remove('show'); quizOpen=false;
+  if(cur < N-1){ cur=i; playing=true; autoplay=true; updatePlayBtn(); meta.textContent='晓晓老师继续朗读…'; go(i+1); }
+  else { meta.textContent='本课已讲完 🎉'; }
+}
+window.addEventListener('click',e=>{ if(e.target===mask) { /* 点遮罩不关闭，需作答 */ } });
+
+/* 初始 */
+highlight(0);
+meta.textContent='已就绪 · 本课前半段复习「人机恋」，再讲新课';
+</script>
+</body>
+</html>

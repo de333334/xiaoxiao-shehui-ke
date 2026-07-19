@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>晓晓老师的课 · 为什么年轻人不爱走亲戚了？</title>
+<style>
+  :root{
+    --bg1:#fff7ec; --bg2:#ffe9d6; --ink:#3a2b1f; --soft:#6b5645;
+    --tea:#ff9a3c; --tea-d:#f4791f; --bub-t:#fff3e2; --bub-s:#e8f3ff;
+    --line:#f0d9bf; --ok:#3fa34d; --card:#ffffff;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;}
+  body{
+    font-family:"PingFang SC","Microsoft YaHei","Hiragino Sans GB",system-ui,sans-serif;
+    color:var(--ink); background:linear-gradient(160deg,var(--bg1),var(--bg2));
+    display:flex; flex-direction:column; height:100vh; overflow:hidden;
+  }
+  header{
+    flex:0 0 auto; padding:10px 18px; display:flex; align-items:center; gap:12px;
+    background:rgba(255,255,255,.7); border-bottom:1px solid var(--line); backdrop-filter:blur(6px);
+  }
+  header .logo{font-size:26px;}
+  header h1{font-size:16px; margin:0; font-weight:800; letter-spacing:.3px;}
+  header .tag{font-size:11px; color:var(--soft); margin-top:2px;}
+  header .voice-note{margin-left:auto; font-size:11px; color:var(--tea-d); background:#fff2e2;
+    border:1px solid var(--line); padding:4px 10px; border-radius:999px;}
+
+  /* stage */
+  .stage{flex:1 1 auto; position:relative; overflow:hidden; display:flex; flex-direction:column;}
+  .visual{
+    flex:0 0 auto; min-height:170px; display:flex; align-items:center; justify-content:center;
+    padding:14px; position:relative;
+  }
+  .visual .card{
+    background:var(--card); border:1px solid var(--line); border-radius:20px;
+    box-shadow:0 8px 24px rgba(244,121,31,.12); padding:18px 22px; max-width:640px; text-align:center;
+  }
+  .visual .emoji{font-size:54px; line-height:1; display:block; margin-bottom:6px;}
+  .visual .cap{font-size:13px; color:var(--soft); line-height:1.6;}
+  .visual svg{display:block; margin:0 auto;}
+
+  .chat{flex:1 1 auto; overflow-y:auto; padding:8px 16px 14px; display:flex; flex-direction:column; gap:10px;}
+  .row{display:flex; gap:10px; align-items:flex-end; max-width:82%;}
+  .row.teacher{align-self:flex-start;}
+  .row.student{align-self:flex-end; flex-direction:row-reverse;}
+  .ava{flex:0 0 auto; width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px;
+    box-shadow:0 2px 6px rgba(0,0,0,.12);}
+  .row.teacher .ava{background:linear-gradient(135deg,#ffd29a,#ff9a3c);}
+  .row.student .ava{background:linear-gradient(135deg,#bfe0ff,#7cc0ff);}
+  .bubble{background:var(--bub-t); border:1px solid var(--line); border-radius:16px; padding:10px 14px; font-size:15px; line-height:1.7; white-space:pre-wrap;}
+  .row.student .bubble{background:var(--bub-s); border-color:#cfe6ff;}
+  .name{font-size:11px; color:var(--soft); margin-bottom:3px; font-weight:700;}
+
+  /* subtitle */
+  .subtitle{
+    flex:0 0 auto; background:rgba(36,24,14,.86); color:#fff; padding:14px 20px 16px;
+    font-size:19px; line-height:1.7; min-height:64px; display:flex; align-items:center; gap:10px;
+    border-top:3px solid var(--tea);
+  }
+  .subtitle .now{font-size:12px; color:#ffcf9e; flex:0 0 auto; font-weight:700;}
+  .subtitle.hide{display:none;}
+  .subtitle .txt{flex:1 1 auto;}
+
+  /* controls */
+  .controls{flex:0 0 auto; display:flex; align-items:center; gap:8px; padding:9px 16px;
+    background:rgba(255,255,255,.8); border-top:1px solid var(--line); flex-wrap:wrap;}
+  .btn{border:1px solid var(--line); background:#fff; color:var(--ink); border-radius:10px;
+    padding:8px 14px; font-size:13px; font-weight:700; cursor:pointer; transition:.15s;}
+  .btn:hover{background:#fff3e2;}
+  .btn.primary{background:linear-gradient(135deg,var(--tea),var(--tea-d)); color:#fff; border-color:transparent;}
+  .btn:disabled{opacity:.45; cursor:not-allowed;}
+  .controls select{border:1px solid var(--line); border-radius:10px; padding:7px 8px; font-size:13px; background:#fff;}
+  .progress{flex:1 1 100%; height:6px; background:#f0d9bf; border-radius:999px; overflow:hidden; margin-top:4px;}
+  .progress > i{display:block; height:100%; width:0; background:linear-gradient(90deg,var(--tea),var(--tea-d)); transition:width .3s;}
+
+  /* question modal */
+  .modal{position:absolute; inset:0; background:rgba(40,26,14,.55); display:none; align-items:center; justify-content:center; padding:18px; z-index:20;}
+  .modal.show{display:flex;}
+  .qcard{background:#fff; border-radius:20px; max-width:560px; width:100%; padding:22px 24px; box-shadow:0 18px 50px rgba(0,0,0,.3);}
+  .qcard h3{margin:0 0 6px; font-size:17px; color:var(--tea-d); display:flex; align-items:center; gap:8px;}
+  .qcard .q{font-size:16px; line-height:1.7; margin:10px 0 14px; font-weight:700;}
+  .qcard .hint{font-size:13px; color:var(--soft); background:#fff7ec; border:1px dashed var(--line); border-radius:10px; padding:8px 12px; margin-bottom:12px;}
+  .qcard textarea{width:100%; min-height:74px; border:1px solid var(--line); border-radius:12px; padding:10px 12px; font-size:14px; resize:vertical; font-family:inherit;}
+  .qcard .acts{display:flex; gap:10px; margin-top:12px; justify-content:flex-end;}
+  .answer{display:none; margin-top:14px; background:#f3fbf4; border:1px solid #bfe6c5; border-radius:12px; padding:12px 14px;}
+  .answer b{color:var(--ok);}
+  .answer .a{font-size:14px; line-height:1.75; margin-top:6px;}
+
+  /* start overlay */
+  .start{position:absolute; inset:0; background:linear-gradient(160deg,#fff7ec,#ffe0c2); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; z-index:40; padding:24px;}
+  .start h2{font-size:26px; margin:14px 0 6px;}
+  .start p{color:var(--soft); max-width:520px; line-height:1.8; font-size:14px;}
+  .start .big{font-size:64px; margin-bottom:4px;}
+  .start .go{margin-top:22px; font-size:17px; padding:14px 34px; border-radius:14px;}
+  .start .small{margin-top:14px; font-size:12px; color:var(--soft);}
+</style>
+</head>
+<body>
+
+<header>
+  <span class="logo">🍊</span>
+  <div>
+    <h1>晓晓老师的课 · 为什么年轻人不爱走亲戚了？</h1>
+    <div class="tag">懒脑袋锻炼计划 · 第 4 课｜社会观察 · 适合初中生</div>
+  </div>
+  <span class="voice-note">🔊 微软神经网络语音「晓晓老师」朗读 · 建议用 Edge 浏览器</span>
+</header>
+
+<div class="stage" id="stage">
+  <div class="visual" id="visual">
+    <div class="card">
+      <span class="emoji" id="vEmoji">👋</span>
+      <div class="cap" id="vCap">准备好了吗？点下面的「开始上课」。</div>
+    </div>
+  </div>
+  <div class="chat" id="chat"></div>
+
+  <!-- question modal -->
+  <div class="modal" id="modal">
+    <div class="qcard">
+      <h3>🙋 晓晓老师考考你</h3>
+      <div class="q" id="qText"></div>
+      <div class="hint" id="qHint"></div>
+      <textarea id="qInput" placeholder="用自己的话讲一遍（也可以口头讲给晓晓老师听，然后点「我看完了」）"></textarea>
+      <div class="acts">
+        <button class="btn" id="qSkip">我看完了</button>
+        <button class="btn primary" id="qSubmit">提交我的回答</button>
+      </div>
+      <div class="answer" id="qAnswer">
+        <b>✅ 晓晓老师的标准答案：</b>
+        <div class="a" id="qAnswerText"></div>
+      </div>
+      <div class="acts" id="qNextWrap" style="display:none;">
+        <button class="btn primary" id="qNext">继续上课 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- start overlay -->
+  <div class="start" id="start">
+    <div class="big">🍊</div>
+    <h2>晓晓老师的「断亲潮」小课堂</h2>
+    <p>今天我们来琢磨一个你一定有感觉的现象：逢年过节，长辈盼着一大家子热热闹闹，可你总想找个借口躲开。网上叫这「断亲一代」。它到底是「年轻人不孝」，还是「时代变了」？晓晓老师带你拆开看，中间还会不定时的考考你～</p>
+    <button class="btn primary go" id="goBtn">▶ 开始上课</button>
+    <div class="small">提示：本课用「晓晓老师」神经网络语音朗读。若没声音，请点一下页面或换 Edge 浏览器；字幕在底部，不会挡住讲解。</div>
+  </div>
+</div>
+
+<div class="subtitle" id="subtitle">
+  <span class="now">字幕</span>
+  <span class="txt" id="subTxt">（点击「开始上课」后，晓晓老师会一边讲一边出字幕）</span>
+</div>
+
+<div class="controls">
+  <button class="btn primary" id="playBtn">⏸ 暂停</button>
+  <button class="btn" id="prevBtn">⏮ 上一句</button>
+  <button class="btn" id="nextBtn">下一句 ⏭</button>
+  <select id="speedSel" title="语速">
+    <option value="0.85">语速 0.85x</option>
+    <option value="0.95" selected>语速 1.0x</option>
+    <option value="1.1">语速 1.1x</option>
+  </select>
+  <button class="btn" id="subBtn">字幕：开</button>
+  <button class="btn" id="restartBtn">↺ 重新上课</button>
+  <div class="progress"><i id="progBar"></i></div>
+</div>
+
+<script>
+/* ---------------- 课程脚本 ---------------- */
+const LESSON = [
+  {who:"teacher", emo:"👋", cap:"同学们好，我是晓晓老师。今天我们来琢磨一个你一定有感觉的现象——走亲戚。",
+   text:"同学们好，我是晓晓老师。今天我们来琢磨一个你一定有感觉的现象——走亲戚。"},
+  {who:"teacher", emo:"🤔", cap:"每次逢年过节，长辈盼着一大家子热热闹闹；可你呢，是不是总想找个借口躲开？网上把这叫「断亲一代」。",
+   text:"每次逢年过节，长辈盼着一大家子热热闹闹；可你呢，是不是总想找个借口躲开？网上把这叫「断亲一代」。"},
+  {who:"student", name:"小明", emo:"🧒", cap:"老师，我妈每次让我去走亲戚我都想逃，我是不是也有问题啊？",
+   text:"老师，我妈每次让我去走亲戚我都想逃，我是不是也有问题啊？"},
+  {who:"teacher", emo:"📊", cap:"哈哈，先别急着给自己贴标签。南京大学 2026 年的调研说，00 后里有将近八成在主动疏远亲戚，90 后也超过六成。所以，这不是你一个人的「问题」。",
+   text:"哈哈，先别急着给自己贴标签。南京大学 2026 年的调研说，00 后里有将近八成在主动疏远亲戚，90 后也超过六成。所以，这不是你一个人的「问题」。"},
+  {who:"teacher", emo:"🔍", cap:"但我们要问的是：这到底是「年轻人不孝」，还是「时代变了」？今天，晓晓老师带你把这件事拆开看。",
+   text:"但我们要问的是：这到底是「年轻人不孝」，还是「时代变了」？今天，晓晓老师带你把这件事拆开看。"},
+
+  {who:"teacher", emo:"🧭", cap:"先正名。社会学家说的「断亲」，不是六亲不认、不是不理爸妈。它特指——疏远那些「二代以外、没啥感情基础的旁系亲戚」，比如远房叔伯、堂表兄弟姐妹。",
+   text:"先正名。社会学家说的「断亲」，不是六亲不认、不是不理爸妈。它特指——疏远那些「二代以外、没啥感情基础的旁系亲戚」，比如远房叔伯、堂表兄弟姐妹。"},
+  {who:"teacher", emo:"✋", cap:"所以，把「断亲」直接等同于「不孝」，是最大的误会。来，记第一句口诀——",
+   text:"所以，把「断亲」直接等同于「不孝」，是最大的误会。来，记第一句口诀——"},
+  {who:"teacher", emo:"✋", cap:"口诀一：断旁系，不断根；躲尬聊，不躲亲。",
+   text:"口诀一：断旁系，不断根；躲尬聊，不躲亲。",
+   jingle:true},
+
+  {who:"teacher", emo:"🏙️", cap:"原因一：人搬走了。国家统计局说，咱们的城镇化率已经突破 65%，22 年里超过 3 亿人从农村搬进了城里。",
+   text:"原因一：人搬走了。国家统计局说，咱们的城镇化率已经突破 65%，22 年里超过 3 亿人从农村搬进了城里。"},
+  {who:"teacher", emo:"🚚", cap:"过去大家住一个村，种地互相搭手，血缘加地缘绑得紧紧的。现在各奔东西，物理距离一拉开，平时不碰面，感情自然就淡了。",
+   text:"过去大家住一个村，种地互相搭手，血缘加地缘绑得紧紧的。现在各奔东西，物理距离一拉开，平时不碰面，感情自然就淡了。"},
+  {who:"teacher", emo:"🌊", cap:"社会学家费孝通在《乡土中国》里有个超形象的说法，叫「差序格局」——社会关系像往水里丢一颗石子，激起一圈圈波纹，以自己为中心，越往外越淡。",
+   text:"社会学家费孝通在《乡土中国》里有个超形象的说法，叫「差序格局」——社会关系像往水里丢一颗石子，激起一圈圈波纹，以自己为中心，越往外越淡。",
+   svg:"ripples"},
+  {who:"teacher", emo:"🌊", cap:"老话早就总结了：一代亲，二代表，三代四代不走了。这不是 2026 年的新毛病，是亲戚关系本就会随代际变远的客观规律。",
+   text:"老话早就总结了：一代亲，二代表，三代四代不走了。这不是 2026 年的新毛病，是亲戚关系本就会随代际变远的客观规律。"},
+  {who:"student", name:"小红", emo:"👧", cap:"老师，那为什么我爸妈那辈还挺亲的？",
+   text:"老师，那为什么我爸妈那辈还挺亲的？"},
+  {who:"teacher", emo:"💡", cap:"因为他们小时候还住一起，天天见啊。可你和表哥分别在两个省，一年见一次，能不熟吗？",
+   text:"因为他们小时候还住一起，天天见啊。可你和表哥分别在两个省，一年见一次，能不熟吗？"},
+
+  {who:"teacher", emo:"💡", cap:"原因二：不靠亲戚也能活了。过去借钱、帮工、遇事兜底，全靠宗族。现在呢？能找银行贷款、买保险、请家政、靠社保。",
+   text:"原因二：不靠亲戚也能活了。过去借钱、帮工、遇事兜底，全靠宗族。现在呢？能找银行贷款、买保险、请家政、靠社保。"},
+  {who:"teacher", emo:"✏️", cap:"核心家庭实现了经济独立，对亲戚「互助网」的需要就下降了。就像——你以前借橡皮找同桌，现在自己书包里就有。",
+   text:"核心家庭实现了经济独立，对亲戚「互助网」的需要就下降了。就像——你以前借橡皮找同桌，现在自己书包里就有。"},
+  {who:"teacher", emo:"💰", cap:"原因三：太贵了。农村家庭一年随礼大约 1 万 2，占了收入的三成还多；城市家庭也要花 4 千到 1 万 2。",
+   text:"原因三：太贵了。农村家庭一年随礼大约 1 万 2，占了收入的三成还多；城市家庭也要花 4 千到 1 万 2。"},
+  {who:"teacher", emo:"🧾", cap:"而且礼金成了「硬标准」：普通亲戚红白事 400 块起，至亲升学结婚 1000 块往上。普通家庭背着房贷、养娃、养老，这笔钱能省则省——这是算过账的理性选择，不是感情淡。",
+   text:"而且礼金成了「硬标准」：普通亲戚红白事 400 块起，至亲升学结婚 1000 块往上。普通家庭背着房贷、养娃、养老，这笔钱能省则省——这是算过账的理性选择，不是感情淡。"},
+  {who:"teacher", emo:"😬", cap:"原因四：太尬了。亲戚最爱三连问：工作、对象、车房。还拿孩子比成绩、居高临下地指点。",
+   text:"原因四：太尬了。亲戚最爱三连问：工作、对象、车房。还拿孩子比成绩、居高临下地指点。"},
+  {who:"teacher", emo:"🛡️", cap:"年轻人反感的，其实不是亲缘本身，而是「伪善意」——用「为你好」的名义，说刻薄的话。没有共同经历，就没有共同话题，话不投机半句多。",
+   text:"年轻人反感的，其实不是亲缘本身，而是「伪善意」——用「为你好」的名义，说刻薄的话。没有共同经历，就没有共同话题，话不投机半句多。"},
+  {who:"teacher", emo:"📱", cap:"原因五：本来就没几个亲戚。计划生育让独生子女变多，亲戚网络本来就小，「亲不过二代」。再加上你们这代是互联网原住民，朋友圈、网友填补了空缺，亲缘就被边缘化了。",
+   text:"原因五：本来就没几个亲戚。计划生育让独生子女变多，亲戚网络本来就小，「亲不过二代」。再加上你们这代是互联网原住民，朋友圈、网友填补了空缺，亲缘就被边缘化了。"},
+
+  {who:"teacher", emo:"🎵", cap:"来，晓晓老师把五根线编成一首口诀，方便你记——",
+   text:"来，晓晓老师把五根线编成一首口诀，方便你记——"},
+  {who:"teacher", emo:"🎵", cap:"口诀总：一搬二独立，三贵四尬五人稀；旁系渐远根还在，时代转型莫怪你。",
+   text:"口诀总：一搬二独立，三贵四尬五人稀；旁系渐远根还在，时代转型莫怪你。",
+   jingle:true},
+  {who:"teacher", emo:"🌊", cap:"再送你一句波纹口诀：一颗石子水里丢，圈圈波纹亲到疏；越往外圈越淡漠，三代四代不再走。",
+   text:"再送你一句波纹口诀：一颗石子水里丢，圈圈波纹亲到疏；越往外圈越淡漠，三代四代不再走。",
+   jingle:true},
+
+  {who:"teacher", emo:"⚖️", cap:"不过，深度思考要找反方。有人喊「家族崩塌了」，也有人骂「年轻人冷漠」——这两个说法，都不对。",
+   text:"不过，深度思考要找反方。有人喊「家族崩塌了」，也有人骂「年轻人冷漠」——这两个说法，都不对。"},
+  {who:"teacher", emo:"🛟", cap:"断亲不是家族消失，是「重构」。新华网就报道过：疫情时，是叔叔婶婶照顾了被感染的父母。危难时刻，亲戚还是港湾。",
+   text:"断亲不是家族消失，是「重构」。新华网就报道过：疫情时，是叔叔婶婶照顾了被感染的父母。危难时刻，亲戚还是港湾。"},
+  {who:"teacher", emo:"🤝", cap:"真正的亲情——包容、体谅、温柔以待——永远需要。反过来，长辈也该反思：别用「单刀直入的关心、居高临下的评价」，把年轻人越推越远。",
+   text:"真正的亲情——包容、体谅、温柔以待——永远需要。反过来，长辈也该反思：别用「单刀直入的关心、居高临下的评价」，把年轻人越推越远。"},
+  {who:"teacher", emo:"💭", cap:"所以呀，「该不该走亲戚」其实是个假问题。真正该问的是：在大家都越来越独立的时代，我们怎么既保护自己，又不弄丢温暖的关系？",
+   text:"所以呀，「该不该走亲戚」其实是个假问题。真正该问的是：在大家都越来越独立的时代，我们怎么既保护自己，又不弄丢温暖的关系？"},
+  {who:"teacher", emo:"📝", cap:"晓晓老师的作业：下次家庭聚会，试着用今天这五根线观察一下——你家的亲戚互动，属于哪一种？",
+   text:"晓晓老师的作业：下次家庭聚会，试着用今天这五根线观察一下——你家的亲戚互动，属于哪一种？"},
+  {who:"teacher", emo:"👋", cap:"好啦，今天课就上到这。记住口诀，勤于琢磨，你的「懒脑袋」会越来越灵光！再见～",
+   text:"好啦，今天课就上到这。记住口诀，勤于琢磨，你的「懒脑袋」会越来越灵光！再见～"}
+];
+
+/* 三个费曼提问，插在脚本里（用 stepIndex 定位触发） */
+const QUESTIONS = [
+  { after:7, q:"听完「断亲」的真正意思，你觉得它和「不孝」是一回事吗？用自己的话讲讲。",
+    hint:"提示：断亲断的是谁？没断的是谁？",
+    a:"不是一回事。断亲断的是「二代以外、没啥感情的旁系亲戚」，比如远房叔伯、堂表兄弟姐妹；可爸妈、爷爷奶奶这些直系亲情都还在。所以把断亲说成「不孝」「六亲不认」，是误会。" },
+  { after:13, q:"用你自己的话解释：为什么「搬进城」会让亲戚变远？",
+    hint:"提示：从「见面机会」和「日常接触」去想。",
+    a:"因为人一搬进城，物理距离就拉远了。以前住一个村，天天见、互相搭手；现在各奔东西，一年见一次，平时零接触。感情靠见面和相处养出来，见不着面，关系自然就淡了。再加上费孝通说的「差序格局」，亲戚本来就是越往外越淡。" },
+  { after:21, q:"五根线都讲完啦。你能不能用一句话，把这五个原因串起来？",
+    hint:"提示：搬走、自立、礼金贵、聊不来、亲戚少。",
+    a:"可以记那句口诀：一搬二独立，三贵四尬五人稀。也就是——人搬进城了、不靠亲戚也能活了、人情礼金太贵了、聊天太尴尬没话题了、亲戚本来就越来越少了。五件事一起发生，才把老亲戚越拉越远。" }
+];
+
+/* ---------------- 语音 ---------------- */
+let voices=[];
+function loadVoices(){ try{ voices = window.speechSynthesis.getVoices()||[]; }catch(e){} }
+if('speechSynthesis' in window){ loadVoices(); speechSynthesis.onvoiceschanged = loadVoices; }
+function pickVoice(){
+  let v = voices.find(x=>/xiaoxiao/i.test(x.name));
+  if(!v) v = voices.find(x=>x.lang==='zh-CN');
+  if(!v) v = voices.find(x=>/zh/i.test(x.lang));
+  return v||null;
+}
+function speak(text, onEnd){
+  if(!('speechSynthesis' in window)){ if(onEnd) setTimeout(onEnd,40); return; }
+  try{ speechSynthesis.cancel(); }catch(e){}
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang='zh-CN';
+  const v=pickVoice(); if(v) u.voice=v;
+  const sp=parseFloat(document.getElementById('speedSel').value)||0.95;
+  u.rate=sp; u.pitch=1.05;
+  u.onend=()=>{ if(onEnd) onEnd(); };
+  u.onerror=()=>{ if(onEnd) onEnd(); };
+  try{ speechSynthesis.speak(u); }catch(e){ if(onEnd) onEnd(); }
+}
+
+/* ---------------- 渲染 ---------------- */
+const chat=document.getElementById('chat');
+const vEmoji=document.getElementById('vEmoji');
+const vCap=document.getElementById('vCap');
+const subTxt=document.getElementById('subTxt');
+const progBar=document.getElementById('progBar');
+let idx=-1, playing=false, started=false;
+
+function rippleSVG(){
+  return '<svg width="180" height="120" viewBox="0 0 180 120">'+
+    '<circle cx="90" cy="60" r="10" fill="#f4791f"/>'+
+    '<circle cx="90" cy="60" r="28" fill="none" stroke="#ff9a3c" stroke-width="2"/>'+
+    '<circle cx="90" cy="60" r="46" fill="none" stroke="#ffb86b" stroke-width="2"/>'+
+    '<circle cx="90" cy="60" r="64" fill="none" stroke="#ffd29a" stroke-width="2"/>'+
+    '<text x="90" y="64" font-size="11" fill="#fff" text-anchor="middle">我</text></svg>';
+}
+
+function renderVisual(step){
+  if(step.svg==='ripples'){
+    vEmoji.style.display='none';
+    let old=document.getElementById('vSvg'); if(old) old.remove();
+    const wrap=document.createElement('div'); wrap.id='vSvg'; wrap.innerHTML=rippleSVG();
+    vEmoji.parentNode.insertBefore(wrap, vEmoji);
+    vCap.textContent=step.cap;
+  } else {
+    let old=document.getElementById('vSvg'); if(old) old.remove();
+    vEmoji.style.display='';
+    vEmoji.textContent=step.emoji||'🍊';
+    vCap.textContent=step.cap;
+  }
+}
+
+function addBubble(step){
+  const row=document.createElement('div');
+  row.className='row '+(step.who==='teacher'?'teacher':'student');
+  const ava=document.createElement('div'); ava.className='ava';
+  ava.textContent = step.who==='teacher' ? '🍊' : (step.name==='小红'?'👧':'🧒');
+  const box=document.createElement('div');
+  const nm=document.createElement('div'); nm.className='name';
+  nm.textContent = step.who==='teacher' ? '🍊 晓晓老师' : ('🧒 '+(step.name||'同学'));
+  const bub=document.createElement('div'); bub.className='bubble';
+  bub.textContent = step.text + (step.jingle?' ✨':'');
+  box.appendChild(nm); box.appendChild(bub);
+  row.appendChild(ava); row.appendChild(box);
+  chat.appendChild(row);
+  chat.scrollTop=chat.scrollHeight;
+}
+
+function updateProg(){
+  progBar.style.width = (LESSON.length? ((idx+1)/LESSON.length*100):0)+'%';
+}
+
+function questionFor(i){
+  return QUESTIONS.find(q=>q.after===i);
+}
+
+function goTo(i, autoplay){
+  if(i<0||i>=LESSON.length) return;
+  idx=i; const step=LESSON[i];
+  renderVisual(step); addBubble(step);
+  subTxt.textContent = step.text;
+  updateProg();
+
+  const q = questionFor(i);
+  if(q){ playing=false; showQuestion(q); return; }
+
+  if(autoplay){
+    playing=true; setPlayBtn();
+    speak(step.text, ()=>{
+      if(playing && idx===i){
+        if(i+1<LESSON.length) goTo(i+1, true);
+        else finish();
+      }
+    });
+  } else {
+    speak(step.text);
+  }
+}
+
+function finish(){
+  playing=false; setPlayBtn();
+  subTxt.textContent='（本课结束啦，记得完成晓晓老师的作业哦～）';
+}
+
+/* ---------------- 提问弹窗 ---------------- */
+const modal=document.getElementById('modal');
+function showQuestion(q){
+  document.getElementById('qText').textContent=q.q;
+  document.getElementById('qHint').textContent=q.hint;
+  document.getElementById('qAnswerText').textContent=q.a;
+  document.getElementById('qInput').value='';
+  document.getElementById('qAnswer').style.display='none';
+  document.getElementById('qNextWrap').style.display='none';
+  modal.classList.add('show');
+}
+document.getElementById('qSubmit').onclick=()=>{
+  const v=document.getElementById('qInput').value.trim();
+  if(!v){ alert('先写一两句你的想法，再提交吧～（实在想讲给晓晓老师听，就点「我看完了」）'); return; }
+  document.getElementById('qAnswer').style.display='block';
+  document.getElementById('qNextWrap').style.display='flex';
+  subTxt.textContent='（晓晓老师：很好，听听标准答案，然后继续～）';
+};
+document.getElementById('qSkip').onclick=()=>{
+  document.getElementById('qAnswer').style.display='block';
+  document.getElementById('qNextWrap').style.display='flex';
+};
+document.getElementById('qNext').onclick=()=>{
+  modal.classList.remove('show');
+  if(idx+1<LESSON.length) goTo(idx+1, true);
+  else finish();
+};
+
+/* ---------------- 控制 ---------------- */
+const playBtn=document.getElementById('playBtn');
+function setPlayBtn(){ playBtn.textContent = playing? '⏸ 暂停' : '▶ 播放'; }
+
+playBtn.onclick=()=>{
+  if(!started) return;
+  if(playing){
+    playing=false; setPlayBtn();
+    try{ speechSynthesis.cancel(); }catch(e){}
+  } else {
+    if(modal.classList.contains('show')) return;
+    playing=true; setPlayBtn();
+    goTo(idx, true);
+  }
+};
+document.getElementById('prevBtn').onclick=()=>{ if(modal.classList.contains('show')) return; if(idx>0) goTo(idx-1,false); };
+document.getElementById('nextBtn').onclick=()=>{ if(modal.classList.contains('show')) return; if(idx<LESSON.length-1) goTo(idx+1,false); };
+document.getElementById('restartBtn').onclick=()=>{
+  chat.innerHTML=''; idx=-1; started=true; playing=false;
+  modal.classList.remove('show'); setPlayBtn();
+  goTo(0,true);
+};
+const subBtn=document.getElementById('subBtn');
+const subtitle=document.getElementById('subtitle');
+let subOn=true;
+subBtn.onclick=()=>{
+  subOn=!subOn; subtitle.classList.toggle('hide',!subOn);
+  subBtn.textContent = subOn? '字幕：开':'字幕：关';
+};
+
+/* ---------------- 开始 ---------------- */
+document.getElementById('goBtn').onclick=()=>{
+  document.getElementById('start').style.display='none';
+  started=true; idx=-1; chat.innerHTML='';
+  try{ speechSynthesis.cancel(); }catch(e){}
+  goTo(0,true);
+};
+</script>
+</body>
+</html>

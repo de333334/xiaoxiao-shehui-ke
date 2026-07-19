@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>晓晓老师社会现象分析课 · 第9课：消费的两副面孔</title>
+<style>
+  :root{
+    --bg:#0f1226; --bg2:#171a36; --card:#1e2247; --card2:#262b57;
+    --ink:#eef1ff; --sub:#aeb6e6; --accent:#ffd166; --accent2:#06d6a0;
+    --pink:#ff6b9d; --blue:#5bc0eb; --warn:#ff6b6b; --line:#333a6b;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0;background:linear-gradient(160deg,var(--bg),var(--bg2));color:var(--ink);
+    font-family:"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;line-height:1.7}
+  /* 顶部控制条 */
+  .topbar{position:sticky;top:0;z-index:30;background:rgba(15,18,38,.92);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);padding:10px 14px}
+  .topbar h1{font-size:17px;margin:0 0 8px;font-weight:800;letter-spacing:.5px}
+  .topbar h1 .badge{background:var(--accent);color:#222;border-radius:999px;padding:1px 9px;font-size:12px;margin-right:8px}
+  .ctrl{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .btn{border:none;border-radius:10px;padding:8px 12px;font-size:14px;font-weight:700;cursor:pointer;
+    background:var(--card2);color:var(--ink);transition:.15s;display:inline-flex;align-items:center;gap:5px}
+  .btn:hover{filter:brightness(1.15)}
+  .btn.primary{background:linear-gradient(135deg,var(--accent),#ff9f1c);color:#241a00}
+  .btn.nav{background:var(--blue);color:#04263a}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .seekwrap{flex:1;min-width:160px;display:flex;align-items:center;gap:8px}
+  input[type=range]{-webkit-appearance:none;appearance:none;height:8px;border-radius:999px;
+    background:linear-gradient(90deg,var(--accent2),var(--accent));outline:none;width:100%}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;
+    background:#fff;border:3px solid var(--accent);cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+  input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--accent);cursor:pointer}
+  .pos{font-size:12px;color:var(--sub);min-width:74px;text-align:right;font-variant-numeric:tabular-nums}
+  .hint{font-size:12px;color:var(--sub);margin-top:6px}
+  .hint b{color:var(--accent)}
+  /* 课堂笔记区（讲解+图示），底部留白给字幕条 */
+  .stage{padding:14px 14px 150px;max-width:880px;margin:0 auto}
+  .sec{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin:0 0 14px;
+    box-shadow:0 6px 20px rgba(0,0,0,.25)}
+  .sec h2{font-size:16px;margin:0 0 10px;color:var(--accent);display:flex;align-items:center;gap:8px}
+  .sec h2 .dot{width:9px;height:9px;border-radius:50%;background:var(--accent2)}
+  .ln{margin:0;padding:6px 10px;border-radius:9px;color:var(--ink);font-size:15.5px;transition:.2s;border-left:3px solid transparent}
+  .ln.cur{background:var(--card2);border-left:3px solid var(--accent);font-weight:700}
+  .ln .who{color:var(--accent2);font-weight:800;margin-right:4px}
+  .diagram{margin:10px 0 4px;text-align:center}
+  .diagram svg{max-width:100%;height:auto}
+  .cap{font-size:12px;color:var(--sub);margin-top:4px}
+  .formula{background:var(--bg2);border:1px dashed var(--accent);border-radius:10px;padding:10px 12px;
+    font-size:15px;color:var(--accent);text-align:center;margin:8px 0;font-weight:700}
+  .jingle{background:linear-gradient(135deg,#2a2150,#3a2a5e);border-radius:12px;padding:12px 14px;margin:8px 0}
+  .jingle .t{color:var(--pink);font-weight:800;font-size:13px;margin-bottom:4px}
+  .jingle p{margin:4px 0;font-size:15px;color:#ffe6f3;letter-spacing:.3px}
+  /* 底部字幕条（不遮挡讲解，独立固定于底部） */
+  .subbar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(8,10,24,.96);
+    border-top:2px solid var(--accent);padding:14px 16px 16px;box-shadow:0 -8px 24px rgba(0,0,0,.5)}
+  .subbar .now{font-size:19px;font-weight:800;color:#fff;text-align:center;max-width:860px;margin:0 auto;
+    line-height:1.5;min-height:27px}
+  .subbar .now .who{color:var(--accent2)}
+  .subbar .meta{text-align:center;color:var(--sub);font-size:12px;margin-top:6px}
+  .live{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent2);margin-right:6px;
+    animation:pulse 1s infinite}
+  @keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+  /* 学生气泡（飘一下） */
+  .toast{position:fixed;right:16px;bottom:120px;z-index:45;max-width:300px;background:var(--card2);
+    border:1px solid var(--line);border-radius:14px;padding:10px 12px;font-size:14px;box-shadow:0 6px 18px rgba(0,0,0,.4);
+    opacity:0;transform:translateY(12px);transition:.4s;pointer-events:none}
+  .toast.show{opacity:1;transform:translateY(0)}
+  .toast .nm{color:var(--pink);font-weight:800;margin-right:5px}
+  /* 费曼弹题遮罩 */
+  .mask{position:fixed;inset:0;z-index:60;background:rgba(4,6,18,.82);display:none;align-items:center;justify-content:center;padding:18px}
+  .mask.show{display:flex}
+  .quiz{background:var(--card);border:2px solid var(--pink);border-radius:18px;max-width:560px;width:100%;
+    padding:20px;box-shadow:0 12px 40px rgba(0,0,0,.6);max-height:88vh;overflow:auto}
+  .quiz h3{margin:0 0 6px;color:var(--pink);font-size:18px}
+  .quiz .asker{display:inline-block;background:var(--pink);color:#fff;border-radius:999px;padding:2px 10px;font-size:13px;font-weight:800;margin-bottom:8px}
+  .q{background:var(--bg2);border-radius:12px;padding:11px 13px;margin:10px 0;font-size:15px}
+  .q .lab{color:var(--accent);font-weight:800;margin-right:6px}
+  textarea{width:100%;min-height:64px;border-radius:10px;border:1px solid var(--line);background:var(--bg);
+    color:var(--ink);padding:10px;font-size:14px;font-family:inherit;resize:vertical}
+  .ans{display:none;background:#16331f;border:1px solid var(--accent2);border-radius:12px;padding:12px 14px;margin-top:8px;font-size:14px;color:#d6ffe6}
+  .ans b{color:var(--accent2)}
+  .quiz .row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+  .footnote{text-align:center;color:var(--sub);font-size:12px;padding:18px}
+  .warnbox{background:#2a1620;border:1px solid var(--warn);border-radius:12px;padding:12px;margin:8px 0;font-size:14px}
+  .warnbox .t{color:var(--warn);font-weight:800}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1><span class="badge">第9课</span>消费的两副面孔：一边抠门、一边大方</h1>
+  <div class="ctrl">
+    <button class="btn primary" id="playBtn">▶ 播放</button>
+    <button class="btn nav" id="prevBtn">⏮ 上一句</button>
+    <button class="btn nav" id="nextBtn">下一句 ⏭</button>
+    <div class="seekwrap">
+      <input type="range" id="seek" min="0" max="0" step="1" value="0">
+      <span class="pos" id="pos">0 / 0</span>
+    </div>
+  </div>
+  <div class="hint">💡 进度条可<b>自由拖动</b>调位置；「上一句 / 下一句」逐句跳转；晓晓老师神经网络语音朗读；底部字幕不挡讲解；课中会有小明/小红突袭提问，记得答完再继续～</div>
+</div>
+
+<div class="stage" id="stage"></div>
+
+<div class="subbar">
+  <div class="now" id="now">点「播放」，晓晓老师开讲啦～</div>
+  <div class="meta"><span class="live" id="liveDot" style="display:none"></span><span id="meta">已就绪 · 本课前半段复习「玄学热」，再讲新课</span></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- 费曼弹题 -->
+<div class="mask" id="mask">
+  <div class="quiz" id="quizBox"></div>
+</div>
+
+<div class="footnote">懒脑袋锻炼计划 · 第9课 · 数据来自2026上半年公开报道（搜狐/中青报/中国网/艾媒等）· 本页为自包含离线课件，请用 Edge / Chrome 打开以启用晓晓老师语音</div>
+
+<script>
+/* ============ 讲解文稿（逐句，供语音+字幕） ============ */
+const SENT = [
+ "同学们好！我是晓晓老师，今天我们继续懒脑袋锻炼计划。",
+ "先复习一下上一课：我们讲过玄学热——年轻人爱逛寺庙、排长队求上香。",
+ "其实那不是在搞迷信，而是在不确定的世界里，想抓住一点点确定的感觉。",
+ "口诀还记得吗？信而不迷抓确定，五根线里找出口。",
+ "今天，我们换个角度看这种确定感，它还会变成你钱包里的样子。",
+
+ "现在有个特别有意思的现象：同一拨年轻人，一边抠搜到极点，一边又大方到惊人。",
+ "买瓶水都要比价，临期面包抢着囤；转头几千块的演唱会、说走就走的旅行，眼睛都不眨。",
+ "这叫消费的两副面孔。",
+ "先正名：这可不是又穷又傻，也不是简单的消费降级。",
+ "它的真名字叫清醒消费，该省省，该花花，花得更明白。",
+
+ "先看抠门这一面。数据很猛：二零二六年上半年，全国折扣零售店半年新开超过一点二万家。",
+ "临期食品在网上卖，销量同比暴涨百分之七十六，也就是比去年多了快一倍。",
+ "快过期的零食饮料，大家抢着买，因为便宜又没坏。",
+ "还有平替：以前超市卖二十五块的进口饼干，在折扣店只要六块九。",
+ "成分几乎一样的护手霜，大牌两百一支，国货老牌二十一支。",
+ "白牌也火了，没牌子，但只要质量行，大家反而更信。",
+ "一句话：面子钱，能省则省。",
+
+ "再看大方这一面。青年人的兴趣消费，单笔平均花销涨了将近四成，约百分之四十。",
+ "有人日常吃喝抠搜，省下的钱，转头买了演唱会门票、限量周边、短途旅行。",
+ "还有人给宠物买粮买陪伴，给脱口秀小剧场花几十块买两小时大笑。",
+ "这叫低成本悦己，花小钱，买大开心。",
+ "一句话：让自己真开心的钱，舍得花。",
+
+ "你可能会问：又抠又大方，不矛盾吗？",
+ "不矛盾！因为背后的标准变了。",
+ "以前的标准是：贵等于好，等于有面子，所以拼命买贵的撑场面。",
+ "现在的标准是：值等于好，等于我开心，所以省掉虚的面子，把钱挪到真喜欢的地方。",
+ "抠门和大方，其实是同一套清醒逻辑的两个出口。",
+
+ "那这股风从哪刮起来的？五根线，记好。",
+ "第一根：钱包紧。大件不敢乱买，收入预期也不太确定，自然先算小账。",
+ "第二根：供应链强。咱们有最完整的工厂链，代工厂绕开品牌直接卖你，价格砍掉一大截。",
+ "第三根：价格透明。小红书、比价工具一搜，谁贵谁便宜清清楚楚，品牌溢价被当场戳破。",
+ "第四根：心里定。这代人更信自己的能力，不靠logo撑身份，不跟人攀比面子。",
+ "第五根：快乐升级。一支口红不够爽了，要更社交、更体验的便宜快乐，比如city walk、拆盲盒。",
+
+ "不过老师要泼点冷水，三个坑别踩。",
+ "第一坑：假省真浪费。为凑低价囤一堆临期品，最后过期扔掉，反而更亏。",
+ "第二坑：情绪超支。悦己变成无底线花钱，月底吃土，就本末倒置了。",
+ "第三坑：伪平替割韭菜。有些平替只是换包装，质量差还死贵，别被平替两个字忽悠。",
+
+ "来，背口诀！正名口诀：不是抠，是清醒；不买贵，只买对；省面子，花里子。",
+ "两副面孔口诀：临期限量抠着花，兴趣体验大方花；省的是那虚面子，买的是我真牵挂。",
+ "五根线口诀：一紧二强三透明，四定五升说得清。钱包谨慎链给力，比价戳破虚高名，自我不靠logo撑，快乐换道更年轻。",
+
+ "好，现在轮到你了。用一句话说说消费两副面孔是什么意思？再想想它和玄学热的共同点；最后，给你一百块，你会怎么花？",
+
+ "今天的课到这儿。记住：清醒消费不是小气，是把钱花在值和开心上。",
+ "下节课我们继续拆解新现象。作业：今天逛街或网购，留意自己是不是在省面子、花里子。同学们，再见！"
+];
+
+/* ============ 章节结构（含图示） ============ */
+const SVG_TWOFACES = `<svg viewBox="0 0 680 240" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC,sans-serif">
+  <rect width="680" height="240" rx="16" fill="#171a36"/>
+  <text x="340" y="30" fill="#ffd166" font-size="17" font-weight="800" text-anchor="middle">同一拨人 · 两副面孔</text>
+  <g>
+    <circle cx="170" cy="130" r="64" fill="#262b57" stroke="#5bc0eb" stroke-width="3"/>
+    <circle cx="148" cy="118" r="7" fill="#fff"/><circle cx="192" cy="118" r="7" fill="#fff"/>
+    <path d="M146 158 Q170 142 194 158" stroke="#5bc0eb" stroke-width="4" fill="none"/>
+    <text x="170" y="208" fill="#5bc0eb" font-size="15" font-weight="800" text-anchor="middle">抠门面</text>
+    <text x="170" y="228" fill="#aeb6e6" font-size="12" text-anchor="middle">临期·平替·白牌·攒</text>
+    <text x="170" y="78" fill="#ffd166" font-size="22" text-anchor="middle" font-weight="800">¥↓</text>
+  </g>
+  <text x="340" y="135" fill="#aeb6e6" font-size="26" font-weight="800" text-anchor="middle">+</text>
+  <g>
+    <circle cx="510" cy="130" r="64" fill="#262b57" stroke="#ff6b9d" stroke-width="3"/>
+    <circle cx="488" cy="118" r="7" fill="#fff"/><circle cx="532" cy="118" r="7" fill="#fff"/>
+    <path d="M488 150 Q510 174 532 150" stroke="#ff6b9d" stroke-width="4" fill="none"/>
+    <text x="510" y="208" fill="#ff6b9d" font-size="15" font-weight="800" text-anchor="middle">大方面</text>
+    <text x="510" y="228" fill="#aeb6e6" font-size="12" text-anchor="middle">兴趣·体验·陪伴</text>
+    <text x="510" y="78" fill="#ff6b9d" font-size="22" text-anchor="middle" font-weight="800">♥</text>
+  </g>
+</svg>`;
+
+const SVG_LOGIC = `<svg viewBox="0 0 680 150" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC,sans-serif">
+  <rect width="680" height="150" rx="16" fill="#171a36"/>
+  <rect x="30" y="50" width="220" height="56" rx="12" fill="#3a2a5e" stroke="#aeb6e6" stroke-width="2"/>
+  <text x="140" y="76" fill="#fff" font-size="15" font-weight="800" text-anchor="middle">旧：贵=面子</text>
+  <text x="140" y="96" fill="#aeb6e6" font-size="12" text-anchor="middle">买贵的撑场面</text>
+  <path d="M255 78 H300" stroke="#ffd166" stroke-width="4" fill="none" marker-end="url(#ar)"/>
+  <defs><marker id="ar" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto"><path d="M0 0 L8 3 L0 6 Z" fill="#ffd166"/></marker></defs>
+  <rect x="420" y="50" width="230" height="56" rx="12" fill="#16331f" stroke="#06d6a0" stroke-width="2"/>
+  <text x="535" y="76" fill="#fff" font-size="15" font-weight="800" text-anchor="middle">新：值=开心</text>
+  <text x="535" y="96" fill="#06d6a0" font-size="12" text-anchor="middle">省面子·花里子</text>
+  <text x="340" y="135" fill="#aeb6e6" font-size="12" text-anchor="middle">标准迁移：同一套清醒逻辑，两个出口</text>
+</svg>`;
+
+const SVG_ROOTS = `<svg viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC,sans-serif">
+  <rect width="680" height="260" rx="16" fill="#171a36"/>
+  <rect x="290" y="20" width="100" height="46" rx="10" fill="#262b57" stroke="#ffd166" stroke-width="2"/>
+  <text x="340" y="48" fill="#ffd166" font-size="15" font-weight="800" text-anchor="middle">清醒消费</text>
+  <line x1="340" y1="66" x2="340" y2="120" stroke="#888" stroke-width="3"/>
+  <g stroke="#06d6a0" stroke-width="3" fill="none">
+    <path d="M340 120 C300 150 250 160 150 175"/>
+    <path d="M340 120 C310 155 280 175 220 195"/>
+    <path d="M340 120 C340 160 340 185 340 210"/>
+    <path d="M340 120 C370 155 400 175 460 195"/>
+    <path d="M340 120 C380 150 430 160 530 175"/>
+  </g>
+  <g font-size="12.5" font-weight="700" text-anchor="middle">
+    <text x="135" y="172" fill="#5bc0eb">①钱包紧</text>
+    <text x="205" y="198" fill="#5bc0eb">②链强</text>
+    <text x="340" y="228" fill="#5bc0eb">③价透明</text>
+    <text x="475" y="198" fill="#5bc0eb">④心定</text>
+    <text x="545" y="172" fill="#5bc0eb">⑤乐升级</text>
+  </g>
+  <text x="340" y="250" fill="#aeb6e6" font-size="12" text-anchor="middle">五根线托起一棵树：根扎得清，花钱才清醒</text>
+</svg>`;
+
+const SECTIONS = [
+  {t:"① 复习：玄学热（确定感）", who:null, lines:[0,1,2,3,4]},
+  {t:"② 正名：消费的两副面孔", who:null, lines:[5,6,7,8,9], svg:SVG_TWOFACES, cap:"图：抠门面 + 大方面 = 同一拨人"},
+  {t:"③ 抠门面：临期 · 平替 · 白牌", who:null, lines:[10,11,12,13,14,15,16],
+     jingles:[{t:"数据卡",items:["折扣店半年 +1.2万家","临期线上销量 +76%","进口饼干 25元→6.9元","护手霜 大牌200→国货21"]}]},
+  {t:"④ 大方面：低成本悦己", who:null, lines:[17,18,19,20,21],
+     jingles:[{t:"数据卡",items:["青年兴趣消费客单价 +40%","演唱会/周边/旅行说花就花","宠物陪伴·脱口秀·小剧场"]}]},
+  {t:"⑤ 一个逻辑，两条路", who:null, lines:[22,23,24,25,26], svg:SVG_LOGIC, cap:"图：标准从「贵=面子」迁移到「值=开心」",
+     formula:"抠门 + 大方 = 同一套清醒逻辑的两个出口"},
+  {t:"⑥ 五根线（原因拆解）", who:null, lines:[27,28,29,30,31,32], svg:SVG_ROOTS, cap:"图：五根线托起「清醒消费」",
+     jingles:[{t:"五根线",items:["①钱包紧：大件不敢买、预期不确定","②供应链强：代工厂直连你，价格砍一刀","③价格透明：比价戳破品牌溢价","④心里定：不靠logo撑身份","⑤快乐升级：口红不够爽，要体验便宜快乐"]}]},
+  {t:"⑦ 反方警惕：三个坑", who:null, lines:[33,34,35,36],
+     warn:["第一坑：假省真浪费——囤一堆临期品最后过期扔掉，反而更亏",
+           "第二坑：情绪超支——悦己变无底线花钱，月底吃土，本末倒置",
+           "第三坑：伪平替割韭菜——只换包装质量差还死贵，别被「平替」忽悠"]},
+  {t:"⑧ 口诀大合集", who:null, lines:[37,38,39],
+     jingles:[
+       {t:"正名口诀",items:["不是抠，是清醒；","不买贵，只买对；","省面子，花里子。"]},
+       {t:"两副面孔口诀",items:["临期限量抠着花，兴趣体验大方花；","省的是那虚面子，买的是我真牵挂。"]},
+       {t:"五根线口诀",items:["一紧二强三透明，四定五升说得清：","钱包谨慎链给力，比价戳破虚高名，","自我不靠logo撑，快乐换道更年轻。"]}
+     ]},
+  {t:"⑨ 费曼检测", who:null, lines:[40]},
+  {t:"⑩ 结语", who:null, lines:[41,42]}
+];
+
+/* ============ 学生互动气泡（飘一下，不挡讲解） ============ */
+const BUBBLES = {
+  6:{nm:"小明",txt:"我妈就是这样！买菜比半小时价，给我买球鞋倒挺爽快😂"},
+  17:{nm:"小红",txt:"我攒钱看演唱会，日常喝白开水，值！"},
+  32:{nm:"小明",txt:"city walk+盲盒我全中，原来我有五根线护体🤣"}
+};
+
+/* ============ 费曼突袭弹题（在指定句触发） ============ */
+const QUIZZES = {
+  26:{ // 讲完"两个出口"
+    asker:"小明", title:"突袭提问①",
+    intro:"晓晓老师，我妈买临期面包可省了，转头又给我报了八百块的乐高营，这算两副面孔不？",
+    qs:[
+      {lab:"想一想",q:"又抠又大方，为什么说它「不矛盾」？用你自己的话讲讲。"},
+      {lab:"举例子",q:"你家里有没有类似的「省面子、花里子」？说出来。"}
+    ],
+    ans:"<b>参考答案：</b>不矛盾，因为标准统一——都是「值才花」。日常省的是虚的面子钱（品牌溢价、临期凑单），关键时刻为孩子的体验成长大方花，说明钱花在「真正在意的人/事」上。小明的例子正是典型：省与花指向同一个清醒标准。"
+  },
+  32:{ // 五根线讲完
+    asker:"小红", title:"突袭提问②",
+    intro:"五根线里我最有感觉的是「价格透明」——上次买护肤品一比价，发现大牌和平替成分一样，再也不交智商税了！你呢？",
+    qs:[
+      {lab:"对一对",q:"五根线你能背出几句？哪一根和你家最像？"},
+      {lab:"防坑",q:"「比价」要注意什么，才不会掉进伪平替？"}
+    ],
+    ans:"<b>参考答案：</b>五根线：①钱包紧 ②供应链强 ③价格透明 ④心里定 ⑤快乐升级。比价看的是<b>性价比不是最低价</b>——要同时看成分/质量/真实需求，别只看价格掉进「伪平替割韭菜」的坑（第七节第三坑）。"
+  },
+  40:{ // 费曼检测主问
+    asker:"晓晓老师", title:"费曼检测（合上课本讲给我听）",
+    intro:"现在轮到你当老师了。别急着看答案，先自己讲，再对照。",
+    qs:[
+      {lab:"一句话",q:"用一句话解释「消费的两副面孔」到底指什么？"},
+      {lab:"勾连",q:"它和上一课「玄学热」共同点是什么？（提示：都和确定感/焦虑有关）"},
+      {lab:"实战",q:"假如给你100块，你会怎么用「清醒消费」的思路花？为什么这样花「值」？"}
+    ],
+    ans:"<b>参考答案：</b>①两副面孔=同一拨人一边省面子钱（临期/平替/白牌）、一边为真正开心的事大方花，背后是「值=好=我开心」的新标准。②与玄学热同源：都是在不确定里抓「确定的感觉」——省钱是抓掌控感，上香是抓确定性；都是把「别人眼里的标准」换成「自己舒服的标准」。③100块示例：30元买临期好物囤零食（省），70元约朋友看脱口秀/请爸妈喝杯好茶（花在关系和体验）——省面子、花里子，花得明白。"
+  }
+};
+
+/* ============ 渲染课堂笔记 ============ */
+const stage = document.getElementById('stage');
+let lineEls = []; // 每句对应的 DOM
+SECTIONS.forEach((sec,si)=>{
+  const card = document.createElement('div'); card.className='sec';
+  const h = document.createElement('h2'); h.innerHTML='<span class="dot"></span>'+sec.t; card.appendChild(h);
+  if(sec.svg){const d=document.createElement('div');d.className='diagram';d.innerHTML=sec.svg;card.appendChild(d);
+    if(sec.cap){const c=document.createElement('div');c.className='cap';c.textContent='▲ '+sec.cap;card.appendChild(c);}}
+  if(sec.formula){const f=document.createElement('div');f.className='formula';f.textContent=sec.formula;card.appendChild(f);}
+  if(sec.warn){sec.warn.forEach(w=>{const b=document.createElement('div');b.className='warnbox';b.innerHTML='<span class="t">⚠ </span>'+w;card.appendChild(b);});}
+  if(sec.jingles){sec.jingles.forEach(j=>{
+    const jd=document.createElement('div');jd.className='jingle';
+    jd.innerHTML='<div class="t">'+j.t+'</div>'+j.items.map(i=>'<p>'+i+'</p>').join('');
+    card.appendChild(jd);});}
+  sec.lines.forEach(li=>{
+    const p=document.createElement('p'); p.className='ln'; p.id='ln'+li;
+    p.textContent=SENT[li];
+    card.appendChild(p); lineEls[li]=p;
+  });
+  stage.appendChild(card);
+});
+
+/* ============ 语音 + 播放控制 ============ */
+const seek=document.getElementById('seek');
+const pos=document.getElementById('pos');
+const now=document.getElementById('now');
+const meta=document.getElementById('meta');
+const liveDot=document.getElementById('liveDot');
+const playBtn=document.getElementById('playBtn');
+const prevBtn=document.getElementById('prevBtn');
+const nextBtn=document.getElementById('nextBtn');
+const toast=document.getElementById('toast');
+
+const N=SENT.length;
+seek.max=N-1; pos.textContent='0 / '+N;
+let cur=0, playing=false, autoplay=true, quizOpen=false;
+let voice=null, utter=null;
+
+function loadVoices(){
+  const vs = window.speechSynthesis ? speechSynthesis.getVoices() : [];
+  voice = vs.find(v=>/Xiaoxiao|晓晓| Xiao Xiao/i.test(v.name))
+        || vs.find(v=>v.lang==='zh-CN' && /female|女|Neural/i.test(v.name))
+        || vs.find(v=>v.lang && v.lang.toLowerCase().startsWith('zh'))
+        || null;
+}
+if(window.speechSynthesis){
+  loadVoices();
+  speechSynthesis.onvoiceschanged = loadVoices;
+}
+
+function stopSpeech(){ if(window.speechSynthesis) speechSynthesis.cancel(); }
+
+function speak(i){
+  if(!window.speechSynthesis) return;
+  stopSpeech();
+  const u=new SpeechSynthesisUtterance(SENT[i]);
+  if(voice) u.voice=voice;
+  u.lang='zh-CN'; u.rate=0.98; u.pitch=1.0; u.volume=1.0;
+  u.onend=()=>{
+    if(quizOpen) return;
+    if(autoplay && playing && cur < N-1){
+      // 下一句若是弹题，先跳过去触发
+      go(cur+1, true);
+    }
+  };
+  utter=u; speechSynthesis.speak(u);
+}
+
+function highlight(i){
+  lineEls.forEach((el,idx)=>{ if(el) el.classList.toggle('cur', idx===i); });
+  const el=lineEls[i];
+  if(el){ el.scrollIntoView({behavior:'smooth',block:'center'}); }
+  now.innerHTML = '<span class="who"></span>'+SENT[i];
+  seek.value=i; pos.textContent=(i+1)+' / '+N;
+}
+
+function maybeBubble(i){
+  const b=BUBBLES[i];
+  if(b){
+    toast.innerHTML='<span class="nm">'+b.nm+'：</span>'+b.txt;
+    toast.classList.add('show');
+    setTimeout(()=>toast.classList.remove('show'),4200);
+  }
+}
+
+function maybeQuiz(i){
+  const q=QUIZZES[i];
+  if(q){ openQuiz(i,q); return true; }
+  return false;
+}
+
+function go(i, fromEnd){
+  i=Math.max(0,Math.min(N-1,i));
+  cur=i;
+  highlight(i);
+  maybeBubble(i);
+  if(maybeQuiz(i)){ // 暂停语音，等答题
+    stopSpeech(); playing=false; updatePlayBtn();
+    return;
+  }
+  if(playing){ speak(i); }
+}
+
+function updatePlayBtn(){ playBtn.textContent = playing? '⏸ 暂停':'▶ 播放'; liveDot.style.display = playing? 'inline-block':'none'; }
+
+playBtn.onclick=()=>{
+  if(quizOpen) return;
+  if(playing){ playing=false; stopSpeech(); updatePlayBtn(); meta.textContent='已暂停'; }
+  else{
+    if(cur>=N-1) cur=0;
+    playing=true; autoplay=true; updatePlayBtn(); meta.textContent='晓晓老师正在朗读…';
+    if(maybeQuiz(cur)){ playing=false; updatePlayBtn(); return; }
+    speak(cur);
+  }
+};
+prevBtn.onclick=()=>{ if(quizOpen)return; playing=false; updatePlayBtn(); go(cur-1); };
+nextBtn.onclick=()=>{ if(quizOpen)return; playing=false; updatePlayBtn(); go(cur+1); };
+seek.oninput=()=>{ if(quizOpen)return; const v=parseInt(seek.value,10); playing=false; updatePlayBtn(); go(v); };
+
+/* ============ 费曼弹题 ============ */
+const mask=document.getElementById('mask');
+const quizBox=document.getElementById('quizBox');
+function openQuiz(i,q){
+  quizOpen=true; autoplay=false; playing=false; updatePlayBtn();
+  meta.textContent='⏸ 突袭提问中，请先作答';
+  let html='<h3>'+q.title+'</h3>';
+  html+='<span class="asker">'+q.asker+' 问</span>';
+  html+='<div class="q" style="background:#2a1620;border-color:#ff6b9d">'+q.intro+'</div>';
+  q.qs.forEach((qq,k)=>{
+    html+='<div class="q"><span class="lab">'+qq.lab+'</span>'+qq.q+'</div>';
+    html+='<textarea id="ta'+i+'_'+k+'" placeholder="在这里用你自己的话写答案…"></textarea>';
+  });
+  html+='<div class="ans" id="ans'+i+'">'+q.ans+'</div>';
+  html+='<div class="row">';
+  html+='<button class="btn primary" id="reveal'+i+'">提交看答案</button>';
+  html+='<button class="btn nav" id="cont'+i+'">继续上课 ⏭</button>';
+  html+='</div>';
+  quizBox.innerHTML=html;
+  mask.classList.add('show');
+  document.getElementById('reveal'+i).onclick=()=>{ document.getElementById('ans'+i).style.display='block'; };
+  document.getElementById('cont'+i).onclick=()=>{ closeQuiz(i); };
+}
+function closeQuiz(i){
+  mask.classList.remove('show'); quizOpen=false;
+  // 弹题这一句讲完，继续下一句
+  if(cur < N-1){ cur=i; playing=true; autoplay=true; updatePlayBtn(); meta.textContent='晓晓老师继续朗读…'; go(i+1); }
+  else { meta.textContent='本课已讲完 🎉'; }
+}
+window.addEventListener('click',e=>{ if(e.target===mask) {/* 点遮罩不关闭，需作答 */} });
+
+/* 初始 */
+highlight(0);
+meta.textContent='已就绪 · 本课前半段复习「玄学热」，再讲新课';
+</script>
+</body>
+</html>

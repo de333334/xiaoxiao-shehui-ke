@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>晓晓老师的社会现象分析课 · 年轻人为什么集体"上香"？</title>
+<style>
+  :root{
+    --bg:#f1eef7; --card:#fffdfa; --ink:#2b2733; --muted:#7a7488;
+    --tea:#5b4b9e; --tea2:#7d6cc4; --green:#3a7d6e; --green2:#5aa893;
+    --blue:#3d6c9c; --gold:#c8a24a; --line:#e7e1f0; --soft:#efeaf8;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    font-size:17px;line-height:1.85;}
+  /* 顶部教师栏 */
+  .topbar{position:sticky;top:0;z-index:30;background:linear-gradient(135deg,#fffdfa,#efe9f8);
+    border-bottom:1px solid var(--line);padding:10px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+  .avatar{width:46px;height:46px;border-radius:50%;background:#ece4fb;display:flex;
+    align-items:center;justify-content:center;font-size:26px;flex:0 0 auto;box-shadow:0 2px 5px rgba(0,0,0,.08);}
+  .tinfo b{font-size:17px;color:var(--tea);} .tinfo span{font-size:12px;color:var(--muted);display:block;}
+  .controls{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;}
+  button.ctrl{font-family:inherit;font-size:14px;border:1px solid var(--line);background:#fff;
+    color:var(--ink);padding:8px 13px;border-radius:20px;cursor:pointer;transition:.15s;}
+  button.ctrl:hover{background:var(--soft);}
+  button.ctrl.primary{background:var(--tea);color:#fff;border-color:var(--tea);}
+  button.ctrl.primary:hover{background:var(--tea2);}
+  button.ctrl.on{background:var(--green);color:#fff;border-color:var(--green);}
+  .status{font-size:12px;color:var(--muted);width:100%;margin-top:2px;}
+
+  .wrap{max-width:820px;margin:0 auto;padding:18px 16px 140px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:20px 22px;margin:18px 0;box-shadow:0 2px 8px rgba(90,70,140,.06);}
+  .card h2{margin:0 0 6px;font-size:21px;color:var(--tea);display:flex;align-items:center;gap:8px;}
+  .card .tag{font-size:12px;color:#fff;background:var(--tea2);padding:2px 9px;border-radius:10px;}
+  .lead{background:#f6f1ff;border-left:4px solid var(--tea2);padding:14px 16px;border-radius:8px;margin:14px 0;}
+  .kp{background:var(--soft);border-radius:10px;padding:12px 15px;margin:10px 0;}
+  .kp b{color:var(--green);}
+  .mnemonic{background:#eef6f0;border:1px dashed var(--green2);border-radius:10px;
+    padding:14px 16px;margin:12px 0;font-size:18px;text-align:center;letter-spacing:1px;color:var(--green);}
+  .pitfall{border-left:4px solid #d98b2b;background:#fdf3e3;padding:11px 14px;border-radius:8px;margin:10px 0;}
+  .pitfall b{color:#b9701a;}
+  ol.steps{counter-reset:s;padding-left:0;list-style:none;}
+  ol.steps li{position:relative;padding:12px 14px 12px 52px;margin:10px 0;background:var(--soft);
+    border-radius:10px;}
+  ol.steps li:before{counter-increment:s;content:counter(s);position:absolute;left:14px;top:12px;
+    width:26px;height:26px;border-radius:50%;background:var(--tea);color:#fff;font-weight:700;
+    display:flex;align-items:center;justify-content:center;font-size:14px;}
+  .hear{font-size:13px;color:var(--tea);cursor:pointer;border:1px solid var(--tea2);
+    background:#fff;border-radius:16px;padding:4px 12px;margin-top:8px;display:inline-block;user-select:none;}
+  .hear:hover{background:#f3ecff;}
+
+  /* 学生互动 */
+  .chat{margin:10px 0;}
+  .bub{max-width:88%;padding:10px 14px;border-radius:14px;margin:9px 0;font-size:15.5px;}
+  .stu{background:#e8eef6;border-top-left-radius:4px;}
+  .stu .who{font-size:12px;color:var(--blue);font-weight:700;display:block;margin-bottom:2px;}
+  .tea{background:#f3ecff;border-top-right-radius:4px;margin-left:auto;border:1px solid #e0d4f7;}
+  .tea .who{font-size:12px;color:var(--tea);font-weight:700;display:block;margin-bottom:2px;text-align:right;}
+
+  /* 计算演练 stepper */
+  .calcbox{border:1px solid var(--blue);border-radius:12px;padding:16px;background:#f6f9fd;}
+  .calcq{font-weight:700;color:var(--blue);margin-bottom:8px;}
+  .calcstep{display:none;background:#fff;border-left:3px solid var(--green2);padding:10px 14px;
+    margin:8px 0;border-radius:6px;animation:fade .4s;}
+  .calcstep.show{display:block;}
+  .calcstep .n{color:var(--green);font-weight:700;margin-right:6px;}
+  .calcnav{margin-top:10px;display:flex;gap:8px;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+  /* 五根线 SVG */
+  .rootsvg{display:block;margin:14px auto 4px;max-width:100%;height:auto;}
+
+  /* 字幕条 */
+  .caption{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(30,24,46,.94);
+    color:#fff;padding:12px 18px 14px;font-size:16px;line-height:1.6;max-height:130px;overflow-y:auto;
+    border-top:3px solid var(--tea2);display:none;}
+  .caption.show{display:block;}
+  .caption .who{color:var(--tea2);font-weight:700;margin-right:6px;}
+
+  /* 弹题 modal */
+  .mask{position:fixed;inset:0;background:rgba(20,16,30,.55);z-index:50;display:none;
+    align-items:center;justify-content:center;padding:18px;}
+  .mask.show{display:flex;}
+  .quiz{background:#fff;border-radius:16px;max-width:460px;width:100%;padding:22px;
+    box-shadow:0 10px 40px rgba(0,0,0,.25);animation:pop .3s;}
+  @keyframes pop{from{transform:scale(.9);opacity:0;}to{transform:none;opacity:1;}}
+  .quiz h3{margin:0 0 6px;color:var(--tea);font-size:19px;}
+  .quiz .q{margin:10px 0 14px;}
+  .opt{display:block;width:100%;text-align:left;font-family:inherit;font-size:15px;
+    border:1px solid var(--line);background:#fbf8f2;padding:11px 14px;border-radius:10px;
+    margin:8px 0;cursor:pointer;transition:.15s;}
+  .opt:hover{background:#f1ece1;}
+  .opt.right{background:#e7f4ec;border-color:var(--green2);color:var(--green);font-weight:700;}
+  .opt.wrong{background:#fbe7e1;border-color:#d98b6b;color:#b5482f;}
+  .opt:disabled{cursor:default;}
+  .fb{font-size:14px;margin-top:10px;padding:10px 12px;border-radius:8px;display:none;}
+  .fb.show{display:block;}
+  .fb.ok{background:#e7f4ec;color:var(--green);}
+  .fb.no{background:#fbe7e1;color:#b5482f;}
+  .quiz .next{margin-top:12px;}
+
+  /* 费曼 */
+  .feynman textarea{width:100%;min-height:120px;font-family:inherit;font-size:15px;
+    border:1px solid var(--line);border-radius:10px;padding:12px;resize:vertical;}
+  .ref{display:none;background:var(--soft);border-radius:10px;padding:14px;margin-top:10px;border-left:3px solid var(--green2);}
+  .ref.show{display:block;}
+
+  .hint{font-size:13px;color:var(--muted);}
+  .badge{display:inline-block;background:#eef6f0;color:var(--green);font-size:12px;
+    padding:2px 9px;border-radius:10px;margin-left:6px;}
+  a.link{color:var(--blue);}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="avatar">🔮</div>
+  <div class="tinfo"><b>晓晓老师</b><span>神经网络语音 · 社会现象分析互动课</span></div>
+  <div class="controls">
+    <button class="ctrl primary" id="btnPlay">▶ 开始上课（语音）</button>
+    <button class="ctrl" id="btnPause">⏸ 暂停</button>
+    <button class="ctrl on" id="btnVoice">🔊 语音：开</button>
+    <button class="ctrl on" id="btnCap">📝 字幕：开</button>
+  </div>
+  <div class="status" id="status">提示：首次播放请点「开始上课」。建议在 Edge / Chrome 中打开以加载「晓晓」神经网络音色。</div>
+</div>
+
+<div class="wrap">
+
+  <div class="card">
+    <h2>📖 今天学什么 <span class="tag">课题</span></h2>
+    <div class="lead">
+      同学们好，我是晓晓老师。今天我们用一个真实热搜
+      <b>#在上班与上进之间选择了上香#</b>（雍和宫、灵隐寺排队两小时全是 90 后 00 后；小红书 #玄学 浏览破 42 亿）当例子，
+      学会一套<b>「看透社会现象」</b>的本领。这不仅是聊天谈资，更是你备考公基、申论时最该会写的「分析题」套路。
+    </div>
+    <span class="hear" data-speak="同学们好，我是晓晓老师。今天我们拿一个真实热搜，在上班与上进之间选择了上香，当例子，学会一套看透社会现象的本领。这不仅是聊天谈资，更是你备考公基申论时最该会写的分析题套路。">🎧 听晓晓讲这段</span>
+  </div>
+
+  <div class="card">
+    <h2>一、先正名 <span class="tag">破误区</span></h2>
+    <div class="kp"><b>先别急着贴标签。</b>很多人看到年轻人烧香、看星座、敲电子木鱼，第一反应是：「这届年轻人变迷信了？」错了。这届年轻人大多「<b>信而不迷</b>」——努力照常努力，考试照常刷题，玄学只是个兜底的心理安慰。</div>
+    <div class="kp"><b>他们信的不是鬼神，是「抓不住的确定感」。</b>网上有句扎心的话：我们信的从来不是佛，是<b>无处安放的焦虑、抓不住的确定感</b>。所以，这不是愚昧回潮，是一种低成本的心理自助。</div>
+    <span class="hear" data-speak="先别急着贴标签。很多人看到年轻人烧香看星座，第一反应是这届年轻人变迷信了。错了，这届年轻人大多信而不迷，努力照常努力，玄学只是兜底的心理安慰。他们信的不是鬼神，是抓不住的确定感。这不是愚昧回潮，是一种低成本的心理自助。">🎧 听晓晓讲正名</span>
+  </div>
+
+  <div class="card">
+    <h2>二、知识点 <span class="tag">要记住</span></h2>
+    <p>分析这个热点前，先抓住这 <b>3 个核心概念</b>：</p>
+    <div class="kp"><b>① 补偿性控制理论：</b>心理学发现，当人觉得生活「失控」时，会忍不住借助一个外部力量（哪怕它并不理性）来重新获得「秩序感」。就像船要翻了，人总想抓住点什么。</div>
+    <div class="kp"><b>② 确定性饥渴：</b>父辈的逻辑简单：多干活就有回报。可现在年轻人面对的是——刷题不一定上岸、加班未必升职、攒钱难买房、35 岁还有职场危机。努力不再有标准答案，人就开始「渴求确定」。</div>
+    <div class="kp"><b>③ 低成本情绪疗愈：</b>正规医院心理咨询又贵又难约；而敲一下电子木鱼、转发一张锦鲤、求个平安符，成本几乎为零，却能立刻获得一点心理慰藉。它是穷人的「心理按摩」。</div>
+    <span class="hear" data-speak="分析这个热点前，先抓三个核心概念。第一，补偿性控制理论：人觉得生活失控时，会借助外部力量来重获秩序感。第二，确定性饥渴：现在努力不再有标准答案，人就特别渴求确定。第三，低成本情绪疗愈：心理咨询贵又难约，而敲电子木鱼、转发锦鲤几乎零成本，是穷人的心理按摩。">🎧 听晓晓讲知识点</span>
+  </div>
+
+  <div class="card">
+    <h2>三、口诀 <span class="tag">背下来</span></h2>
+    <p>分析社会现象，五步走，我编了句顺口溜：</p>
+    <div class="mnemonic">现象先定位，拐点看年份；<br>五层往下剥，反方不能省；<br>最后升主题，才算想得深。</div>
+    <p class="hint">这套通用五步，用在哪一课都行。本专题再把「五根线」单独编一首：</p>
+    <div class="mnemonic">失控求掌控，压力找出口；<br>国潮赋新意，数字破圈走；<br>社交当货币，玄学解千愁。</div>
+    <ul>
+      <li><b>失控求掌控</b>：生活越不确定，越想抓住点什么</li>
+      <li><b>压力找出口</b>：焦虑太多，需要便宜的情绪出口</li>
+      <li><b>国潮赋新意</b>：传统文化变潮了，玄学成了美学</li>
+      <li><b>数字破圈走</b>：AI 算命、电子木鱼让玄学随时可玩</li>
+      <li><b>社交当货币</b>：星座、水晶成了年轻人的聊天话题</li>
+    </ul>
+    <span class="hear" data-speak="分析社会现象五步走，我编了句顺口溜：现象先定位，拐点看年份，五层往下剥，反方不能省，最后升主题，才算想得深。本专题再把五根线编一首：失控求掌控，压力找出口，国潮赋新意，数字破圈走，社交当货币，玄学解千愁。">🎧 听晓晓念口诀</span>
+  </div>
+
+  <div class="card">
+    <h2>四、五根线 <span class="tag">为什么火</span></h2>
+    <p>一件事能变成全网现象，从来不是单一原因。这场「玄学热」，是下面五根线一起被拉响的：</p>
+    <!-- 五根线汇聚 SVG -->
+    <svg class="rootsvg" viewBox="0 0 360 200" width="340" aria-label="五根线汇聚成玄学热">
+      <defs>
+        <marker id="ah" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L7,3 L0,6 Z" fill="#7d6cc4"/>
+        </marker>
+      </defs>
+      <line x1="20" y1="40"  x2="180" y2="100" stroke="#7d6cc4" stroke-width="3" marker-end="url(#ah)"/>
+      <line x1="20" y1="80"  x2="180" y2="100" stroke="#5aa893" stroke-width="3" marker-end="url(#ah)"/>
+      <line x1="20" y1="120" x2="180" y2="100" stroke="#c8a24a" stroke-width="3" marker-end="url(#ah)"/>
+      <line x1="20" y1="160" x2="180" y2="100" stroke="#3d6c9c" stroke-width="3" marker-end="url(#ah)"/>
+      <line x1="340" y1="100" x2="200" y2="100" stroke="#e07a5f" stroke-width="3" marker-end="url(#ah)"/>
+      <circle cx="180" cy="100" r="30" fill="#5b4b9e"/>
+      <text x="180" y="96" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">玄学热</text>
+      <text x="180" y="114" text-anchor="middle" fill="#fff" font-size="10">社会现象</text>
+      <text x="14" y="32"  fill="#5b4b9e" font-size="12">①失控求掌控</text>
+      <text x="14" y="72"  fill="#3a7d6e" font-size="12">②压力找出口</text>
+      <text x="14" y="112" fill="#a8842f" font-size="12">③国潮赋新意</text>
+      <text x="14" y="152" fill="#3d6c9c" font-size="12">④数字破圈走</text>
+      <text x="300" y="92" fill="#c0552f" font-size="12">⑤社交当货币</text>
+    </svg>
+    <div class="kp"><b>线 1 失控求掌控：</b>就业、房价、行业风口说变就变，个人努力越来越难掌控结果。心理学叫「补偿性控制」——越失控，越想抓住点什么。</div>
+    <div class="kp"><b>线 2 压力找出口：</b>房贷车贷、职场内耗、家庭责任压得人喘不过气；正规心理咨询又贵又难约。玄学门槛低、零成本、随时随地，成了最方便的「情绪阀门」。</div>
+    <div class="kp"><b>线 3 国潮赋新意：</b>国潮崛起，年轻人对传统从「排斥」变「好奇」。他们不盲目拜神，而是把玄学当文化符号、生活美学——风水是空间美学，命理是性格分析。</div>
+    <div class="kp"><b>线 4 数字破圈走：</b>AI 算命、电子木鱼、线上塔罗直播间，让玄学彻底「轻量化、年轻化」。手机一点，功德 +1，焦虑 -1。</div>
+    <div class="kp"><b>线 5 社交当货币：</b>星座、MBTI、水晶开运，成了年轻人聊天的「通用话题」。一句「财神才是永远的正缘」，就是刷屏的社交梗。</div>
+    <span class="hear" data-speak="五根线一起拉。第一，失控求掌控：越失控越想抓住点什么。第二，压力找出口：正规咨询贵又难约，玄学最方便。第三，国潮赋新意：把玄学当文化符号和生活美学。第四，数字破圈走：AI算命、电子木鱼让玄学轻量化。第五，社交当货币：星座水晶成了聊天通用话题。">🎧 听晓晓讲五根线</span>
+  </div>
+
+  <div class="card">
+    <h2>五、易错点 <span class="tag">别踩坑</span></h2>
+    <div class="pitfall"><b>坑1 贴「迷信」标签。</b>把玄学热直接说成「年轻人变愚昧」——错。这是「信而不迷」的心理自助，努力照常努力。</div>
+    <div class="pitfall"><b>坑2 单一归因。</b>「都是因为内卷」——错。它是系统性失控 + 文化复兴 + 科技赋能 + 社交需求多重叠加，不是单一原因。</div>
+    <div class="pitfall"><b>坑3 把「相关」当「因果」。</b>年轻人拜佛多 ≠ 他们变虔诚了。大多是场景化的：考试前、求职季才去，平时并不真信。</div>
+    <div class="pitfall"><b>坑4 忘了反方。</b>玄学消费已被市场放大成生意（玄学摆件成交额同比 +10 倍、国潮市场 2028 预计破 3 万亿），要警惕被「信仰红利」收割。</div>
+    <span class="hear" data-speak="四个最常踩的坑。第一，贴迷信标签：别说年轻人变愚昧，这是信而不迷。第二，单一归因：别只说是内卷，是多重叠加。第三，把相关当因果：拜佛多不等于变虔诚，多是考试求职时才去。第四，别忘了反方：玄学已被市场做成生意，警惕被收割。">🎧 听晓晓讲易错点</span>
+  </div>
+
+  <div class="card">
+    <h2>六、解题步骤 <span class="tag">标准动作</span></h2>
+    <p>拿到任何社会热点，照这 5 步写，条理立刻清晰：</p>
+    <ol class="steps">
+      <li><b>定位现象</b>：谁、做了什么、情绪是啥？（例：高学历年轻人去寺庙上香、看星座、敲电子木鱼，图个心安）</li>
+      <li><b>找拐点</b>：为什么是这两年火？——不确定性叠加、国潮崛起、AI 让玄学数字化</li>
+      <li><b>拆五根线</b>：①失控求掌控 ②压力找出口 ③国潮赋新意 ④数字破圈走 ⑤社交当货币</li>
+      <li><b>找反方</b>：上香比上班还卷、弱化行动力；市场收割信仰红利；数据有行业报告夸大成分</li>
+      <li><b>升主题</b>：这照见了一代人的「确定性焦虑」，以及文化复兴下传统符号的再创造</li>
+    </ol>
+    <span class="hear" data-speak="拿到任何社会热点，照这五步写。第一步定位现象：谁做了什么、情绪是啥。第二步找拐点：为什么是这两年火。第三步拆五根线：失控、压力、国潮、数字、社交。第四步找反方：上香比上班还卷、市场收割、数据夸大。第五步升主题：照见了确定性焦虑和文化再创造。">🎧 听晓晓讲步骤</span>
+  </div>
+
+  <div class="card">
+    <h2>七、计算演练 <span class="tag">一步步算</span></h2>
+    <p class="hint">老师带你算，每一步点「下一步」并听讲解。数据来自公开报道，目的是练「读数的眼睛」。</p>
+
+    <div class="calcbox">
+      <div class="calcq">题1：携程数据，寺庙景区门票订单同比暴涨 310%。若去年某寺庙年轻游客订单 100 万单，今年约多少？</div>
+      <div class="calcstep" data-i="0"><span class="n">第1步</span>「同比暴涨 310%」意思是：今年 = 去年 ×（1 + 310%）。先算 1 + 310% = <b>4.10</b>。</div>
+      <div class="calcstep" data-i="1"><span class="n">第2步</span>100 万 × 4.10 = <b>410 万单</b>。相当于涨了 3 倍多。</div>
+      <div class="calcstep" data-i="2"><span class="n">答</span>一年从 100 万涨到 410 万。「上香比上班还卷」，真不是夸张。</div>
+      <div class="calcnav">
+        <button class="ctrl primary" id="calc1next">下一步 ▶</button>
+        <button class="ctrl" id="calc1hear">🎧 听这一步</button>
+      </div>
+    </div>
+
+    <div class="calcbox" style="margin-top:14px;">
+      <div class="calcq">题2：后浪研究所调研，68.3% 年轻人日常看星座，76.5% 占卜只为事业财运。若调查 1000 名年轻人，分别是几人？</div>
+      <div class="calcstep" data-g="0"><span class="n">第1步</span>看星座的人数 = 1000 × 68.3% = 1000 × 0.683 = <b>683 人</b>。</div>
+      <div class="calcstep" data-g="1"><span class="n">第2步</span>占卜只为事业财运的人数 = 1000 × 76.5% = 1000 × 0.765 = <b>765 人</b>。</div>
+      <div class="calcstep" data-g="2"><span class="n">答</span>超六成看星座、近八成求的是「钱和事业」——爱情需求反而垫底。说明大家最焦虑的是生存，不是脱单。</div>
+      <div class="calcnav">
+        <button class="ctrl primary" id="calc2next">下一步 ▶</button>
+        <button class="ctrl" id="calc2hear">🎧 听这一步</button>
+      </div>
+    </div>
+
+    <div class="calcbox" style="margin-top:14px;">
+      <div class="calcq">题3：2026《青年情绪白皮书》，58.7% 的青年被「对未来的不确定与失控感」困扰。若调查 1 万人，几人被它困扰？</div>
+      <div class="calcstep" data-h="0"><span class="n">第1步</span>被失控感困扰的人数 = 10000 × 58.7% = 10000 × 0.587。</div>
+      <div class="calcstep" data-h="1"><span class="n">第2步</span>10000 × 0.587 = <b>5870 人</b>。超过一半！</div>
+      <div class="calcstep" data-h="2"><span class="n">答</span>这就是玄学热最底层的真相：不是年轻人爱迷信，是超过半数的年轻人，正活在「抓不住未来」的焦虑里。</div>
+      <div class="calcnav">
+        <button class="ctrl primary" id="calc3next">下一步 ▶</button>
+        <button class="ctrl" id="calc3hear">🎧 听这一步</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>八、学生互动 <span class="tag">同学举手</span></h2>
+    <div class="chat">
+      <div class="bub stu"><span class="who">🧑‍🎓 同学A</span>老师，那我期末考试前，要不要也去庙里拜拜？</div>
+      <div class="bub tea"><span class="who">🧑‍🏫 晓晓老师</span>拜一拜图个安心可以，但别把「上岸」的希望全押在菩萨身上。真正的确定性，来自你刷的每一道题。玄学是锦上添花，不是雪中送炭。</div>
+      <div class="bub stu"><span class="who">🧑‍🎓 同学B</span>可网上都说「上香比上班还卷」，这难道不好吗？</div>
+      <div class="bub tea"><span class="who">🧑‍🏫 晓晓老师</span>适度是解压，过度就成逃避。当「求佛」取代了「努力」，手串就成了安慰剂而不是护身符。关键看你把玄学当「心理按摩」，还是当「人生答案」。</div>
+    </div>
+    <span class="hear" data-speak="同学问考试前要不要拜拜。老师答：图个安心可以，但别把上岸希望全押在菩萨身上，真正的确定性来自你刷的每道题。另一位同学问上香比上班还卷好不好，老师答：适度是解压，过度是逃避，关键看你把玄学当心理按摩还是人生答案。">🎧 听这段互动</span>
+  </div>
+
+  <div class="card feynman">
+    <h2>九、费曼检测 <span class="tag">请你当老师</span> <span class="badge">费曼学习法</span></h2>
+    <p>学没学会，讲出来才知道。请你<b>用自己的话</b>，把「为什么现在的哥哥姐姐爱去寺庙、看星座、敲电子木鱼」讲给一个小学生听（写下来，越简单越好）：</p>
+    <textarea id="feynmanText" placeholder="比如：因为现在的哥哥姐姐觉得未来有点抓不住，考试上班都不一定顺，所以他们想找个简单的方法让自己安心一点……"></textarea>
+    <div class="calcnav">
+      <button class="ctrl primary" id="feynmanCheck">✅ 写好了，对照参考答案</button>
+    </div>
+    <div class="ref" id="feynmanRef">
+      <b>参考说法（挑你写到的点给分）：</b><br>
+      ① 先说现象：很多年轻人去寺庙上香、看星座、敲电子木鱼，图个心安；<br>
+      ② 再说为什么火：现在努力不一定有回报，未来有点抓不住（不确定性）；<br>
+      ③ 拆原因：生活失控想抓点什么（补偿性控制）、压力大需要便宜出口、国潮让传统变潮、AI让玄学随时玩、星座成了聊天话题；<br>
+      ④ 补反方：别把它当迷信，也别被商家收割，更别用求佛代替努力；<br>
+      ⑤ 升主题：这照见了一代人的「确定性焦虑」，以及传统符号的新生命力。<br>
+      <span class="hint">能讲出 ①②③ 就及格，加上 ④⑤ 就是满分老师 🌟</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="hint">📌 本课例题源自热搜 #在上班与上进之间选择了上香# / #年轻人为什么爱逛寺庙#。数据来源：携程《2026 寺庙游报告》、后浪研究所《青年玄学消费调研》、《2026 青年情绪白皮书》、中国社会科学网、艾媒咨询、光明网 / 新浪 / 搜狐公开报道（2026）。想复习原文，可回看本工作区的《玄学热深度分析.md》，也已存入 ima「imao」知识库。</p>
+  </div>
+
+</div>
+
+<!-- 字幕条 -->
+<div class="caption" id="caption"><span class="who">晓晓老师：</span><span id="captionText"></span></div>
+
+<!-- 弹题 -->
+<div class="mask" id="mask">
+  <div class="quiz">
+    <h3>✋ 晓晓老师突然提问</h3>
+    <div class="q" id="quizQ"></div>
+    <div id="quizOpts"></div>
+    <div class="fb" id="quizFb"></div>
+    <button class="ctrl primary next" id="quizNext" style="display:none;">继续听课 ▶</button>
+  </div>
+</div>
+
+<script>
+/* ============ 语音引擎 ============ */
+let voices=[]; let voiceOK=false; let voiceOn=true; let capOn=true;
+function loadVoices(){ try{ voices = speechSynthesis.getVoices(); }catch(e){} }
+if('speechSynthesis' in window){
+  loadVoices();
+  speechSynthesis.onvoiceschanged = loadVoices;
+  voiceOK=true;
+}
+function pickVoice(){
+  // 优先晓晓 / Xiaoxiao 神经网络音色
+  let v = voices.find(x=>/Xiaoxiao|晓晓/i.test(x.name));
+  if(v) return v;
+  v = voices.find(x=>x.lang && x.lang.toLowerCase().startsWith('zh') && /neural|online|natural/i.test(x.name));
+  if(v) return v;
+  v = voices.find(x=>x.lang && x.lang.toLowerCase().startsWith('zh'));
+  return v||null;
+}
+let captionTimer=null;
+function showCaption(text){
+  const cap=document.getElementById('caption');
+  const t=document.getElementById('captionText');
+  if(!capOn){ cap.classList.remove('show'); return; }
+  cap.classList.add('show'); t.textContent=text;
+  cap.scrollTop=cap.scrollHeight;
+}
+let curUtter=null;
+function speak(text, onend){
+  showCaption(text);
+  if(!voiceOK || !voiceOn){ if(onend) setTimeout(onend, 400); return; }
+  try{
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang='zh-CN';
+    const v=pickVoice(); if(v) u.voice=v;
+    u.rate=0.96; u.pitch=1.0; u.volume=1.0;
+    curUtter=u;
+    u.onend=function(){ if(onend) onend(); };
+    u.onerror=function(){ if(onend) onend(); };
+    speechSynthesis.speak(u);
+  }catch(e){ if(onend) onend(); }
+}
+function stopSpeak(){ try{ speechSynthesis.cancel(); }catch(e){} }
+
+/* ============ 单段「听讲解」按钮 ============ */
+document.querySelectorAll('.hear').forEach(el=>{
+  el.addEventListener('click',()=>{ speak(el.getAttribute('data-speak')); });
+});
+
+/* ============ 计算演练 stepper ============ */
+function setupCalc(nextId, hearId, attr){
+  const nextBtn=document.getElementById(nextId);
+  const hearBtn=document.getElementById(hearId);
+  let idx=0;
+  const list=[...document.querySelectorAll('.calcstep['+attr+']')];
+  nextBtn.addEventListener('click',()=>{
+    if(idx<list.length){
+      list[idx].classList.add('show');
+      const t=list[idx].textContent.replace(/第\d步|答/g,'').trim();
+      speak(t);
+      if(idx===list.length-1) nextBtn.textContent='已讲完 ✓';
+      idx++;
+    }
+  });
+  hearBtn.addEventListener('click',()=>{
+    const t=list[Math.min(idx,list.length-1)].textContent.replace(/第\d步|答/g,'').trim();
+    speak(t);
+  });
+}
+setupCalc('calc1next','calc1hear','data-i');
+setupCalc('calc2next','calc2hear','data-g');
+setupCalc('calc3next','calc3hear','data-h');
+
+/* ============ 费曼 ============ */
+document.getElementById('feynmanCheck').addEventListener('click',()=>{
+  const ref=document.getElementById('feynmanRef');
+  ref.classList.add('show');
+  speak('很好，来对照参考答案。能讲出现象、为什么火、五根原因就及格，再加上反方和主题，就是满分老师。');
+  ref.scrollIntoView({behavior:'smooth',block:'center'});
+});
+
+/* ============ 弹题 ============ */
+const quizzes=[
+  { q:'晓晓老师的「正名」口诀第一句，是哪四个字？',
+    opts:['信而不迷是底色','单一归因最省事','迷信回潮要警惕','相关自然成因果'],
+    ans:0, fb:'对啦！先正名：年轻人是「信而不迷」，玄学是兜底的心理安慰，不是变迷信。' },
+  { q:'关于年轻人爱逛寺庙、看星座，最准确的解释是？',
+    opts:['年轻人集体变愚昧了','信而不迷的心理自助','纯粹是因为懒','都是家长逼的'],
+    ans:1, fb:'正确！这是「信而不迷」——努力照常努力，玄学只是缓解焦虑的低成本心理自助。' },
+  { q:'携程数据：寺庙门票订单同比 +310%。若去年某寺年轻游客 100 万单，今年约多少？',
+    opts:['约 110 万','约 310 万','约 410 万','约 1000 万'],
+    ans:2, fb:'答对！100 ×（1+3.10）= 410 万，暴涨 3 倍多。「上香比上班还卷」真不是夸张。' }
+];
+let quizIdx=0, quizBusy=false;
+function openQuiz(qi){
+  if(quizBusy) return; quizBusy=true;
+  const q=quizzes[qi%quizzes.length];
+  document.getElementById('quizQ').textContent=q.q;
+  const box=document.getElementById('quizOpts'); box.innerHTML='';
+  document.getElementById('quizFb').className='fb';
+  document.getElementById('quizFb').classList.remove('show');
+  document.getElementById('quizNext').style.display='none';
+  q.opts.forEach((opt,i)=>{
+    const b=document.createElement('button');
+    b.className='opt'; b.textContent=opt;
+    b.addEventListener('click',()=>{
+      [...box.children].forEach(c=>c.disabled=true);
+      if(i===q.ans){ b.classList.add('right');
+        document.getElementById('quizFb').className='fb ok show';
+        document.getElementById('quizFb').textContent='✅ '+q.fb;
+      }else{ b.classList.add('wrong');
+        box.children[q.ans].classList.add('right');
+        document.getElementById('quizFb').className='fb no show';
+        document.getElementById('quizFb').textContent='❌ 再想想～正确答案已标绿。'+q.fb;
+      }
+      document.getElementById('quizNext').style.display='inline-block';
+      stopSpeak();
+    });
+    box.appendChild(b);
+  });
+  document.getElementById('mask').classList.add('show');
+  speak('同学们，老师突然考你一题：'+q.q);
+}
+document.getElementById('quizNext').addEventListener('click',()=>{
+  document.getElementById('mask').classList.remove('show');
+  quizBusy=false; quizIdx++;
+  if(playing){ setTimeout(()=>stepPlay(),700); }
+});
+
+/* ============ 课堂模式（自动播放 + 不定时提问） ============ */
+const segments=[
+  '同学们好，我是晓晓老师。今天我们用一个真实热搜，在上班与上进之间选择了上香，学会看透社会现象的本领。',
+  '先正名：玄学热不是迷信回潮。年轻人信而不迷，努力照常努力，玄学只是兜底的心理安慰。他们信的是抓不住的确定感。',
+  '记三个核心概念：补偿性控制理论、确定性饥渴、低成本情绪疗愈。生活越失控，越想抓住点什么。',
+  '五根线一起拉：失控求掌控、压力找出口、国潮赋新意、数字破圈走、社交当货币。',
+  '送句口诀：失控求掌控，压力找出口；国潮赋新意，数字破圈走；社交当货币，玄学解千愁。',
+  '四个易错坑要小心：别贴迷信标签、别单一归因、别把相关当因果、别忘了反方。',
+  '下面动手算：寺庙订单涨310%到410万；68.3%看星座、76.5%占卜只为事业财运；58.7%被失控感困扰。',
+  '有同学问考试前要不要拜拜。老师答：图个安心可以，但真正的确定性来自你刷的每道题。最后费曼检测：讲给小学生听为什么哥哥姐姐爱去寺庙。'
+];
+let segIdx=0, playing=false, playTimer=null, surpriseTimer=null;
+function stepPlay(){
+  if(!playing) return;
+  if(segIdx>=segments.length){ playing=false; setStatus('🎓 本节课上完啦！记得完成费曼检测～'); return; }
+  const txt=segments[segIdx];
+  speak(txt, ()=>{ if(!playing) return; segIdx++; setTimeout(stepPlay, 800); });
+}
+function startPlay(){
+  if(!voiceOK){ setStatus('⚠️ 当前浏览器不支持语音，已改为纯字幕模式，仍可点各段「听讲解」按钮（若支持）。'); }
+  playing=true; segIdx=0; setStatus('🔊 晓晓老师正在讲课…（可随时暂停）');
+  stepPlay();
+  // 不定时突然提问：课程进行中安排 2 次突袭
+  clearTimeout(surpriseTimer);
+  scheduleSurprise(22000);
+  scheduleSurprise(52000);
+}
+function scheduleSurprise(ms){
+  surpriseTimer=setTimeout(()=>{
+    if(playing && !quizBusy && segIdx<segments.length){
+      stopSpeak(); playing=false;
+      openQuiz(quizIdx);
+      // 关闭后会在 quizNext 里恢复 playing 并继续
+    }
+  }, ms);
+}
+function setStatus(t){ document.getElementById('status').textContent=t; }
+
+document.getElementById('btnPlay').addEventListener('click',startPlay);
+document.getElementById('btnPause').addEventListener('click',()=>{
+  playing=false; stopSpeak(); clearTimeout(surpriseTimer); setStatus('⏸ 已暂停。点「开始上课」可继续。');
+});
+document.getElementById('btnVoice').addEventListener('click',function(){
+  voiceOn=!voiceOn; this.textContent='🔊 语音：'+(voiceOn?'开':'关'); this.classList.toggle('on',voiceOn);
+  if(!voiceOn) stopSpeak();
+});
+document.getElementById('btnCap').addEventListener('click',function(){
+  capOn=!capOn; this.textContent='📝 字幕：'+(capOn?'开':'关'); this.classList.toggle('on',capOn);
+  if(!capOn) document.getElementById('caption').classList.remove('show');
+});
+
+// 启动提示
+if(!voiceOK){ setStatus('⚠️ 当前环境未检测到语音合成，已降级为字幕+文字模式。建议用 Edge / Chrome 打开本页以听到晓晓老师语音。'); }
+</script>
+</body>
+</html>

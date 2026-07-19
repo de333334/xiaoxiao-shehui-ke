@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>晓晓老师的社会现象分析课 · 以"脱下长衫真香"为例</title>
+<style>
+  :root{
+    --bg:#f4f1ea; --card:#fffdf8; --ink:#2c2a26; --muted:#7a7468;
+    --tea:#c8553d; --tea2:#e07a5f; --green:#3a7d5d; --green2:#5aa17e;
+    --blue:#3d6c9c; --line:#e6dfd2; --soft:#f0ece2;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    font-size:17px;line-height:1.85;}
+  /* 顶部教师栏 */
+  .topbar{position:sticky;top:0;z-index:30;background:linear-gradient(135deg,#fffdf8,#f3ece0);
+    border-bottom:1px solid var(--line);padding:10px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+  .avatar{width:46px;height:46px;border-radius:50%;background:#ffe6d6;display:flex;
+    align-items:center;justify-content:center;font-size:26px;flex:0 0 auto;box-shadow:0 2px 5px rgba(0,0,0,.08);}
+  .tinfo b{font-size:17px;color:var(--tea);} .tinfo span{font-size:12px;color:var(--muted);display:block;}
+  .controls{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;}
+  button.ctrl{font-family:inherit;font-size:14px;border:1px solid var(--line);background:#fff;
+    color:var(--ink);padding:8px 13px;border-radius:20px;cursor:pointer;transition:.15s;}
+  button.ctrl:hover{background:var(--soft);}
+  button.ctrl.primary{background:var(--tea);color:#fff;border-color:var(--tea);}
+  button.ctrl.primary:hover{background:var(--tea2);}
+  button.ctrl.on{background:var(--green);color:#fff;border-color:var(--green);}
+  .status{font-size:12px;color:var(--muted);width:100%;margin-top:2px;}
+
+  .wrap{max-width:820px;margin:0 auto;padding:18px 16px 140px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:20px 22px;margin:18px 0;box-shadow:0 2px 8px rgba(120,100,70,.06);}
+  .card h2{margin:0 0 6px;font-size:21px;color:var(--tea);display:flex;align-items:center;gap:8px;}
+  .card .tag{font-size:12px;color:#fff;background:var(--tea2);padding:2px 9px;border-radius:10px;}
+  .lead{background:#fff6ef;border-left:4px solid var(--tea2);padding:14px 16px;border-radius:8px;margin:14px 0;}
+  .kp{background:var(--soft);border-radius:10px;padding:12px 15px;margin:10px 0;}
+  .kp b{color:var(--green);}
+  .mnemonic{background:#eef6f0;border:1px dashed var(--green2);border-radius:10px;
+    padding:14px 16px;margin:12px 0;font-size:18px;text-align:center;letter-spacing:1px;color:var(--green);}
+  .pitfall{border-left:4px solid #d98b2b;background:#fdf3e3;padding:11px 14px;border-radius:8px;margin:10px 0;}
+  .pitfall b{color:#b9701a;}
+  ol.steps{counter-reset:s;padding-left:0;list-style:none;}
+  ol.steps li{position:relative;padding:12px 14px 12px 52px;margin:10px 0;background:var(--soft);
+    border-radius:10px;}
+  ol.steps li:before{counter-increment:s;content:counter(s);position:absolute;left:14px;top:12px;
+    width:26px;height:26px;border-radius:50%;background:var(--tea);color:#fff;font-weight:700;
+    display:flex;align-items:center;justify-content:center;font-size:14px;}
+  .hear{font-size:13px;color:var(--tea);cursor:pointer;border:1px solid var(--tea2);
+    background:#fff;border-radius:16px;padding:4px 12px;margin-top:8px;display:inline-block;user-select:none;}
+  .hear:hover{background:#fff0ea;}
+
+  /* 学生互动 */
+  .chat{margin:10px 0;}
+  .bub{max-width:88%;padding:10px 14px;border-radius:14px;margin:9px 0;font-size:15.5px;}
+  .stu{background:#e8eef6;border-top-left-radius:4px;}
+  .stu .who{font-size:12px;color:var(--blue);font-weight:700;display:block;margin-bottom:2px;}
+  .tea{background:#fff0ea;border-top-right-radius:4px;margin-left:auto;border:1px solid #f3d8cb;}
+  .tea .who{font-size:12px;color:var(--tea);font-weight:700;display:block;margin-bottom:2px;text-align:right;}
+
+  /* 计算演练 stepper */
+  .calcbox{border:1px solid var(--blue);border-radius:12px;padding:16px;background:#f6f9fd;}
+  .calcq{font-weight:700;color:var(--blue);margin-bottom:8px;}
+  .calcstep{display:none;background:#fff;border-left:3px solid var(--green2);padding:10px 14px;
+    margin:8px 0;border-radius:6px;animation:fade .4s;}
+  .calcstep.show{display:block;}
+  .calcstep .n{color:var(--green);font-weight:700;margin-right:6px;}
+  .calcnav{margin-top:10px;display:flex;gap:8px;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+  /* 字幕条 */
+  .caption{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(34,30,26,.94);
+    color:#fff;padding:12px 18px 14px;font-size:16px;line-height:1.6;max-height:130px;overflow-y:auto;
+    border-top:3px solid var(--tea2);display:none;}
+  .caption.show{display:block;}
+  .caption .who{color:var(--tea2);font-weight:700;margin-right:6px;}
+
+  /* 弹题 modal */
+  .mask{position:fixed;inset:0;background:rgba(20,16,12,.55);z-index:50;display:none;
+    align-items:center;justify-content:center;padding:18px;}
+  .mask.show{display:flex;}
+  .quiz{background:#fff;border-radius:16px;max-width:460px;width:100%;padding:22px;
+    box-shadow:0 10px 40px rgba(0,0,0,.25);animation:pop .3s;}
+  @keyframes pop{from{transform:scale(.9);opacity:0;}to{transform:none;opacity:1;}}
+  .quiz h3{margin:0 0 6px;color:var(--tea);font-size:19px;}
+  .quiz .q{margin:10px 0 14px;}
+  .opt{display:block;width:100%;text-align:left;font-family:inherit;font-size:15px;
+    border:1px solid var(--line);background:#fbf8f2;padding:11px 14px;border-radius:10px;
+    margin:8px 0;cursor:pointer;transition:.15s;}
+  .opt:hover{background:#f1ece1;}
+  .opt.right{background:#e7f4ec;border-color:var(--green2);color:var(--green);font-weight:700;}
+  .opt.wrong{background:#fbe7e1;border-color:#d98b6b;color:#b5482f;}
+  .opt:disabled{cursor:default;}
+  .fb{font-size:14px;margin-top:10px;padding:10px 12px;border-radius:8px;display:none;}
+  .fb.show{display:block;}
+  .fb.ok{background:#e7f4ec;color:var(--green);}
+  .fb.no{background:#fbe7e1;color:#b5482f;}
+  .quiz .next{margin-top:12px;}
+
+  /* 费曼 */
+  .feynman textarea{width:100%;min-height:120px;font-family:inherit;font-size:15px;
+    border:1px solid var(--line);border-radius:10px;padding:12px;resize:vertical;}
+  .ref{display:none;background:var(--soft);border-radius:10px;padding:14px;margin-top:10px;border-left:3px solid var(--green2);}
+  .ref.show{display:block;}
+
+  .hint{font-size:13px;color:var(--muted);}
+  .badge{display:inline-block;background:#eef6f0;color:var(--green);font-size:12px;
+    padding:2px 9px;border-radius:10px;margin-left:6px;}
+  a.link{color:var(--blue);}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="avatar">🧑‍🏫</div>
+  <div class="tinfo"><b>晓晓老师</b><span>神经网络语音 · 社会现象分析互动课</span></div>
+  <div class="controls">
+    <button class="ctrl primary" id="btnPlay">▶ 开始上课（语音）</button>
+    <button class="ctrl" id="btnPause">⏸ 暂停</button>
+    <button class="ctrl on" id="btnVoice">🔊 语音：开</button>
+    <button class="ctrl on" id="btnCap">📝 字幕：开</button>
+  </div>
+  <div class="status" id="status">提示：首次播放请点「开始上课」。建议在 Edge / Chrome 中打开以加载「晓晓」神经网络音色。</div>
+</div>
+
+<div class="wrap">
+
+  <div class="card">
+    <h2>📖 今天学什么 <span class="tag">课题</span></h2>
+    <div class="lead">
+      同学们好，我是晓晓老师。今天我们拿一个真实热搜
+      <b>#脱下长衫才发现打工有多爽#</b>（2026年7月爆火，阅读破5亿）当例子，
+      学会一套<b>「看透社会现象」</b>的本领。这不仅是聊天谈资，更是你备考公基、申论时最该会写的「分析题」套路。
+    </div>
+    <span class="hear" data-speak="同学们好，我是晓晓老师。今天我们拿一个真实热搜，脱下长衫才发现打工有多爽，当例子，学会一套看透社会现象的本领。这不仅是聊天谈资，更是你备考公基申论时最该会写的分析题套路。">🎧 听晓晓讲这段</span>
+  </div>
+
+  <div class="card">
+    <h2>一、知识点 <span class="tag">要记住</span></h2>
+    <p>分析任何热点前，先抓住这 <b>3 个核心概念</b>：</p>
+    <div class="kp"><b>① 情绪转向：</b>同一群人，动词变了。从「脱不掉」（无奈、自嘲）变成「脱了真香」（主动、松口气）。主语没变，态度变了——这就是新闻点。</div>
+    <div class="kp"><b>② 学历价值契约：</b>过去社会和家长默认一条规矩：<i>砸钱读书 → 换好工作</i>。现在这纸「契约」悄悄贬值了——书读了，好工作没来。</div>
+    <div class="kp"><b>③ 幸存者偏差：</b>网上晒「真香」的都是赢家，沉默的大多数不会发帖。只看一边，判断就歪了。</div>
+    <span class="hear" data-speak="分析任何热点前，先抓住三个核心概念。第一，情绪转向：同一群人，动词变了，从脱不掉变成脱了真香。第二，学历价值契约：过去默认砸钱读书换好工作，现在这纸契约悄悄贬值了。第三，幸存者偏差：网上晒真香的都是有本事的赢家，沉默的大多数不会发帖，只看一边判断就歪了。">🎧 听晓晓讲知识点</span>
+  </div>
+
+  <div class="card">
+    <h2>二、口诀 <span class="tag">背下来</span></h2>
+    <p>分析社会现象，五步走，我编了句顺口溜：</p>
+    <div class="mnemonic">现象先定位，拐点看年份；<br>四层往下剥，反方不能省；<br>最后升主题，才算想得深。</div>
+    <ul>
+      <li><b>现象先定位</b>：谁、做了什么、情绪是啥？</li>
+      <li><b>拐点看年份</b>：为什么偏偏是今年火？（找势能在哪年叠满）</li>
+      <li><b>四层往下剥</b>：契约 / 结构 / 用工 / 心理，一层层拆</li>
+      <li><b>反方不能省</b>：找反例、找数据反面，别一边倒</li>
+      <li><b>最后升主题</b>：这照见了什么时代变化？</li>
+    </ul>
+    <span class="hear" data-speak="分析社会现象五步走，我编了句顺口溜：现象先定位，拐点看年份，四层往下剥，反方不能省，最后升主题，才算想得深。定位就是看谁做了什么、情绪是啥；拐点就是看为什么偏偏今年火；四层是契约、结构、用工、心理；反方是找反面例子；主题是把镜头拉远看时代。">🎧 听晓晓念口诀</span>
+  </div>
+
+  <div class="card">
+    <h2>三、易错点 <span class="tag">别踩坑</span></h2>
+    <div class="pitfall"><b>坑1 把「现象」当「原因」。</b>热搜火了 ≠ 年轻人想通了。可能是「穿着长衫的成本」太高，逼得大家算不过账。</div>
+    <div class="pitfall"><b>坑2 单一归因。</b>「都是年轻人眼高手低」——错。这是结构问题（岗位、收入、用工模式），不是个人态度问题。</div>
+    <div class="pitfall"><b>坑3 幸存者偏差。</b>只看晒「爽」的，忘了没爽的。样本不全，结论就飘。</div>
+    <div class="pitfall"><b>坑4 把「相关」当「因果」。</b>灵活就业变多和 AI 有关，但不全是 AI 的锅，别张冠李戴。</div>
+    <span class="hear" data-speak="四个最常踩的坑。第一，把现象当原因：热搜火了不等于年轻人想通了，可能是成本太高逼的。第二，单一归因：别说是眼高手低，这是结构问题。第三，幸存者偏差：只看晒爽的，忘了没爽的。第四，把相关当因果：灵活就业变多和AI有关，但不全是AI的锅。">🎧 听晓晓讲易错点</span>
+  </div>
+
+  <div class="card">
+    <h2>四、解题步骤 <span class="tag">标准动作</span></h2>
+    <p>拿到任何社会热点，照这 5 步写，条理立刻清晰：</p>
+    <ol class="steps">
+      <li><b>定位现象</b>：谁、做了什么、情绪是啥？（例：高学历年轻人主动去做体力/服务/自由职业，情绪从无奈变轻松）</li>
+      <li><b>找拐点</b>：为什么是今年？三股势能叠满——考研退烧、灵活就业变支柱、AI抽走学历溢价</li>
+      <li><b>拆四层</b>：①学历契约破裂 ②劳动力结构错配 ③企业灵活用工重构 ④心理ROI重构</li>
+      <li><b>找反方</b>：幸存者偏差、养老参保率仅29.5%、平台已内卷——同一枚硬币的另一面</li>
+      <li><b>升主题</b>：政策从「高质量就业」转向「灵活就业」；单一成功标准在松动；真问题是「凭什么只有坐办公室才叫成功」</li>
+    </ol>
+    <span class="hear" data-speak="拿到任何社会热点，照这五步写。第一步定位现象：谁做了什么、情绪是啥。第二步找拐点：为什么是今年，三股势能叠满。第三步拆四层：学历契约破裂、结构错配、企业灵活用工、心理算账。第四步找反方：幸存者偏差、养老参保率低、平台内卷。第五步升主题：政策转向、成功标准松动、真问题是凭什么只有坐办公室才叫成功。">🎧 听晓晓讲步骤</span>
+  </div>
+
+  <div class="card">
+    <h2>五、计算演练 <span class="tag">一步步算</span></h2>
+    <p class="hint">老师带你算，每一步点「下一步」并听讲解。数据都来自公开报道，目的是练「读数的眼睛」。</p>
+
+    <div class="calcbox">
+      <div class="calcq">题1：考研人数 2023 年 474 万，2026 年 343 万。三年减少了多少万？约下降百分之几？</div>
+      <div class="calcstep" data-i="0"><span class="n">第1步</span>先算「少了几个」：用大的减小的。474 − 343 = <b>131（万）</b>。所以三年少了 131 万人。</div>
+      <div class="calcstep" data-i="1"><span class="n">第2步</span>再算「下降了百分之几」：公式 = 减少量 ÷ 原来总量。也就是 131 ÷ 474。</div>
+      <div class="calcstep" data-i="2"><span class="n">第3步</span>动手除：474 × 0.27 = 127.98，离 131 还差一点；474 × 0.276 ≈ 130.8，很接近 131。所以 ≈ <b>0.276 = 27.6%</b>。</div>
+      <div class="calcstep" data-i="3"><span class="n">答</span>三年减少 <b>131 万</b>人，约下降 <b>27.6%</b>。这就是「上岸神话退烧」的硬数据。</div>
+      <div class="calcnav">
+        <button class="ctrl primary" id="calc1next">下一步 ▶</button>
+        <button class="ctrl" id="calc1hear">🎧 听这一步</button>
+      </div>
+    </div>
+
+    <div class="calcbox" style="margin-top:14px;">
+      <div class="calcq">题2：灵活就业 3.2 亿，占城镇就业「超 40%」。若城镇就业约 7.4 亿，验证一下对不对。</div>
+      <div class="calcstep" data-g="0"><span class="n">第1步</span>占比 = 部分 ÷ 整体 = 3.2 ÷ 7.4。先同时 ×10 变成 32 ÷ 74。</div>
+      <div class="calcstep" data-g="1"><span class="n">第2步</span>32 ÷ 74 = 16 ÷ 37 ≈ <b>0.432</b>。化成百分数就是 <b>43.2%</b>。</div>
+      <div class="calcstep" data-g="2"><span class="n">答</span>43.2% 确实「超 40%」✓。说明灵活就业已从「补充」变成「支柱」。</div>
+      <div class="calcnav">
+        <button class="ctrl primary" id="calc2next">下一步 ▶</button>
+        <button class="ctrl" id="calc2hear">🎧 听这一步</button>
+      </div>
+    </div>
+
+    <div class="calcbox" style="margin-top:14px;">
+      <div class="calcq">题3：灵活就业者职工养老参保率只有 29.5%。那没参保的占多少？</div>
+      <div class="calcstep" data-h="0"><span class="n">第1步</span>全体是 100%。没参保 = 100% − 已参保。</div>
+      <div class="calcstep" data-h="1"><span class="n">第2步</span>100% − 29.5% = <b>70.5%</b>。也就是超过七成的人，未来养老金是个大问号。</div>
+      <div class="calcstep" data-h="2"><span class="n">答</span>这就是「脱了长衫真爽」背后，被忽略的另一半真相：自由的另一面是没有兜底。</div>
+      <div class="calcnav">
+        <button class="ctrl primary" id="calc3next">下一步 ▶</button>
+        <button class="ctrl" id="calc3hear">🎧 听这一步</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>六、学生互动 <span class="tag">同学举手</span></h2>
+    <div class="chat">
+      <div class="bub stu"><span class="who">🧑‍🎓 同学A</span>老师，那我以后该不该「脱长衫」啊？</div>
+      <div class="bub tea"><span class="who">🧑‍🏫 晓晓老师</span>这不是「该不该」，是「算不算得过来」。先想清楚你要的是稳定还是自由，再给两样东西称重。没有标准答案，只有适合你的账。</div>
+      <div class="bub stu"><span class="who">🧑‍🎓 同学B</span>可网上大家都说「爽」，您为啥非让我找反方？</div>
+      <div class="bub tea"><span class="who">🧑‍🏫 晓晓老师</span>因为上网的人爱晒好消息，沉默的人不会发帖。只看一边，你的判断就歪了。真正的聪明，是主动去找和自己不一样的声音。</div>
+    </div>
+    <span class="hear" data-speak="同学问该不该脱长衫。老师答：这不是该不该，是算不算得过来，先想清楚要稳定还是要自由，再称重。另一位同学问为啥找反方，因为上网的人爱晒好消息，沉默的人不发帖，只看一边判断就歪了。">🎧 听这段互动</span>
+  </div>
+
+  <div class="card feynman">
+    <h2>七、费曼检测 <span class="tag">请你当老师</span> <span class="badge">费曼学习法</span></h2>
+    <p>学没学会，讲出来才知道。请你<b>用自己的话</b>，把「为什么脱下长衫会火」讲给一个小学生听（写下来，越简单越好）：</p>
+    <textarea id="feynmanText" placeholder="比如：因为现在好多大学生发现，坐在办公室并不一定比干别的更舒服、更赚钱……"></textarea>
+    <div class="calcnav">
+      <button class="ctrl primary" id="feynmanCheck">✅ 写好了，对照参考答案</button>
+    </div>
+    <div class="ref" id="feynmanRef">
+      <b>参考说法（挑你写到的点给分）：</b><br>
+      ① 先说现象：高学历年轻人主动去做体力/服务/自由职业，还觉得挺爽；<br>
+      ② 再说为什么现在火：考研退烧了、灵活就业成了主流、AI让普通文凭没那么值钱；<br>
+      ③ 拆原因：读书换好工作的老规矩不灵了、坐办公室和干活的工资差距变小、公司爱用临时工、年轻人更看重自由；<br>
+      ④ 补反方：网上晒爽的是少数，很多人没社保、平台也卷；<br>
+      ⑤ 升主题：社会开始承认，成功不只有「坐办公室」这一种活法。<br>
+      <span class="hint">能讲出 ①②③ 就及格，加上 ④⑤ 就是满分老师 🌟</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="hint">📌 本课例题源自热搜 #脱下长衫才发现打工有多爽#。数据来源：微博公开数据、麦可思研究院、中国新就业形态研究中心、人民网 / 环球时报社评（2026）。想复习原文，可回看本工作区的《脱下长衫深度分析.md》。</p>
+  </div>
+
+</div>
+
+<!-- 字幕条 -->
+<div class="caption" id="caption"><span class="who">晓晓老师：</span><span id="captionText"></span></div>
+
+<!-- 弹题 -->
+<div class="mask" id="mask">
+  <div class="quiz">
+    <h3>✋ 晓晓老师突然提问</h3>
+    <div class="q" id="quizQ"></div>
+    <div id="quizOpts"></div>
+    <div class="fb" id="quizFb"></div>
+    <button class="ctrl primary next" id="quizNext" style="display:none;">继续听课 ▶</button>
+  </div>
+</div>
+
+<script>
+/* ============ 语音引擎 ============ */
+let voices=[]; let voiceOK=false; let voiceOn=true; let capOn=true;
+function loadVoices(){ try{ voices = speechSynthesis.getVoices(); }catch(e){} }
+if('speechSynthesis' in window){
+  loadVoices();
+  speechSynthesis.onvoiceschanged = loadVoices;
+  voiceOK=true;
+}
+function pickVoice(){
+  // 优先晓晓 / Xiaoxiao 神经网络音色
+  let v = voices.find(x=>/Xiaoxiao|晓晓/i.test(x.name));
+  if(v) return v;
+  v = voices.find(x=>x.lang && x.lang.toLowerCase().startsWith('zh') && /neural|online|natural/i.test(x.name));
+  if(v) return v;
+  v = voices.find(x=>x.lang && x.lang.toLowerCase().startsWith('zh'));
+  return v||null;
+}
+let captionTimer=null;
+function showCaption(text){
+  const cap=document.getElementById('caption');
+  const t=document.getElementById('captionText');
+  if(!capOn){ cap.classList.remove('show'); return; }
+  cap.classList.add('show'); t.textContent=text;
+  cap.scrollTop=cap.scrollHeight;
+}
+let curUtter=null;
+function speak(text, onend){
+  showCaption(text);
+  if(!voiceOK || !voiceOn){ if(onend) setTimeout(onend, 400); return; }
+  try{
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang='zh-CN';
+    const v=pickVoice(); if(v) u.voice=v;
+    u.rate=0.96; u.pitch=1.0; u.volume=1.0;
+    curUtter=u;
+    u.onend=function(){ if(onend) onend(); };
+    u.onerror=function(){ if(onend) onend(); };
+    speechSynthesis.speak(u);
+  }catch(e){ if(onend) onend(); }
+}
+function stopSpeak(){ try{ speechSynthesis.cancel(); }catch(e){} }
+
+/* ============ 单段「听讲解」按钮 ============ */
+document.querySelectorAll('.hear').forEach(el=>{
+  el.addEventListener('click',()=>{ speak(el.getAttribute('data-speak')); });
+});
+
+/* ============ 计算演练 stepper ============ */
+function setupCalc(nextId, hearId, attr, steps){
+  const nextBtn=document.getElementById(nextId);
+  const hearBtn=document.getElementById(hearId);
+  let idx=0;
+  const list=[...document.querySelectorAll('.calcstep['+attr+']')];
+  const texts=list.map(d=>d.textContent.replace(/^第\d步|答/g,'').trim());
+  function reveal(i){
+    if(i<list.length){ list[i].classList.add('show'); idx=i; }
+  }
+  nextBtn.addEventListener('click',()=>{
+    if(idx<list.length){ reveal(idx);
+      const t=list[idx].textContent.replace(/第\d步|答/g,'').trim();
+      speak(t);
+      if(idx===list.length-1) nextBtn.textContent='已讲完 ✓';
+      idx++;
+    }
+  });
+  hearBtn.addEventListener('click',()=>{
+    const t=list[Math.min(idx,list.length-1)].textContent.replace(/第\d步|答/g,'').trim();
+    speak(t);
+  });
+}
+setupCalc('calc1next','calc1hear','data-i');
+setupCalc('calc2next','calc2hear','data-g');
+setupCalc('calc3next','calc3hear','data-h');
+
+/* ============ 费曼 ============ */
+document.getElementById('feynmanCheck').addEventListener('click',()=>{
+  const ref=document.getElementById('feynmanRef');
+  ref.classList.add('show');
+  speak('很好，来对照参考答案。能讲出现象、拐点、四层原因就及格，再加上反方和主题，就是满分老师。');
+  ref.scrollIntoView({behavior:'smooth',block:'center'});
+});
+
+/* ============ 弹题 ============ */
+const quizzes=[
+  { q:'晓晓老师的分析口诀，第一步是哪四个字？',
+    opts:['四层往下剥','现象先定位','最后升主题','反方不能省'],
+    ans:1, fb:'对啦！先「定位现象」：谁、做了什么、情绪是啥，才能往下分析。' },
+  { q:'「网上大家都晒真香，所以脱长衫一定很爽」犯了哪个易错点？',
+    opts:['把现象当原因','幸存者偏差','单一归因','把相关当因果'],
+    ans:1, fb:'正是「幸存者偏差」！晒爽的是少数赢家，沉默的大多数不会发帖。' },
+  { q:'考研人数从 474 万降到 343 万，减少约百分之几？',
+    opts:['约 10%','约 27.6%','约 50%','约 70%'],
+    ans:1, fb:'答对！(474−343)÷474 ≈ 27.6%，这就是「上岸退烧」的硬数据。' }
+];
+let quizIdx=0, quizBusy=false;
+function openQuiz(qi){
+  if(quizBusy) return; quizBusy=true;
+  const q=quizzes[qi%quizzes.length];
+  document.getElementById('quizQ').textContent=q.q;
+  const box=document.getElementById('quizOpts'); box.innerHTML='';
+  document.getElementById('quizFb').className='fb';
+  document.getElementById('quizFb').classList.remove('show');
+  document.getElementById('quizNext').style.display='none';
+  q.opts.forEach((opt,i)=>{
+    const b=document.createElement('button');
+    b.className='opt'; b.textContent=opt;
+    b.addEventListener('click',()=>{
+      [...box.children].forEach(c=>c.disabled=true);
+      if(i===q.ans){ b.classList.add('right');
+        document.getElementById('quizFb').className='fb ok show';
+        document.getElementById('quizFb').textContent='✅ '+q.fb;
+      }else{ b.classList.add('wrong');
+        box.children[q.ans].classList.add('right');
+        document.getElementById('quizFb').className='fb no show';
+        document.getElementById('quizFb').textContent='❌ 再想想～正确答案已标绿。'+q.fb;
+      }
+      document.getElementById('quizNext').style.display='inline-block';
+      stopSpeak();
+    });
+    box.appendChild(b);
+  });
+  document.getElementById('mask').classList.add('show');
+  speak('同学们，老师突然考你一题：'+q.q);
+}
+document.getElementById('quizNext').addEventListener('click',()=>{
+  document.getElementById('mask').classList.remove('show');
+  quizBusy=false; quizIdx++;
+  if(playing){ setTimeout(()=>stepPlay(),700); }
+});
+
+/* ============ 课堂模式（自动播放 + 不定时提问） ============ */
+const segments=[
+  '同学们好，我是晓晓老师。今天我们用热搜脱下长衫真香，学会看透社会现象的本领。',
+  '先记三个知识点：情绪转向、学历价值契约、幸存者偏差。主语没变，动词从脱不掉变成脱了真香。',
+  '送大家一句口诀：现象先定位，拐点看年份，四层往下剥，反方不能省，最后升主题，才算想得深。',
+  '四个易错坑要小心：别把现象当原因，别单一归因，别掉进幸存者偏差，别把相关当因果。',
+  '标准解题五步：定位现象、找拐点、拆四层、找反方、升主题。下面我们动手算几道题。',
+  '计算题练的是读数的眼睛。考研三年减少131万，约降27.6%；灵活就业占城镇就业43.2%，确实超40%；养老参保率29.5%，意味着超七成没兜底。',
+  '有同学问该不该脱长衫。老师答：这不是该不该，是算不算得过来，先想清楚要稳定还是要自由。',
+  '最后费曼检测：请你用自己的话，讲给小学生听为什么这事会火。能讲出现象、拐点、四层原因就及格。'
+];
+let segIdx=0, playing=false, playTimer=null, surpriseTimer=null;
+function stepPlay(){
+  if(!playing) return;
+  if(segIdx>=segments.length){ playing=false; setStatus('🎓 本节课上完啦！记得完成费曼检测～'); return; }
+  const txt=segments[segIdx];
+  speak(txt, ()=>{ if(!playing) return; segIdx++; setTimeout(stepPlay, 800); });
+}
+function startPlay(){
+  if(!voiceOK){ setStatus('⚠️ 当前浏览器不支持语音，已改为纯字幕模式，仍可点各段「听讲解」按钮（若支持）。'); }
+  playing=true; segIdx=0; setStatus('🔊 晓晓老师正在讲课…（可随时暂停）');
+  stepPlay();
+  // 不定时突然提问：课程进行中安排 2 次突袭
+  clearTimeout(surpriseTimer);
+  scheduleSurprise(22000);
+  scheduleSurprise(52000);
+}
+function scheduleSurprise(ms){
+  surpriseTimer=setTimeout(()=>{
+    if(playing && !quizBusy && segIdx<segments.length){
+      stopSpeak(); playing=false;
+      openQuiz(quizIdx);
+      // 关闭后会在 quizNext 里恢复 playing 并继续
+    }
+  }, ms);
+}
+function setStatus(t){ document.getElementById('status').textContent=t; }
+
+document.getElementById('btnPlay').addEventListener('click',startPlay);
+document.getElementById('btnPause').addEventListener('click',()=>{
+  playing=false; stopSpeak(); clearTimeout(surpriseTimer); setStatus('⏸ 已暂停。点「开始上课」可继续。');
+});
+document.getElementById('btnVoice').addEventListener('click',function(){
+  voiceOn=!voiceOn; this.textContent='🔊 语音：'+(voiceOn?'开':'关'); this.classList.toggle('on',voiceOn);
+  if(!voiceOn) stopSpeak();
+});
+document.getElementById('btnCap').addEventListener('click',function(){
+  capOn=!capOn; this.textContent='📝 字幕：'+(capOn?'开':'关'); this.classList.toggle('on',capOn);
+  if(!capOn) document.getElementById('caption').classList.remove('show');
+});
+
+// 启动提示
+if(!voiceOK){ setStatus('⚠️ 当前环境未检测到语音合成，已降级为字幕+文字模式。建议用 Edge / Chrome 打开本页以听到晓晓老师语音。'); }
+</script>
+</body>
+</html>

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>晓晓老师的课 · 为什么一群大叔集体去染黄毛？</title>
+<style>
+  :root{
+    --bg1:#fff7ec; --bg2:#ffe9d6; --ink:#3a2b1f; --soft:#6b5645;
+    --tea:#ff9a3c; --tea-d:#f4791f; --bub-t:#fff3e2; --bub-s:#e8f3ff;
+    --line:#f0d9bf; --ok:#3fa34d; --card:#ffffff;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;}
+  body{
+    font-family:"PingFang SC","Microsoft YaHei","Hiragino Sans GB",system-ui,sans-serif;
+    color:var(--ink); background:linear-gradient(160deg,var(--bg1),var(--bg2));
+    display:flex; flex-direction:column; height:100vh; overflow:hidden;
+  }
+  header{
+    flex:0 0 auto; padding:10px 18px; display:flex; align-items:center; gap:12px;
+    background:rgba(255,255,255,.7); border-bottom:1px solid var(--line); backdrop-filter:blur(6px);
+  }
+  header .logo{font-size:26px;}
+  header h1{font-size:16px; margin:0; font-weight:800; letter-spacing:.3px;}
+  header .tag{font-size:11px; color:var(--soft); margin-top:2px;}
+  header .voice-note{margin-left:auto; font-size:11px; color:var(--tea-d); background:#fff2e2;
+    border:1px solid var(--line); padding:4px 10px; border-radius:999px;}
+
+  /* stage */
+  .stage{flex:1 1 auto; position:relative; overflow:hidden; display:flex; flex-direction:column;}
+  .visual{
+    flex:0 0 auto; min-height:170px; display:flex; align-items:center; justify-content:center;
+    padding:14px; position:relative;
+  }
+  .visual .card{
+    background:var(--card); border:1px solid var(--line); border-radius:20px;
+    box-shadow:0 8px 24px rgba(244,121,31,.12); padding:18px 22px; max-width:640px; text-align:center;
+  }
+  .visual .emoji{font-size:54px; line-height:1; display:block; margin-bottom:6px;}
+  .visual .cap{font-size:13px; color:var(--soft); line-height:1.6;}
+  .visual svg{display:block; margin:0 auto;}
+
+  .chat{flex:1 1 auto; overflow-y:auto; padding:8px 16px 14px; display:flex; flex-direction:column; gap:10px;}
+  .row{display:flex; gap:10px; align-items:flex-end; max-width:82%;}
+  .row.teacher{align-self:flex-start;}
+  .row.student{align-self:flex-end; flex-direction:row-reverse;}
+  .ava{flex:0 0 auto; width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px;
+    box-shadow:0 2px 6px rgba(0,0,0,.12);}
+  .row.teacher .ava{background:linear-gradient(135deg,#ffd29a,#ff9a3c);}
+  .row.student .ava{background:linear-gradient(135deg,#bfe0ff,#7cc0ff);}
+  .bubble{background:var(--bub-t); border:1px solid var(--line); border-radius:16px; padding:10px 14px; font-size:15px; line-height:1.7; white-space:pre-wrap;}
+  .row.student .bubble{background:var(--bub-s); border-color:#cfe6ff;}
+  .name{font-size:11px; color:var(--soft); margin-bottom:3px; font-weight:700;}
+
+  /* subtitle */
+  .subtitle{
+    flex:0 0 auto; background:rgba(36,24,14,.86); color:#fff; padding:14px 20px 16px;
+    font-size:19px; line-height:1.7; min-height:64px; display:flex; align-items:center; gap:10px;
+    border-top:3px solid var(--tea);
+  }
+  .subtitle .now{font-size:12px; color:#ffcf9e; flex:0 0 auto; font-weight:700;}
+  .subtitle.hide{display:none;}
+  .subtitle .txt{flex:1 1 auto;}
+
+  /* controls */
+  .controls{flex:0 0 auto; display:flex; align-items:center; gap:8px; padding:9px 16px;
+    background:rgba(255,255,255,.8); border-top:1px solid var(--line); flex-wrap:wrap;}
+  .btn{border:1px solid var(--line); background:#fff; color:var(--ink); border-radius:10px;
+    padding:8px 14px; font-size:13px; font-weight:700; cursor:pointer; transition:.15s;}
+  .btn:hover{background:#fff3e2;}
+  .btn.primary{background:linear-gradient(135deg,var(--tea),var(--tea-d)); color:#fff; border-color:transparent;}
+  .btn:disabled{opacity:.45; cursor:not-allowed;}
+  .controls select{border:1px solid var(--line); border-radius:10px; padding:7px 8px; font-size:13px; background:#fff;}
+  .progress{flex:1 1 100%; height:6px; background:#f0d9bf; border-radius:999px; overflow:hidden; margin-top:4px;}
+  .progress > i{display:block; height:100%; width:0; background:linear-gradient(90deg,var(--tea),var(--tea-d)); transition:width .3s;}
+
+  /* question modal */
+  .modal{position:absolute; inset:0; background:rgba(40,26,14,.55); display:none; align-items:center; justify-content:center; padding:18px; z-index:20;}
+  .modal.show{display:flex;}
+  .qcard{background:#fff; border-radius:20px; max-width:560px; width:100%; padding:22px 24px; box-shadow:0 18px 50px rgba(0,0,0,.3);}
+  .qcard h3{margin:0 0 6px; font-size:17px; color:var(--tea-d); display:flex; align-items:center; gap:8px;}
+  .qcard .q{font-size:16px; line-height:1.7; margin:10px 0 14px; font-weight:700;}
+  .qcard .hint{font-size:13px; color:var(--soft); background:#fff7ec; border:1px dashed var(--line); border-radius:10px; padding:8px 12px; margin-bottom:12px;}
+  .qcard textarea{width:100%; min-height:74px; border:1px solid var(--line); border-radius:12px; padding:10px 12px; font-size:14px; resize:vertical; font-family:inherit;}
+  .qcard .acts{display:flex; gap:10px; margin-top:12px; justify-content:flex-end;}
+  .answer{display:none; margin-top:14px; background:#f3fbf4; border:1px solid #bfe6c5; border-radius:12px; padding:12px 14px;}
+  .answer b{color:var(--ok);}
+  .answer .a{font-size:14px; line-height:1.75; margin-top:6px;}
+
+  /* start overlay */
+  .start{position:absolute; inset:0; background:linear-gradient(160deg,#fff7ec,#ffe0c2); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; z-index:40; padding:24px;}
+  .start h2{font-size:26px; margin:14px 0 6px;}
+  .start p{color:var(--soft); max-width:520px; line-height:1.8; font-size:14px;}
+  .start .big{font-size:64px; margin-bottom:4px;}
+  .start .go{margin-top:22px; font-size:17px; padding:14px 34px; border-radius:14px;}
+  .start .small{margin-top:14px; font-size:12px; color:var(--soft);}
+</style>
+</head>
+<body>
+
+<header>
+  <span class="logo">🟡</span>
+  <div>
+    <h1>晓晓老师的课 · 为什么一群大叔集体去染黄毛？</h1>
+    <div class="tag">懒脑袋锻炼计划 · 第 5 课｜社会观察 × 心理学 · 适合初中生</div>
+  </div>
+  <span class="voice-note">🔊 微软神经网络语音「晓晓老师」朗读 · 建议用 Edge 浏览器</span>
+</header>
+
+<div class="stage" id="stage">
+  <div class="visual" id="visual">
+    <div class="card">
+      <span class="emoji" id="vEmoji">👋</span>
+      <div class="cap" id="vCap">准备好了吗？点下面的「开始上课」。</div>
+    </div>
+  </div>
+  <div class="chat" id="chat"></div>
+
+  <!-- question modal -->
+  <div class="modal" id="modal">
+    <div class="qcard">
+      <h3>🙋 晓晓老师考考你</h3>
+      <div class="q" id="qText"></div>
+      <div class="hint" id="qHint"></div>
+      <textarea id="qInput" placeholder="用自己的话讲一遍（也可以口头讲给晓晓老师听，然后点「我看完了」）"></textarea>
+      <div class="acts">
+        <button class="btn" id="qSkip">我看完了</button>
+        <button class="btn primary" id="qSubmit">提交我的回答</button>
+      </div>
+      <div class="answer" id="qAnswer">
+        <b>✅ 晓晓老师的标准答案：</b>
+        <div class="a" id="qAnswerText"></div>
+      </div>
+      <div class="acts" id="qNextWrap" style="display:none;">
+        <button class="btn primary" id="qNext">继续上课 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- start overlay -->
+  <div class="start" id="start">
+    <div class="big">🟡</div>
+    <h2>晓晓老师的「40 岁染黄毛」小课堂</h2>
+    <p>今年夏天，一大批 40 岁的 80 后大叔，突然扎堆跑去把头发染成黄色，还拍成搞笑视频刷屏全网。他们不是要装嫩，一句话说破了心事：「二十年前想染不敢染，现在终于能自己说了算。」这到底是「中年幼稚」，还是藏着一代人的心事？晓晓老师带你一步步拆开看，中间还会不定时考考你～</p>
+    <button class="btn primary go" id="goBtn">▶ 开始上课</button>
+    <div class="small">提示：本课用「晓晓老师」神经网络语音朗读。若没声音，请点一下页面或换 Edge 浏览器；字幕在底部，不会挡住讲解。</div>
+  </div>
+</div>
+
+<div class="subtitle" id="subtitle">
+  <span class="now">字幕</span>
+  <span class="txt" id="subTxt">（点击「开始上课」后，晓晓老师会一边讲一边出字幕）</span>
+</div>
+
+<div class="controls">
+  <button class="btn primary" id="playBtn">⏸ 暂停</button>
+  <button class="btn" id="prevBtn">⏮ 上一句</button>
+  <button class="btn" id="nextBtn">下一句 ⏭</button>
+  <select id="speedSel" title="语速">
+    <option value="0.85">语速 0.85x</option>
+    <option value="0.95" selected>语速 1.0x</option>
+    <option value="1.1">语速 1.1x</option>
+  </select>
+  <button class="btn" id="subBtn">字幕：开</button>
+  <button class="btn" id="restartBtn">↺ 重新上课</button>
+  <div class="progress"><i id="progBar"></i></div>
+</div>
+
+<script>
+/* ---------------- 课程脚本 ---------------- */
+const LESSON = [
+  {who:"teacher", emo:"👋", cap:"同学们好，我是晓晓老师。今天我们来琢磨一个特别好笑、又有点戳心的现象——一群 40 岁的大叔，集体去染黄毛。",
+   text:"同学们好，我是晓晓老师。今天我们来琢磨一个特别好笑、又有点戳心的现象——一群四十岁的大叔，集体去染黄毛。"},
+  {who:"teacher", emo:"🟡", cap:"2026 年这个夏天，抖音、微博上突然冒出一大批 80 后，扎堆跑去理发店把头发染成黄色。长沙有理发店一天接待 30 多位来染黄毛的中年人排队。",
+   text:"二零二六年这个夏天，抖音、微博上突然冒出一大批八零后，扎堆跑去理发店把头发染成黄色。长沙有理发店一天接待三十多位来染黄毛的中年人排队。"},
+  {who:"student", name:"小明", emo:"🧒", cap:"哈哈哈老师，我在网上刷到过！有个黄毛爸爸去接孩子，孩子假装不认识扭头就走！",
+   text:"哈哈哈老师，我在网上刷到过！有个黄毛爸爸去接孩子，孩子假装不认识扭头就走！"},
+  {who:"teacher", emo:"😄", cap:"没错，这就是最出圈的「接娃惨案」。还有的染完只叛逆了一个小时，就被老婆孩子联手劝去染回黑色。够搞笑吧？可晓晓老师要问一句：他们图啥呢？",
+   text:"没错，这就是最出圈的接娃惨案。还有的染完只叛逆了一个小时，就被老婆孩子联手劝去染回黑色。够搞笑吧？可晓晓老师要问一句：他们图啥呢？"},
+  {who:"teacher", emo:"💬", cap:"网上有一句话被点赞几万次：「二十年前想染不敢染，现在自己赚钱了，终于能自己说了算。」在晒出经历的 80 后里，超过八成都提到同一个词——弥补青春遗憾。",
+   text:"网上有一句话被点赞几万次：二十年前想染不敢染，现在自己赚钱了，终于能自己说了算。在晒出经历的八零后里，超过八成都提到同一个词——弥补青春遗憾。"},
+
+  {who:"teacher", emo:"🧠", cap:"要看懂这件事，先记一个心理学小知识，叫「未完成事件效应」。",
+   text:"要看懂这件事，先记一个心理学小知识，叫未完成事件效应。"},
+  {who:"teacher", emo:"🎵", cap:"它的意思是：那些被打断、被压住、没做成的愿望，不会随时间消失，反而会在心里发酵，变成越来越大的执念。就像一首歌听到一半被掐掉，你会一整天都在脑子里循环那半句。",
+   text:"它的意思是：那些被打断、被压住、没做成的愿望，不会随时间消失，反而会在心里发酵，变成越来越大的执念。就像一首歌听到一半被掐掉，你会一整天都在脑子里循环那半句。",
+   svg:"unfinished"},
+  {who:"teacher", emo:"🔥", cap:"一个 80 后少年，当年特别想染黄毛却被死死按住——这个念头没熄灭，反而烧了二十年，越烧越旺。所以四十岁一有能力，那束黄毛就「补票」上来了。",
+   text:"一个八零后少年，当年特别想染黄毛却被死死按住——这个念头没熄灭，反而烧了二十年，越烧越旺。所以四十岁一有能力，那束黄毛就补票上来了。"},
+  {who:"teacher", emo:"✋", cap:"来，记第一句口诀——",
+   text:"来，记第一句口诀——"},
+  {who:"teacher", emo:"✋", cap:"口诀一：没做完的心不甘，愿望压着会发酵；二十年后火更旺，补张迟到的门票。",
+   text:"口诀一：没做完的心不甘，愿望压着会发酵；二十年后火更旺，补张迟到的门票。",
+   jingle:true},
+
+  {who:"teacher", emo:"🧭", cap:"接下来，晓晓老师带你看五根线。一件事能火遍全网，从来不是单一原因，而是五根线一起被拉响。",
+   text:"接下来，晓晓老师带你看五根线。一件事能火遍全网，从来不是单一原因，而是五根线一起被拉响。"},
+  {who:"teacher", emo:"🚫", cap:"线一，青春补偿：80 后的学生时代，染头发被等于「混混、学坏」，学校抓、家里骂。那时候没钱没胆没自由。如今想给年少的自己一个交代：当年教导主任，你看我现在敢不敢。",
+   text:"线一，青春补偿：八零后的学生时代，染头发被等于混混、学坏，学校抓、家里骂。那时候没钱没胆没自由。如今想给年少的自己一个交代：当年教导主任，你看我现在敢不敢。"},
+  {who:"student", name:"小红", emo:"👧", cap:"老师，那为什么非得等到 40 岁才染呢？",
+   text:"老师，那为什么非得等到四十岁才染呢？"},
+  {who:"teacher", emo:"🥪", cap:"好问题！这就是线二，压力出口：40 岁是人生的「折返点」，80 后大多卡在夹心层——上要管老人，下要管孩子，中间还有工作。而染黄毛是所有叛逆里成本最低的：不费钱、不毁事，最多被家人笑几天。",
+   text:"好问题！这就是线二，压力出口：四十岁是人生的折返点，八零后大多卡在夹心层——上要管老人，下要管孩子，中间还有工作。而染黄毛是所有叛逆里成本最低的：不费钱、不毁事，最多被家人笑几天。"},
+  {who:"teacher", emo:"🛣️", cap:"线三，渴望变量：华中师大的梅志罡老师说，40 岁人生路径基本定型，「一眼望到头」的稳定，反而让人特别想要一点不一样。换个亮色头发，就像给灰蒙蒙的生活调高了饱和度。",
+   text:"线三，渴望变量：华中师大的梅志罡老师说，四十岁人生路径基本定型，一眼望到头的稳定，反而让人特别想要一点不一样。换个亮色头发，就像给灰蒙蒙的生活调高了饱和度。"},
+  {who:"teacher", emo:"📉", cap:"线四，契约松动：80 后从小相信「努力就能升职、就能过更好」。可现在付出和回报常常不对等了。社科院王鹏老师说，人们就把投资收回自己身上，转向完全能掌控的领域——比如头发颜色，比如体脂率。",
+   text:"线四，契约松动：八零后从小相信努力就能升职、就能过更好。可现在付出和回报常常不对等了。社科院王鹏老师说，人们就把投资收回自己身上，转向完全能掌控的领域——比如头发颜色，比如体脂率。"},
+  {who:"teacher", emo:"👥", cap:"线五，组团壮胆：一个人本来怕突兀不敢染，喊一句「要去一起去」，六个人立刻结伴进理发店。妙就妙在——一个人染黄毛是「中年危机」，一群人染黄毛就成了「集体行为艺术」。",
+   text:"线五，组团壮胆：一个人本来怕突兀不敢染，喊一句要去一起去，六个人立刻结伴进理发店。妙就妙在——一个人染黄毛是中年危机，一群人染黄毛就成了集体行为艺术。"},
+
+  {who:"teacher", emo:"🎵", cap:"来，把五根线编成一句口诀——",
+   text:"来，把五根线编成一句口诀——"},
+  {who:"teacher", emo:"🎵", cap:"口诀总：一遗憾，二压力，三是折返盼新奇；四契约松付出冷，五人组团壮胆气。",
+   text:"口诀总：一遗憾，二压力，三是折返盼新奇；四契约松付出冷，五人组团壮胆气。",
+   jingle:true},
+
+  {who:"teacher", emo:"⚖️", cap:"现在讲这堂课最重要的一层，也是最值得你记住的一句话：青少年的叛逆是「破」，中年人的叛逆是「立」。",
+   text:"现在讲这堂课最重要的一层，也是最值得你记住的一句话：青少年的叛逆是破，中年人的叛逆是立。",
+   svg:"po_li"},
+  {who:"teacher", emo:"💥", cap:"青少年叛逆，核心是「破」：靠对抗父母、对抗老师，来证明「我不一样，我是独立的人」。",
+   text:"青少年叛逆，核心是破：靠对抗父母、对抗老师，来证明我不一样，我是独立的人。"},
+  {who:"teacher", emo:"🌱", cap:"中年叛逆，核心是「立」：不是要跟谁对着干，而是看透社会规则之后，有意识地把被压抑多年的那个「自己」，重新立起来。",
+   text:"中年叛逆，核心是立：不是要跟谁对着干，而是看透社会规则之后，有意识地把被压抑多年的那个自己，重新立起来。"},
+  {who:"teacher", emo:"🎓", cap:"所以很多媒体把它叫「一场迟到了二十年的精神成人礼」。这束黄毛想说的只有一句：我这辈子不只是爸爸、老公、员工——我还是我自己。",
+   text:"所以很多媒体把它叫一场迟到了二十年的精神成人礼。这束黄毛想说的只有一句：我这辈子不只是爸爸、老公、员工——我还是我自己。"},
+  {who:"teacher", emo:"✋", cap:"口诀二：少年叛逆为了破，对抗权威证自我；中年叛逆为了立，找回丢掉的那个我。",
+   text:"口诀二：少年叛逆为了破，对抗权威证自我；中年叛逆为了立，找回丢掉的那个我。",
+   jingle:true},
+
+  {who:"teacher", emo:"⚖️", cap:"深度思考，一定要给反方留位置。这件事有两种要警惕的极端说法。",
+   text:"深度思考，一定要给反方留位置。这件事有两种要警惕的极端说法。"},
+  {who:"teacher", emo:"🙅", cap:"一种是骂它「装嫩、油腻、幼稚」；另一种是把它捧成「伟大的精神觉醒」。可很多网友说得很实在：「专家说得对，但我染完去上班，老板让我明天别来了。」有时候，就是想开心一下而已。",
+   text:"一种是骂它装嫩、油腻、幼稚；另一种是把它捧成伟大的精神觉醒。可很多网友说得很实在：专家说得对，但我染完去上班，老板让我明天别来了。有时候，就是想开心一下而已。"},
+  {who:"teacher", emo:"🧩", cap:"所以别神化，也别贬低。它既是一代人真实压力的温柔出口，也可能只是一次单纯的「成年人偶尔发个疯」。能同时看见这两面，才叫会思考。",
+   text:"所以别神化，也别贬低。它既是一代人真实压力的温柔出口，也可能只是一次单纯的成年人偶尔发个疯。能同时看见这两面，才叫会思考。"},
+  {who:"teacher", emo:"📝", cap:"晓晓老师的作业：下次看到长辈的「怪行为」——买摩托、健身、玩游戏、买小时候买不起的玩具——试着用今天这五根线去看，你也许能理解他们多一点。",
+   text:"晓晓老师的作业：下次看到长辈的怪行为——买摩托、健身、玩游戏、买小时候买不起的玩具——试着用今天这五根线去看，你也许能理解他们多一点。"},
+  {who:"teacher", emo:"👋", cap:"好啦，今天的课就上到这。记住口诀，勤于琢磨，你的「懒脑袋」会越来越灵光！我们下节课见～",
+   text:"好啦，今天的课就上到这。记住口诀，勤于琢磨，你的懒脑袋会越来越灵光！我们下节课见～"}
+];
+
+/* 三个费曼提问，插在脚本里（after=触发它的那一步的下标） */
+const QUESTIONS = [
+  { after:9, q:"用你自己的话说说：什么是「未完成事件效应」？它怎么解释大叔们四十岁才染黄毛？",
+    hint:"提示：想想那首被掐掉的半句歌，为什么一直在脑子里循环？",
+    a:"「未完成事件效应」是说：被打断、被压住、没做成的愿望不会消失，反而会在心里越攒越强。80 后少年时特别想染黄毛却被禁止，这个心愿没熄灭，烧了二十年越烧越旺。等他们四十岁有钱有自由了，就把这张「迟到的门票」补上——所以才在中年集体染黄毛。" },
+  { after:17, q:"五根线都讲完啦。你能不能用一句口诀，或者一句话，把这五个原因串起来？",
+    hint:"提示：遗憾、压力、折返点、契约、组团。",
+    a:"可以记那句口诀：一遗憾，二压力，三是折返盼新奇；四契约松付出冷，五人组团壮胆气。也就是——① 青春没敢染的遗憾要补；② 夹心层压力需要低成本的出口；③ 四十岁一眼望到头，渴望一点变量；④ 努力不再等于回报，就把掌控感收回到头发上；⑤ 一群人一起染，就从「危机」变成了「潮流」。" },
+  { after:24, q:"这堂课最重要的一句：青少年叛逆是「破」，中年叛逆是「立」。用你自己的话讲讲这两个字的区别。",
+    hint:"提示：一个是「对抗谁」，一个是「找回谁」。",
+    a:"「破」是青少年式的：靠对抗父母、老师、权威，来证明「我和你们不一样、我是独立的人」。「立」是中年式的：不再跟谁作对，而是看透了社会规则之后，主动把那个被责任和压力藏了很多年的「真实的自己」重新立起来。所以染黄毛不是幼稚，而是一句温柔的宣告：我不只是爸爸、员工，我还是我自己。" }
+];
+
+/* ---------------- 语音 ---------------- */
+let voices=[];
+function loadVoices(){ try{ voices = window.speechSynthesis.getVoices()||[]; }catch(e){} }
+if('speechSynthesis' in window){ loadVoices(); speechSynthesis.onvoiceschanged = loadVoices; }
+function pickVoice(){
+  let v = voices.find(x=>/xiaoxiao/i.test(x.name));
+  if(!v) v = voices.find(x=>/zh-CN/i.test(x.lang) && /(neural|natural)/i.test(x.name));
+  if(!v) v = voices.find(x=>x.lang==='zh-CN');
+  if(!v) v = voices.find(x=>/zh/i.test(x.lang));
+  return v||null;
+}
+function speak(text, onEnd){
+  if(!('speechSynthesis' in window)){ if(onEnd) setTimeout(onEnd,40); return; }
+  try{ speechSynthesis.cancel(); }catch(e){}
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang='zh-CN';
+  const v=pickVoice(); if(v) u.voice=v;
+  const sp=parseFloat(document.getElementById('speedSel').value)||0.95;
+  u.rate=sp; u.pitch=1.05;
+  u.onend=()=>{ if(onEnd) onEnd(); };
+  u.onerror=()=>{ if(onEnd) onEnd(); };
+  try{ speechSynthesis.speak(u); }catch(e){ if(onEnd) onEnd(); }
+}
+
+/* ---------------- 渲染 ---------------- */
+const chat=document.getElementById('chat');
+const vEmoji=document.getElementById('vEmoji');
+const vCap=document.getElementById('vCap');
+const subTxt=document.getElementById('subTxt');
+const progBar=document.getElementById('progBar');
+let idx=-1, playing=false, started=false;
+
+/* SVG：未完成事件（缺口的圆 + 半句音符） */
+function unfinishedSVG(){
+  return '<svg width="220" height="120" viewBox="0 0 220 120">'+
+    '<circle cx="60" cy="60" r="34" fill="none" stroke="#f4791f" stroke-width="7" stroke-dasharray="178 40" stroke-linecap="round" transform="rotate(-40 60 60)"/>'+
+    '<text x="60" y="66" font-size="13" fill="#6b5645" text-anchor="middle">缺口</text>'+
+    '<text x="150" y="45" font-size="30" fill="#f4791f" text-anchor="middle">♪</text>'+
+    '<text x="178" y="70" font-size="20" fill="#ffb86b" text-anchor="middle">♪…</text>'+
+    '<text x="150" y="100" font-size="12" fill="#6b5645" text-anchor="middle">被掐断的半句歌</text></svg>';
+}
+/* SVG：破 vs 立 */
+function poLiSVG(){
+  return '<svg width="300" height="120" viewBox="0 0 300 120">'+
+    '<text x="72" y="52" font-size="34" fill="#f4791f" text-anchor="middle" font-weight="800">破</text>'+
+    '<text x="72" y="86" font-size="12" fill="#6b5645" text-anchor="middle">少年·对抗权威</text>'+
+    '<line x1="150" y1="20" x2="150" y2="100" stroke="#f0d9bf" stroke-width="2"/>'+
+    '<text x="228" y="52" font-size="34" fill="#3fa34d" text-anchor="middle" font-weight="800">立</text>'+
+    '<text x="228" y="86" font-size="12" fill="#6b5645" text-anchor="middle">中年·找回自己</text></svg>';
+}
+
+function renderVisual(step){
+  let old=document.getElementById('vSvg'); if(old) old.remove();
+  if(step.svg==='unfinished' || step.svg==='po_li'){
+    vEmoji.style.display='none';
+    const wrap=document.createElement('div'); wrap.id='vSvg';
+    wrap.innerHTML = step.svg==='unfinished' ? unfinishedSVG() : poLiSVG();
+    vEmoji.parentNode.insertBefore(wrap, vEmoji);
+    vCap.textContent=step.cap;
+  } else {
+    vEmoji.style.display='';
+    vEmoji.textContent=step.emo||'🟡';
+    vCap.textContent=step.cap;
+  }
+}
+
+function addBubble(step){
+  const row=document.createElement('div');
+  row.className='row '+(step.who==='teacher'?'teacher':'student');
+  const ava=document.createElement('div'); ava.className='ava';
+  ava.textContent = step.who==='teacher' ? '🟡' : (step.name==='小红'?'👧':'🧒');
+  const box=document.createElement('div');
+  const nm=document.createElement('div'); nm.className='name';
+  nm.textContent = step.who==='teacher' ? '🟡 晓晓老师' : ('🧒 '+(step.name||'同学'));
+  const bub=document.createElement('div'); bub.className='bubble';
+  bub.textContent = step.text + (step.jingle?' ✨':'');
+  box.appendChild(nm); box.appendChild(bub);
+  row.appendChild(ava); row.appendChild(box);
+  chat.appendChild(row);
+  chat.scrollTop=chat.scrollHeight;
+}
+
+function updateProg(){
+  progBar.style.width = (LESSON.length? ((idx+1)/LESSON.length*100):0)+'%';
+}
+
+function questionFor(i){
+  return QUESTIONS.find(q=>q.after===i);
+}
+
+function goTo(i, autoplay){
+  if(i<0||i>=LESSON.length) return;
+  idx=i; const step=LESSON[i];
+  renderVisual(step); addBubble(step);
+  subTxt.textContent = step.text;
+  updateProg();
+
+  const q = questionFor(i);
+  if(q){ playing=false; showQuestion(q); return; }
+
+  if(autoplay){
+    playing=true; setPlayBtn();
+    speak(step.text, ()=>{
+      if(playing && idx===i){
+        if(i+1<LESSON.length) goTo(i+1, true);
+        else finish();
+      }
+    });
+  } else {
+    speak(step.text);
+  }
+}
+
+function finish(){
+  playing=false; setPlayBtn();
+  subTxt.textContent='（本课结束啦，记得完成晓晓老师的作业哦～）';
+}
+
+/* ---------------- 提问弹窗 ---------------- */
+const modal=document.getElementById('modal');
+function showQuestion(q){
+  document.getElementById('qText').textContent=q.q;
+  document.getElementById('qHint').textContent=q.hint;
+  document.getElementById('qAnswerText').textContent=q.a;
+  document.getElementById('qInput').value='';
+  document.getElementById('qAnswer').style.display='none';
+  document.getElementById('qNextWrap').style.display='none';
+  modal.classList.add('show');
+}
+document.getElementById('qSubmit').onclick=()=>{
+  const v=document.getElementById('qInput').value.trim();
+  if(!v){ alert('先写一两句你的想法，再提交吧～（实在想讲给晓晓老师听，就点「我看完了」）'); return; }
+  document.getElementById('qAnswer').style.display='block';
+  document.getElementById('qNextWrap').style.display='flex';
+  subTxt.textContent='（晓晓老师：很好，听听标准答案，然后继续～）';
+};
+document.getElementById('qSkip').onclick=()=>{
+  document.getElementById('qAnswer').style.display='block';
+  document.getElementById('qNextWrap').style.display='flex';
+};
+document.getElementById('qNext').onclick=()=>{
+  modal.classList.remove('show');
+  if(idx+1<LESSON.length) goTo(idx+1, true);
+  else finish();
+};
+
+/* ---------------- 控制 ---------------- */
+const playBtn=document.getElementById('playBtn');
+function setPlayBtn(){ playBtn.textContent = playing? '⏸ 暂停' : '▶ 播放'; }
+
+playBtn.onclick=()=>{
+  if(!started) return;
+  if(playing){
+    playing=false; setPlayBtn();
+    try{ speechSynthesis.cancel(); }catch(e){}
+  } else {
+    if(modal.classList.contains('show')) return;
+    playing=true; setPlayBtn();
+    goTo(idx, true);
+  }
+};
+document.getElementById('prevBtn').onclick=()=>{ if(modal.classList.contains('show')) return; if(idx>0) goTo(idx-1,false); };
+document.getElementById('nextBtn').onclick=()=>{ if(modal.classList.contains('show')) return; if(idx<LESSON.length-1) goTo(idx+1,false); };
+document.getElementById('restartBtn').onclick=()=>{
+  chat.innerHTML=''; idx=-1; started=true; playing=false;
+  modal.classList.remove('show'); setPlayBtn();
+  goTo(0,true);
+};
+const subBtn=document.getElementById('subBtn');
+const subtitle=document.getElementById('subtitle');
+let subOn=true;
+subBtn.onclick=()=>{
+  subOn=!subOn; subtitle.classList.toggle('hide',!subOn);
+  subBtn.textContent = subOn? '字幕：开':'字幕：关';
+};
+
+/* ---------------- 开始 ---------------- */
+document.getElementById('goBtn').onclick=()=>{
+  document.getElementById('start').style.display='none';
+  started=true; idx=-1; chat.innerHTML='';
+  try{ speechSynthesis.cancel(); }catch(e){}
+  goTo(0,true);
+};
+</script>
+</body>
+</html>

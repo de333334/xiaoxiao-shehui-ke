@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>晓晓老师的社会现象分析课 · 以"搭子文化"为例</title>
+<style>
+  :root{
+    --bg:#f4f1ea; --card:#fffdf8; --ink:#2c2a26; --muted:#7a7468;
+    --tea:#c8553d; --tea2:#e07a5f; --green:#3a7d5d; --green2:#5aa17e;
+    --blue:#3d6c9c; --line:#e6dfd2; --soft:#f0ece2;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    font-size:17px;line-height:1.85;}
+  /* 顶部教师栏 */
+  .topbar{position:sticky;top:0;z-index:30;background:linear-gradient(135deg,#fffdf8,#f3ece0);
+    border-bottom:1px solid var(--line);padding:10px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+  .avatar{width:46px;height:46px;border-radius:50%;background:#ffe6d6;display:flex;
+    align-items:center;justify-content:center;font-size:26px;flex:0 0 auto;box-shadow:0 2px 5px rgba(0,0,0,.08);}
+  .tinfo b{font-size:17px;color:var(--tea);} .tinfo span{font-size:12px;color:var(--muted);display:block;}
+  .controls{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;}
+  button.ctrl{font-family:inherit;font-size:14px;border:1px solid var(--line);background:#fff;
+    color:var(--ink);padding:8px 13px;border-radius:20px;cursor:pointer;transition:.15s;}
+  button.ctrl:hover{background:var(--soft);}
+  button.ctrl.primary{background:var(--tea);color:#fff;border-color:var(--tea);}
+  button.ctrl.primary:hover{background:var(--tea2);}
+  button.ctrl.on{background:var(--green);color:#fff;border-color:var(--green);}
+  .status{font-size:12px;color:var(--muted);width:100%;margin-top:2px;}
+
+  .wrap{max-width:820px;margin:0 auto;padding:18px 16px 140px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:20px 22px;margin:18px 0;box-shadow:0 2px 8px rgba(120,100,70,.06);}
+  .card h2{margin:0 0 6px;font-size:21px;color:var(--tea);display:flex;align-items:center;gap:8px;}
+  .card .tag{font-size:12px;color:#fff;background:var(--tea2);padding:2px 9px;border-radius:10px;}
+  .lead{background:#fff6ef;border-left:4px solid var(--tea2);padding:14px 16px;border-radius:8px;margin:14px 0;}
+  .kp{background:var(--soft);border-radius:10px;padding:12px 15px;margin:10px 0;}
+  .kp b{color:var(--green);}
+  .mnemonic{background:#eef6f0;border:1px dashed var(--green2);border-radius:10px;
+    padding:14px 16px;margin:12px 0;font-size:18px;text-align:center;letter-spacing:1px;color:var(--green);}
+  .pitfall{border-left:4px solid #d98b2b;background:#fdf3e3;padding:11px 14px;border-radius:8px;margin:10px 0;}
+  .pitfall b{color:#b9701a;}
+  ol.steps{counter-reset:s;padding-left:0;list-style:none;}
+  ol.steps li{position:relative;padding:12px 14px 12px 52px;margin:10px 0;background:var(--soft);
+    border-radius:10px;}
+  ol.steps li:before{counter-increment:s;content:counter(s);position:absolute;left:14px;top:12px;
+    width:26px;height:26px;border-radius:50%;background:var(--tea);color:#fff;font-weight:700;
+    display:flex;align-items:center;justify-content:center;font-size:14px;}
+  .hear{font-size:13px;color:var(--tea);cursor:pointer;border:1px solid var(--tea2);
+    background:#fff;border-radius:16px;padding:4px 12px;margin-top:8px;display:inline-block;user-select:none;}
+  .hear:hover{background:#fff0ea;}
+
+  /* 学生互动 */
+  .chat{margin:10px 0;}
+  .bub{max-width:88%;padding:10px 14px;border-radius:14px;margin:9px 0;font-size:15.5px;}
+  .stu{background:#e8eef6;border-top-left-radius:4px;}
+  .stu .who{font-size:12px;color:var(--blue);font-weight:700;display:block;margin-bottom:2px;}
+  .tea{background:#fff0ea;border-top-right-radius:4px;margin-left:auto;border:1px solid #f3d8cb;}
+  .tea .who{font-size:12px;color:var(--tea);font-weight:700;display:block;margin-bottom:2px;text-align:right;}
+
+  /* 计算演练 stepper */
+  .calcbox{border:1px solid var(--blue);border-radius:12px;padding:16px;background:#f6f9fd;}
+  .calcq{font-weight:700;color:var(--blue);margin-bottom:8px;}
+  .calcstep{display:none;background:#fff;border-left:3px solid var(--green2);padding:10px 14px;
+    margin:8px 0;border-radius:6px;animation:fade .4s;}
+  .calcstep.show{display:block;}
+  .calcstep .n{color:var(--green);font-weight:700;margin-right:6px;}
+  .calcnav{margin-top:10px;display:flex;gap:8px;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+  /* 字幕条 */
+  .caption{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(34,30,26,.94);
+    color:#fff;padding:12px 18px 14px;font-size:16px;line-height:1.6;max-height:130px;overflow-y:auto;
+    border-top:3px solid var(--tea2);display:none;}
+  .caption.show{display:block;}
+  .caption .who{color:var(--tea2);font-weight:700;margin-right:6px;}
+
+  /* 弹题 modal */
+  .mask{position:fixed;inset:0;background:rgba(20,16,12,.55);z-index:50;display:none;
+    align-items:center;justify-content:center;padding:18px;}
+  .mask.show{display:flex;}
+  .quiz{background:#fff;border-radius:16px;max-width:460px;width:100%;padding:22px;
+    box-shadow:0 10px 40px rgba(0,0,0,.25);animation:pop .3s;}
+  @keyframes pop{from{transform:scale(.9);opacity:0;}to{transform:none;opacity:1;}}
+  .quiz h3{margin:0 0 6px;color:var(--tea);font-size:19px;}
+  .quiz .q{margin:10px 0 14px;}
+  .opt{display:block;width:100%;text-align:left;font-family:inherit;font-size:15px;
+    border:1px solid var(--line);background:#fbf8f2;padding:11px 14px;border-radius:10px;
+    margin:8px 0;cursor:pointer;transition:.15s;}
+  .opt:hover{background:#f1ece1;}
+  .opt.right{background:#e7f4ec;border-color:var(--green2);color:var(--green);font-weight:700;}
+  .opt.wrong{background:#fbe7e1;border-color:#d98b6b;color:#b5482f;}
+  .opt:disabled{cursor:default;}
+  .fb{font-size:14px;margin-top:10px;padding:10px 12px;border-radius:8px;display:none;}
+  .fb.show{display:block;}
+  .fb.ok{background:#e7f4ec;color:var(--green);}
+  .fb.no{background:#fbe7e1;color:#b5482f;}
+  .quiz .next{margin-top:12px;}
+
+  /* 费曼 */
+  .feynman textarea{width:100%;min-height:120px;font-family:inherit;font-size:15px;
+    border:1px solid var(--line);border-radius:10px;padding:12px;resize:vertical;}
+  .ref{display:none;background:var(--soft);border-radius:10px;padding:14px;margin-top:10px;border-left:3px solid var(--green2);}
+  .ref.show{display:block;}
+
+  .hint{font-size:13px;color:var(--muted);}
+  .badge{display:inline-block;background:#eef6f0;color:var(--green);font-size:12px;
+    padding:2px 9px;border-radius:10px;margin-left:6px;}
+  a.link{color:var(--blue);}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="avatar">🧑‍🏫</div>
+  <div class="tinfo"><b>晓晓老师</b><span>神经网络语音 · 社会现象分析互动课</span></div>
+  <div class="controls">
+    <button class="ctrl primary" id="btnPlay">▶ 开始上课（语音）</button>
+    <button class="ctrl" id="btnPause">⏸ 暂停</button>
+    <button class="ctrl on" id="btnVoice">🔊 语音：开</button>
+    <button class="ctrl on" id="btnCap">📝 字幕：开</button>
+  </div>
+  <div class="status" id="status">提示：首次播放请点「开始上课」。建议在 Edge / Chrome 中打开以加载「晓晓」神经网络音色。</div>
+</div>
+
+<div class="wrap">
+
+  <div class="card">
+    <h2>📖 今天学什么 <span class="tag">课题</span></h2>
+    <div class="lead">
+      同学们好，我是晓晓老师。今天我们拿一个真实热趋势
+      <b>「搭子文化」</b>（2026 年霸榜社交热词，复旦《2026 社交趋势报告》把它列为青年社交新形态）当例子，
+      学会一套<b>「看透社会现象」</b>的本领。中国青年报调研：<b>72.6%</b> 的受访青年生活里有搭子。
+      这不仅是聊天谈资，更是你写分析题最该会的「拆原因」套路。
+    </div>
+    <span class="hear" data-speak="同学们好，我是晓晓老师。今天我们拿一个真实热趋势，搭子文化，当例子，学会一套看透社会现象的本领。中国青年报调研显示，超过七成的受访青年生活里有搭子。这不仅是聊天谈资，更是你写分析题最该会的拆原因套路。">🎧 听晓晓讲这段</span>
+  </div>
+
+  <div class="card">
+    <h2>一、知识点 <span class="tag">要记住</span></h2>
+    <p>分析搭子文化前，先抓住这 <b>3 个核心概念</b>：</p>
+    <div class="kp"><b>① 模块化社交：</b>把"一个好朋友陪我干所有事"，拆成一个个"最小单元"——饭搭子只陪吃、自习搭子只陪学。像拼乐高，<i>需要什么就拼什么，事完了各回各家</i>。</div>
+    <div class="kp"><b>② 防御性社交：</b>社会学家鲍曼说，现代人"既怕孤独，又怕被关系绑住"。搭子就是解法：需要你时你在，需要独处时你能消失。像给自己装了"随时撤退键"。</div>
+    <div class="kp"><b>③ 同心圆结构：</b>人大心理学唐信峰老师比喻，人的社交是同心圆——<i>最内核</i>是少数死党，<i>外圈</i>是重要伙伴，<i>最外层</i>才是搭子这类浅关系。搭子不是全部，只是最外那一圈。</div>
+    <span class="hear" data-speak="分析搭子文化前，先抓三个核心概念。第一，模块化社交：把朋友拆成最小单元，饭搭子只陪吃、自习搭子只陪学，像拼乐高。第二，防御性社交：鲍曼说现代人既怕孤独又怕被绑住，搭子就是解法。第三，同心圆结构：最内核是死党，最外层才是搭子，搭子只是最外那一圈。">🎧 听晓晓讲知识点</span>
+  </div>
+
+  <div class="card">
+    <h2>二、口诀 <span class="tag">背下来</span></h2>
+    <p><b>先正名</b>（别一上来骂年轻人薄情）：</p>
+    <div class="mnemonic">搭子不是没朋友，是把关系拆成兜；<br>场景一换人就换，来去自由不将就。</div>
+    <p><b>五根线</b>（它为啥偏偏火）：</p>
+    <div class="mnemonic">加速节奏快、液态怕被绑、<br>原子缺陪伴、算法秒匹配、边界反内耗。</div>
+    <p><b>反方</b>（别把"轻"神化成唯一答案）：</p>
+    <div class="mnemonic">搭子成群别真爽，轻连未必有担当；<br>孤独还在内核处，深度关系不能忘。</div>
+    <p><b>通用五步分析法</b>（啥热点都能拆）：</p>
+    <div class="mnemonic">现象先定位，拐点看年份；<br>四层往下剥，反方不能省；<br>最后升主题，才算想得深。</div>
+    <span class="hear" data-speak="先正名：搭子不是没朋友，是把关系拆成兜，场景一换人就换，来去自由不将就。五根线：加速节奏快、液态怕被绑、原子缺陪伴、算法秒匹配、边界反内耗。反方：搭子成群别真爽，轻连未必有担当，孤独还在内核处，深度关系不能忘。通用五步：现象先定位，拐点看年份，四层往下剥，反方不能省，最后升主题，才算想得深。">🎧 听晓晓念口诀</span>
+  </div>
+
+  <div class="card">
+    <h2>三、易错点 <span class="tag">别踩坑</span></h2>
+    <div class="pitfall"><b>坑1 把"轻"当"没朋友"。</b>有搭子的人，心里往往也有 1~3 个死党。搭子只是浅层那一圈，不等于孤独患者。</div>
+    <div class="pitfall"><b>坑2 单一归因。</b>"都是年轻人薄情"——错。这是社会加速、原子化、算法赋能共同的结果，不是个人品德问题。</div>
+    <div class="pitfall"><b>坑3 只看"爽"不看"孤独"。</b>搭子方便了，可"搭子成群却依然孤独"也是真问题。只看一边，判断就歪。</div>
+    <div class="pitfall"><b>坑4 把"相关"当"因果"。</b>算法让找搭子更容易，但不全是算法的锅；社会节奏、独居才是更深的推力。</div>
+    <span class="hear" data-speak="四个最常踩的坑。第一，把轻当没朋友：有搭子的人也有死党，搭子只是浅层。第二，单一归因：别说是薄情，这是社会加速、原子化、算法一起作用。第三，只看爽不看孤独：搭子成群却依然孤独也是真问题。第四，把相关当因果：算法让找搭子更容易，但不全是算法的锅。">🎧 听晓晓讲易错点</span>
+  </div>
+
+  <div class="card">
+    <h2>四、解题步骤 <span class="tag">标准动作</span></h2>
+    <p>拿到任何社会热点，照这 5 步写，条理立刻清晰：</p>
+    <ol class="steps">
+      <li><b>定位现象</b>：谁、做了什么、情绪是啥？（例：年轻人把社交拆成"饭搭子/自习搭子…"，来去自由、互不干涉）</li>
+      <li><b>找拐点</b>：为什么是今年？几股势能叠满——中青报 72.6% 有搭子、复旦报告列它为社交新形态</li>
+      <li><b>拆五根线</b>：①社会加速（罗萨）②液态现代性（鲍曼）③原子化/独居/城市化 ④算法匹配 ⑤边界感/反内卷</li>
+      <li><b>找反方</b>：唐信峰提醒"搭子成群仍孤独"、过度依赖成"安全行为"、它只是工具不是终点</li>
+      <li><b>升主题</b>：关系在"降本增效"；它和断亲潮是一对"社交加减法"——年轻人不是冷漠，是更清醒地重排人生连接</li>
+    </ol>
+    <span class="hear" data-speak="拿到任何社会热点，照这五步写。第一步定位现象：谁做了什么、情绪是啥。第二步找拐点：为什么是今年，几股势能叠满。第三步拆五根线：社会加速、液态现代性、原子化、算法匹配、边界感。第四步找反方：搭子成群仍孤独、过度依赖成安全行为、它只是工具。第五步升主题：关系在降本增效，和断亲潮是一对社交加减法。">🎧 听晓晓讲步骤</span>
+  </div>
+
+  <div class="card">
+    <h2>五、计算演练 <span class="tag">一步步算</span></h2>
+    <p class="hint">老师带你算，每一步点「下一步」并听讲解。数据来自公开调研，目的是练「读数的眼睛」。</p>
+
+    <div class="calcbox">
+      <div class="calcq">题1：中青报调研，72.6% 的受访青年生活里有搭子。若调查了 1000 人，约多少人"有搭子"？没搭子的又多少？</div>
+      <div class="calcstep" data-i="0"><span class="n">第1步</span>把百分数变人数：72.6% 就是 1000 的 72.6%。算 1000 × 0.726。</div>
+      <div class="calcstep" data-i="1"><span class="n">第2步</span>1000 × 0.726 = <b>726（人）</b>。所以约 726 人生活里有搭子。</div>
+      <div class="calcstep" data-i="2"><span class="n">第3步</span>没搭子的 = 总数 − 有搭子的 = 1000 − 726 = <b>274（人）</b>。也就是约 <b>27.4%</b> 没有搭子。</div>
+      <div class="calcstep" data-i="3"><span class="n">答</span>约 <b>726 人</b>有搭子，<b>274 人</b>没有。超过七成——这就是"搭子成风"的硬数据。</div>
+      <div class="calcnav">
+        <button class="ctrl primary" id="calc1next">下一步 ▶</button>
+        <button class="ctrl" id="calc1hear">🎧 听这一步</button>
+      </div>
+    </div>
+
+    <div class="calcbox" style="margin-top:14px;">
+      <div class="calcq">题2：68.9% 的受访青年认为"找搭子是踏出社交舒适圈的勇敢一步"。把它化成小数，再说说约"几成"？</div>
+      <div class="calcstep" data-g="0"><span class="n">第1步</span>百分数化小数：去掉百分号、小数点左移两位。68.9% = <b>0.689</b>。</div>
+      <div class="calcstep" data-g="1"><span class="n">第2步</span>"几成"是看十分之几。0.689 ≈ 0.69，接近 <b>七成（0.7）</b>。所以说"约七成青年对轻社交持正面态度"。</div>
+      <div class="calcstep" data-g="2"><span class="n">答</span>0.689，约 <b>七成（69%）</b>。说明多数青年把"组搭子"看作积极的一步，而非逃避。</div>
+      <div class="calcnav">
+        <button class="ctrl primary" id="calc2next">下一步 ▶</button>
+        <button class="ctrl" id="calc2hear">🎧 听这一步</button>
+      </div>
+    </div>
+
+    <div class="calcbox" style="margin-top:14px;">
+      <div class="calcq">题3（思维题）：某城 18~35 岁青年约 200 万，其中约 38% 独居（一个人住）。独居青年约多少？这解释了搭子为啥火？</div>
+      <div class="calcstep" data-h="0"><span class="n">第1步</span>独居 = 总数 × 独居比例 = 200 万 × 0.38。</div>
+      <div class="calcstep" data-h="1"><span class="n">第2步</span>200 万 × 0.38 = <b>76 万（人）</b>。一座城里就有近百万独居青年。</div>
+      <div class="calcstep" data-h="2"><span class="n">答</span>约 <b>76 万</b>独居青年。一个人住容易孤独，又不想被深度关系绑住——"临时陪伴"的搭子，恰好补上这个空档。这就是五根线里的"原子缺陪伴"。</div>
+      <div class="calcnav">
+        <button class="ctrl primary" id="calc3next">下一步 ▶</button>
+        <button class="ctrl" id="calc3hear">🎧 听这一步</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>六、学生互动 <span class="tag">同学举手</span></h2>
+    <div class="chat">
+      <div class="bub stu"><span class="who">🧑‍🎓 同学小明</span>老师，那我是不是只要找搭子就够了，不用交深朋友？</div>
+      <div class="bub tea"><span class="who">🧑‍🏫 晓晓老师</span>不够哦。唐信峰老师说过社交是"同心圆"：搭子是最外圈，只能解决具体事；深夜难过、想说真心话，得靠最内核的死党。搭子是工具，不是全部。</div>
+      <div class="bub stu"><span class="who">🧑‍🎓 同学小红</span>可我微信里加了好多搭子，还是觉得孤独，是我有问题吗？</div>
+      <div class="bub tea"><span class="who">🧑‍🏫 晓晓老师</span>你没问题，是"配方"不对。搭子像精准交易——你陪我吃、我陪你学，但不交换真心。数量多≠情感厚。试着在一个搭子里多敞开一点，让它有机会往深里长。</div>
+    </div>
+    <span class="hear" data-speak="小明问是不是只要搭子就够了。老师答：不够，搭子是最外圈，只能解决具体事，真心话得靠内核死党。小红问加了好多搭子还孤独，老师答：你没问题，是配方不对，搭子像精准交易不交换真心，数量多不等于情感厚，试着在一个搭子里多敞开一点。">🎧 听这段互动</span>
+  </div>
+
+  <div class="card feynman">
+    <h2>七、费曼检测 <span class="tag">请你当老师</span> <span class="badge">费曼学习法</span></h2>
+    <p>学没学会，讲出来才知道。请你<b>用自己的话</b>，把「为什么年轻人爱找搭子」讲给一个小学生听（写下来，越简单越好）：</p>
+    <textarea id="feynmanText" placeholder="比如：因为现在大家又忙又怕被打扰，所以不想交那种要天天维系的累朋友，只想找个人陪自己干这一件事……"></textarea>
+    <div class="calcnav">
+      <button class="ctrl primary" id="feynmanCheck">✅ 写好了，对照参考答案</button>
+    </div>
+    <div class="ref" id="feynmanRef">
+      <b>参考说法（挑你写到的点给分）：</b><br>
+      ① 先说现象：年轻人把朋友拆成"饭搭子、自习搭子…"，只陪干一件事、来去自由；<br>
+      ② 再说为什么火：社会节奏太快（没空维护深关系）、一个人住变多（缺陪伴）、手机算法一推就找到人、年轻人更在意私人空间；<br>
+      ③ 点出矛盾：既怕孤独又怕被绑，搭子恰好两头都顾；<br>
+      ④ 补反方：搭子再多，深夜难过时还得靠真朋友，它不能代替深度关系；<br>
+      ⑤ 升主题：这不是变冷漠，是年轻人更清醒地重排自己的"关系网"。<br>
+      <span class="hint">能讲出 ①②③ 就及格，加上 ④⑤ 就是满分老师 🌟</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="hint">📌 本课例题源自热趋势「搭子文化 / 青年轻社交」。数据来源：中国青年报调研（72.6% 有搭子、68.9% 认同）、复旦大学《2026 社交趋势报告》、中国人民大学唐信峰副教授访谈、鲍曼《液态之爱》、罗萨《加速社会》、费孝通《乡土中国》（联网检索，2026-07-13）。想复习原文，可回看本工作区的《搭子文化深度分析.md》，或 ima 知识库「imao」。上接第 3 课《断亲潮》—— 断亲是社交减法，搭子是社交加法。</p>
+  </div>
+
+</div>
+
+<!-- 字幕条 -->
+<div class="caption" id="caption"><span class="who">晓晓老师：</span><span id="captionText"></span></div>
+
+<!-- 弹题 -->
+<div class="mask" id="mask">
+  <div class="quiz">
+    <h3>✋ 晓晓老师突然提问</h3>
+    <div class="q" id="quizQ"></div>
+    <div id="quizOpts"></div>
+    <div class="fb" id="quizFb"></div>
+    <button class="ctrl primary next" id="quizNext" style="display:none;">继续听课 ▶</button>
+  </div>
+</div>
+
+<script>
+/* ============ 语音引擎 ============ */
+let voices=[]; let voiceOK=false; let voiceOn=true; let capOn=true;
+function loadVoices(){ try{ voices = speechSynthesis.getVoices(); }catch(e){} }
+if('speechSynthesis' in window){
+  loadVoices();
+  speechSynthesis.onvoiceschanged = loadVoices;
+  voiceOK=true;
+}
+function pickVoice(){
+  // 优先晓晓 / Xiaoxiao 神经网络音色
+  let v = voices.find(x=>/Xiaoxiao|晓晓/i.test(x.name));
+  if(v) return v;
+  v = voices.find(x=>x.lang && x.lang.toLowerCase().startsWith('zh') && /neural|online|natural/i.test(x.name));
+  if(v) return v;
+  v = voices.find(x=>x.lang && x.lang.toLowerCase().startsWith('zh'));
+  return v||null;
+}
+function showCaption(text){
+  const cap=document.getElementById('caption');
+  const t=document.getElementById('captionText');
+  if(!capOn){ cap.classList.remove('show'); return; }
+  cap.classList.add('show'); t.textContent=text;
+  cap.scrollTop=cap.scrollHeight;
+}
+let curUtter=null;
+function speak(text, onend){
+  showCaption(text);
+  if(!voiceOK || !voiceOn){ if(onend) setTimeout(onend, 400); return; }
+  try{
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang='zh-CN';
+    const v=pickVoice(); if(v) u.voice=v;
+    u.rate=0.96; u.pitch=1.0; u.volume=1.0;
+    curUtter=u;
+    u.onend=function(){ if(onend) onend(); };
+    u.onerror=function(){ if(onend) onend(); };
+    speechSynthesis.speak(u);
+  }catch(e){ if(onend) onend(); }
+}
+function stopSpeak(){ try{ speechSynthesis.cancel(); }catch(e){} }
+
+/* ============ 单段「听讲解」按钮 ============ */
+document.querySelectorAll('.hear').forEach(el=>{
+  el.addEventListener('click',()=>{ speak(el.getAttribute('data-speak')); });
+});
+
+/* ============ 计算演练 stepper ============ */
+function setupCalc(nextId, hearId, attr){
+  const nextBtn=document.getElementById(nextId);
+  const hearBtn=document.getElementById(hearId);
+  let idx=0;
+  const list=[...document.querySelectorAll('.calcstep['+attr+']')];
+  function reveal(i){
+    if(i<list.length){ list[i].classList.add('show'); idx=i; }
+  }
+  nextBtn.addEventListener('click',()=>{
+    if(idx<list.length){
+      reveal(idx);
+      const t=list[idx].textContent.replace(/第\d步|答/g,'').trim();
+      speak(t);
+      if(idx===list.length-1) nextBtn.textContent='已讲完 ✓';
+      idx++;
+    }
+  });
+  hearBtn.addEventListener('click',()=>{
+    const t=list[Math.min(idx,list.length-1)].textContent.replace(/第\d步|答/g,'').trim();
+    speak(t);
+  });
+}
+setupCalc('calc1next','calc1hear','data-i');
+setupCalc('calc2next','calc2hear','data-g');
+setupCalc('calc3next','calc3hear','data-h');
+
+/* ============ 费曼 ============ */
+document.getElementById('feynmanCheck').addEventListener('click',()=>{
+  const ref=document.getElementById('feynmanRef');
+  ref.classList.add('show');
+  speak('很好，来对照参考答案。能讲出现象、拐点、五根线就及格，再加上反方和主题，就是满分老师。');
+  ref.scrollIntoView({behavior:'smooth',block:'center'});
+});
+
+/* ============ 弹题 ============ */
+const quizzes=[
+  { q:'晓晓老师的分析口诀，第一步是哪四个字？',
+    opts:['五根线先背','现象先定位','最后升主题','反方不能省'],
+    ans:1, fb:'对啦！先「定位现象」：谁、做了什么、情绪是啥，才能往下分析。' },
+  { q:'"网上找搭子很方便，所以都是算法的功劳"犯了哪个易错点？',
+    opts:['把现象当原因','幸存者偏差','单一归因','把相关当因果'],
+    ans:3, fb:'正是「把相关当因果」！算法让找搭子更容易，但社会加速、独居才是更深的推力。' },
+  { q:'调研显示 72.6% 的青年有搭子，若调查 1000 人，约多少人没有搭子？',
+    opts:['约 274 人','约 500 人','约 726 人','约 931 人'],
+    ans:0, fb:'答对！1000 − 726 = 274 人，也就是约 27.4% 没有搭子。' }
+];
+let quizIdx=0, quizBusy=false;
+function openQuiz(qi){
+  if(quizBusy) return; quizBusy=true;
+  const q=quizzes[qi%quizzes.length];
+  document.getElementById('quizQ').textContent=q.q;
+  const box=document.getElementById('quizOpts'); box.innerHTML='';
+  document.getElementById('quizFb').className='fb';
+  document.getElementById('quizFb').classList.remove('show');
+  document.getElementById('quizNext').style.display='none';
+  q.opts.forEach((opt,i)=>{
+    const b=document.createElement('button');
+    b.className='opt'; b.textContent=opt;
+    b.addEventListener('click',()=>{
+      [...box.children].forEach(c=>c.disabled=true);
+      if(i===q.ans){ b.classList.add('right');
+        document.getElementById('quizFb').className='fb ok show';
+        document.getElementById('quizFb').textContent='✅ '+q.fb;
+      }else{ b.classList.add('wrong');
+        box.children[q.ans].classList.add('right');
+        document.getElementById('quizFb').className='fb no show';
+        document.getElementById('quizFb').textContent='❌ 再想想～正确答案已标绿。'+q.fb;
+      }
+      document.getElementById('quizNext').style.display='inline-block';
+      stopSpeak();
+    });
+    box.appendChild(b);
+  });
+  document.getElementById('mask').classList.add('show');
+  speak('同学们，老师突然考你一题：'+q.q);
+}
+document.getElementById('quizNext').addEventListener('click',()=>{
+  document.getElementById('mask').classList.remove('show');
+  quizBusy=false; quizIdx++;
+  if(playing){ setTimeout(()=>stepPlay(),700); }
+});
+
+/* ============ 课堂模式（自动播放 + 不定时提问） ============ */
+const segments=[
+  '同学们好，我是晓晓老师。今天我们用热趋势搭子文化，学会看透社会现象的本领。中国青年报调研，超过七成的青年生活里有搭子。',
+  '先记三个知识点：模块化社交、防御性社交、同心圆结构。搭子只是社交最外那一层，不是全部。',
+  '送大家几组口诀：搭子不是没朋友，是把关系拆成兜；五根线是加速节奏快、液态怕被绑、原子缺陪伴、算法秒匹配、边界反内耗。',
+  '四个易错坑要小心：别把轻当没朋友，别单一归因怪年轻人薄情，别只看爽不看孤独，别把相关当因果。',
+  '标准解题五步：定位现象、找拐点、拆五根线、找反方、升主题。下面我们动手算几道题。',
+  '计算题练的是读数的眼睛。一千人里约七百二十六人有搭子，约二百七十四人没有；近七成对轻社交持正面态度；一座城近百万独居青年，催生临时陪伴的刚需。',
+  '有同学问是不是只要搭子就够了。老师答：不够，搭子解决具体事，真心话还得靠内核的死党，它是工具不是终点。',
+  '最后费曼检测：请你用自己的话，讲给小学生听为什么年轻人爱找搭子。能讲出现象、拐点、五根线就及格。'
+];
+let segIdx=0, playing=false, playTimer=null, surpriseTimer=null;
+function stepPlay(){
+  if(!playing) return;
+  if(segIdx>=segments.length){ playing=false; setStatus('🎓 本节课上完啦！记得完成费曼检测～'); return; }
+  const txt=segments[segIdx];
+  speak(txt, ()=>{ if(!playing) return; segIdx++; setTimeout(stepPlay, 800); });
+}
+function startPlay(){
+  if(!voiceOK){ setStatus('⚠️ 当前浏览器不支持语音，已改为纯字幕模式，仍可点各段「听讲解」按钮（若支持）。'); }
+  playing=true; segIdx=0; setStatus('🔊 晓晓老师正在讲课…（可随时暂停）');
+  stepPlay();
+  // 不定时突然提问：课程进行中安排 2 次突袭
+  clearTimeout(surpriseTimer);
+  scheduleSurprise(22000);
+  scheduleSurprise(52000);
+}
+function scheduleSurprise(ms){
+  surpriseTimer=setTimeout(()=>{
+    if(playing && !quizBusy && segIdx<segments.length){
+      stopSpeak(); playing=false;
+      openQuiz(quizIdx);
+      // 关闭后会在 quizNext 里恢复 playing 并继续
+    }
+  }, ms);
+}
+function setStatus(t){ document.getElementById('status').textContent=t; }
+
+document.getElementById('btnPlay').addEventListener('click',startPlay);
+document.getElementById('btnPause').addEventListener('click',()=>{
+  playing=false; stopSpeak(); clearTimeout(surpriseTimer); setStatus('⏸ 已暂停。点「开始上课」可继续。');
+});
+document.getElementById('btnVoice').addEventListener('click',function(){
+  voiceOn=!voiceOn; this.textContent='🔊 语音：'+(voiceOn?'开':'关'); this.classList.toggle('on',voiceOn);
+  if(!voiceOn) stopSpeak();
+});
+document.getElementById('btnCap').addEventListener('click',function(){
+  capOn=!capOn; this.textContent='📝 字幕：'+(capOn?'开':'关'); this.classList.toggle('on',capOn);
+  if(!capOn) document.getElementById('caption').classList.remove('show');
+});
+
+// 启动提示
+if(!voiceOK){ setStatus('⚠️ 当前环境未检测到语音合成，已降级为字幕+文字模式。建议用 Edge / Chrome 打开本页以听到晓晓老师语音。'); }
+</script>
+</body>
+</html>
