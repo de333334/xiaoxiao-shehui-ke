@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>晓晓老师社会现象分析课 · 第13课：年轻人为什么为"谷子"疯狂——从LABUBU爆火看懂情绪消费</title>
+<style>
+  :root{
+    --bg:#0f1226; --bg2:#171a36; --card:#1e2247; --card2:#262b57;
+    --ink:#eef1ff; --sub:#aeb6e6; --accent:#ffd166; --accent2:#06d6a0;
+    --pink:#ff6b9d; --blue:#5bc0eb; --warn:#ff6b6b; --line:#333a6b;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0;background:linear-gradient(160deg,var(--bg),var(--bg2));color:var(--ink);
+    font-family:"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;line-height:1.7}
+  .topbar{position:sticky;top:0;z-index:30;background:rgba(15,18,38,.92);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);padding:10px 14px}
+  .topbar h1{font-size:17px;margin:0 0 8px;font-weight:800;letter-spacing:.5px}
+  .topbar h1 .badge{background:var(--accent);color:#222;border-radius:999px;padding:1px 9px;font-size:12px;margin-right:8px}
+  .ctrl{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .btn{border:none;border-radius:10px;padding:8px 12px;font-size:14px;font-weight:700;cursor:pointer;
+    background:var(--card2);color:var(--ink);transition:.15s;display:inline-flex;align-items:center;gap:5px}
+  .btn:hover{filter:brightness(1.15)}
+  .btn.primary{background:linear-gradient(135deg,var(--accent),#ff9f1c);color:#241a00}
+  .btn.nav{background:var(--blue);color:#04263a}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .seekwrap{flex:1;min-width:160px;display:flex;align-items:center;gap:8px}
+  input[type=range]{-webkit-appearance:none;appearance:none;height:8px;border-radius:999px;
+    background:linear-gradient(90deg,var(--accent2),var(--accent));outline:none;width:100%}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;
+    background:#fff;border:3px solid var(--accent);cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+  input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--accent);cursor:pointer}
+  .pos{font-size:12px;color:var(--sub);min-width:74px;text-align:right;font-variant-numeric:tabular-nums}
+  .hint{font-size:12px;color:var(--sub);margin-top:6px}
+  .hint b{color:var(--accent)}
+  .stage{padding:14px 14px 150px;max-width:880px;margin:0 auto}
+  .sec{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin:0 0 14px;
+    box-shadow:0 6px 20px rgba(0,0,0,.25)}
+  .sec h2{font-size:16px;margin:0 0 10px;color:var(--accent);display:flex;align-items:center;gap:8px}
+  .sec h2 .dot{width:9px;height:9px;border-radius:50%;background:var(--accent2)}
+  .ln{margin:0;padding:6px 10px;border-radius:9px;color:var(--ink);font-size:15.5px;transition:.2s;border-left:3px solid transparent}
+  .ln.cur{background:var(--card2);border-left:3px solid var(--accent);font-weight:700}
+  .ln .who{color:var(--accent2);font-weight:800;margin-right:4px}
+  .diagram{margin:10px 0 4px;text-align:center}
+  .diagram svg{max-width:100%;height:auto}
+  .cap{font-size:12px;color:var(--sub);margin-top:4px}
+  .formula{background:var(--bg2);border:1px dashed var(--accent);border-radius:10px;padding:10px 12px;
+    font-size:15px;color:var(--accent);text-align:center;margin:8px 0;font-weight:700}
+  .jingle{background:linear-gradient(135deg,#2a2150,#3a2a5e);border-radius:12px;padding:12px 14px;margin:8px 0}
+  .jingle .t{color:var(--pink);font-weight:800;font-size:13px;margin-bottom:4px}
+  .jingle p{margin:4px 0;font-size:15px;color:#ffe6f3;letter-spacing:.3px}
+  .subbar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(8,10,24,.96);
+    border-top:2px solid var(--accent);padding:14px 16px 16px;box-shadow:0 -8px 24px rgba(0,0,0,.5)}
+  .subbar .now{font-size:19px;font-weight:800;color:#fff;text-align:center;max-width:860px;margin:0 auto;
+    line-height:1.5;min-height:27px}
+  .subbar .now .who{color:var(--accent2)}
+  .subbar .meta{text-align:center;color:var(--sub);font-size:12px;margin-top:6px}
+  .live{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent2);margin-right:6px;
+    animation:pulse 1s infinite}
+  @keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+  .toast{position:fixed;right:16px;bottom:120px;z-index:45;max-width:300px;background:var(--card2);
+    border:1px solid var(--line);border-radius:14px;padding:10px 12px;font-size:14px;box-shadow:0 6px 18px rgba(0,0,0,.4);
+    opacity:0;transform:translateY(12px);transition:.4s;pointer-events:none}
+  .toast.show{opacity:1;transform:translateY(0)}
+  .toast .nm{color:var(--pink);font-weight:800;margin-right:5px}
+  .mask{position:fixed;inset:0;z-index:60;background:rgba(4,6,18,.82);display:none;align-items:center;justify-content:center;padding:18px}
+  .mask.show{display:flex}
+  .quiz{background:var(--card);border:2px solid var(--pink);border-radius:18px;max-width:560px;width:100%;
+    padding:20px;box-shadow:0 12px 40px rgba(0,0,0,.6);max-height:88vh;overflow:auto}
+  .quiz h3{margin:0 0 6px;color:var(--pink);font-size:18px}
+  .quiz .asker{display:inline-block;background:var(--pink);color:#fff;border-radius:999px;padding:2px 10px;font-size:13px;font-weight:800;margin-bottom:8px}
+  .q{background:var(--bg2);border-radius:12px;padding:11px 13px;margin:10px 0;font-size:15px}
+  .q .lab{color:var(--accent);font-weight:800;margin-right:6px}
+  textarea{width:100%;min-height:64px;border-radius:10px;border:1px solid var(--line);background:var(--bg);
+    color:var(--ink);padding:10px;font-size:14px;font-family:inherit;resize:vertical}
+  .ans{display:none;background:#16331f;border:1px solid var(--accent2);border-radius:12px;padding:12px 14px;margin-top:8px;font-size:14px;color:#d6ffe6}
+  .ans b{color:var(--accent2)}
+  .quiz .row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+  .footnote{text-align:center;color:var(--sub);font-size:12px;padding:18px}
+  .warnbox{background:#2a1620;border:1px solid var(--warn);border-radius:12px;padding:12px;margin:8px 0;font-size:14px}
+  .warnbox .t{color:var(--warn);font-weight:800}
+  .calcbox{background:#152a3a;border:1px solid var(--blue);border-radius:12px;padding:12px;margin:8px 0}
+  .calcbox .ct{color:var(--blue);font-weight:800;font-size:14px;margin-bottom:8px}
+  .calcbox .step{background:var(--bg2);border-radius:10px;padding:10px 12px;margin:8px 0}
+  .calcbox .sq{color:var(--accent);font-weight:800;font-size:14px;margin-bottom:4px}
+  .calcbox .sa{color:var(--ink);font-size:14px;line-height:1.6}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1><span class="badge">第13课</span>年轻人为什么为"谷子"疯狂：从LABUBU爆火看懂情绪消费</h1>
+  <div class="ctrl">
+    <button class="btn primary" id="playBtn">▶ 播放</button>
+    <button class="btn nav" id="prevBtn">⏮ 上一句</button>
+    <button class="btn nav" id="nextBtn">下一句 ⏭</button>
+    <div class="seekwrap">
+      <input type="range" id="seek" min="0" max="0" step="1" value="0">
+      <span class="pos" id="pos">0 / 0</span>
+    </div>
+  </div>
+  <div class="hint">💡 进度条可<b>自由拖动</b>调位置；「上一句 / 下一句」逐句跳转；晓晓老师神经网络语音朗读；底部字幕不挡讲解；课中会有小明/小红突袭提问，记得答完再继续～</div>
+</div>
+
+<div class="stage" id="stage"></div>
+
+<div class="subbar">
+  <div class="now" id="now">点「播放」，晓晓老师开讲啦～</div>
+  <div class="meta"><span class="live" id="liveDot" style="display:none"></span><span id="meta">已就绪 · 本课前半段复习「年轻人养生」，再讲新课</span></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="mask" id="mask">
+  <div class="quiz" id="quizBox"></div>
+</div>
+
+<div class="footnote">懒脑袋锻炼计划 · 第13课 · 数据来自2025-2026公开报道（艾媒咨询/央视网/人民网/新华社/泡泡玛特财报等）· 本页为自包含离线课件，请用 Edge / Chrome 打开以启用晓晓老师语音</div>
+
+<script>
+/* ============ 讲解文稿（逐句，供语音+字幕） ============ */
+const SENT = [
+ "同学们好！我是晓晓老师，懒脑袋锻炼计划第13课开讲啦。",
+ "先复习上节课：我们讲了年轻人集体养生——去身体里抓一种「我能掌控自己」的感觉。",
+ "它和更早的玄学热、人机恋是亲兄弟：玄学去庙里抓确定感，人机恋去手机里抓被回应感，养生去身体里抓掌控感。",
+ "今天这课，我们讲第四块拼图：年轻人为什么为「谷子」疯狂——去消费里，抓一种「被懂、被陪、被接纳」的情绪价值。",
+ "情绪价值、社交货币、盲盒抽奖，三块合起来，就是这届年轻人在不确定世界里，给自己找的「情绪充电宝」。",
+ "好，复习完毕，进入今天的新现象。",
+
+ "先说现象：什么是「谷子」？它是英文 Goods 的音译，专指动漫、游戏IP的周边——徽章、立牌、色纸、卡牌、手办，都是谷子。",
+ "最近几年，谷子从亚文化小圈层，冲成了千亿级大风口：2025年中国谷子经济市场规模约两千零二十一亿元，同比涨了近两成。",
+ "更夸张的是 LABUBU——泡泡玛特旗下的尖牙小怪兽，2025年火遍全球：抖音相关播放破七十六亿次，初代薄荷色款在拍卖会上拍出一百零八万。",
+ "发售价五百九十九的联名款，二手市场被炒到大约三万；「谷子」还入选了《咬文嚼字》2025年度十大流行语。",
+ "线下也疯：南京一家老商场改造二次元街区后，年销售额近两亿，还带动整个商场交易量涨了四成——「谷子店拯救老商场」成了热搜。",
+ "所以今天的问题不是「这玩意儿有啥用」，而是：一块印着卡通的小铁片，凭什么让年轻人又排队又掏钱？",
+
+ "先正名！一看到年轻人买谷子，很多人第一反应是：幼稚、乱花钱、交智商税。",
+ "先别急着笑。真正该问的是：为什么这届年轻人，愿意为一块小铁片花几十上百？",
+ "有个词叫「情绪价值」——商品带给你的开心、安慰、被理解的感觉，比它实不实用更值钱。",
+ "记住一句话：功能无用，情绪有用。你买的不是塑料徽章，是「被懂、被陪、被圈层接纳」的感觉。",
+ "所以别把谷子当笑话，它是这代人情绪自救的实体化。",
+
+ "要真懂谷子热，先抓三个核心概念。",
+ "第一个：情绪价值。LABUBU设计师说「可爱就够了」——年轻人缺的不是功能商品，而是一个能投射自己、产生情感连接的小载体。",
+ "第二个：社交货币。把徽章别满背包、晒朋友圈，是在告诉同好「我是这一类人」，用它换点赞、换朋友、换归属感。社会学家叫它「符号消费」。",
+ "第三个：盲盒抽奖。盒里款式不确定，拆盒的心跳刺激多巴胺；隐藏款只有百分之零点六九的概率，把惊喜感推向极致。",
+ "记住这三词：内核（情绪价值）、换同伴（社交货币）、多巴胺（盲盒抽奖）。后面全靠它们串。",
+
+ "那这股风从哪刮起来的？五根线，记好。",
+ "第一根：情绪缺电。工作学业的压、孤独、不确定，让年轻人急需「情绪充电宝」；调查显示，近六成青年愿意为情绪价值买单。",
+ "第二根：圈层归属。断亲潮、独居之后，谷子成了「找到同类」的入场券——背着一个娃出门，就像带着同好一起看世界。",
+ "第三根：国潮赋能。原神、哪吒、黑神话这些国产IP崛起，「国谷」既有面子也有里子，养生成了社交货币（呼应玄学热、养生）。",
+ "第四根：算法推爆。小红书、抖音把拆盒直播推成潮流；LABUBU还「由外返内」——先在海外火，再回头让国内限定款变成身份区隔。",
+ "第五根：产业成熟。中国IP授权市场超一千六百亿、潮玩七百多亿，成熟供应链加盲盒玩法，把门槛降到地板上。",
+ "五根线合起来：情绪先缺电，圈层找同伴，国潮加算法来添火，产业兜底降门槛。",
+
+ "不过老师要泼冷水，几个坑必须警惕。",
+ "第一坑：溢价炒作。二手市场一块卡牌炒到六万，隐藏款溢价超五十倍——别把收藏当投资，小心当接盘侠。",
+ "第二坑：盲目跟风。头部IP海量滥发、款式同质化，内容浅了就退温；别因为「大家都买」才买。",
+ "第三坑：冲动透支。圈内流行「先吃饭后吃谷」——量力而行，别透支生活费（呼应消费两副面孔：该省省）。",
+ "第四坑：伪疗愈。情绪消费是缓冲垫不是救生圈；真累了先看医生、先睡觉，别用买买买逃避（呼应养生）。",
+ "所以谷子是充电宝，不是救命稻草。买可以，透支不行，迷信不行。",
+
+ "来，背口诀！正名口诀：别笑幼稚乱花钱，先问情绪为哪般；买的不是小铁片，是被懂被伴被圈揽。",
+ "三概念口诀：情绪价值是内核，社交货币换同伴，盲盒抽奖多巴胺。",
+ "五根线口诀：一缺情绪二圈层，三国潮四算五产成；充电宝里找同类，国潮算法推成风。",
+ "反方口诀：溢价炒作别接盘，跟风同质易退温；透支生活费是大坑，伪疗愈里莫沉沦。",
+
+ "下面练练读数的眼睛，三道数据题，一步步算。",
+
+ "好，现在轮到你当老师了。用一句话说说年轻人为什么为谷子疯狂；再想想它和玄学热、人机恋、养生的共同点；最后，假如你是吃谷爱好者，怎么做到不透支、不盲跟？",
+ "（停顿，给学生思考时间——想好了再往下听答案。）",
+
+ "今天的课到这儿。记住：年轻人买谷子，表面是背包上的小铁片，里子是在抓不住的世界里，想抓住一点被懂、被陪的温暖。",
+ "它和玄学热、人机恋、养生是同一棵树的四根枝——都在不确定里，给自己找块能踩稳的石头。但真累了，先睡一觉，比买啥都管用。",
+ "下节课我们继续拆解新现象。作业：今天允许自己为一样小东西开心一下，但记得——先吃饭，后吃谷。同学们，再见！"
+];
+
+/* ============ 章节结构（含图示） ============ */
+const SVG_PHENOMENON = `<svg viewBox="0 0 680 210" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC,sans-serif">
+  <rect width="680" height="210" rx="16" fill="#171a36"/>
+  <text x="340" y="26" fill="#ffd166" font-size="16" font-weight="800" text-anchor="middle">谷子 = 一块小铁片 + 一份大情绪</text>
+  <defs><marker id="ar2" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto"><path d="M0 0 L8 3 L0 6 Z" fill="#ffd166"/></marker></defs>
+  <g transform="translate(70,55)">
+    <circle cx="40" cy="40" r="34" fill="#262b57" stroke="#ffd166" stroke-width="3"/>
+    <circle cx="40" cy="40" r="16" fill="#ff6b9d"/>
+    <line x1="40" y1="6" x2="40" y2="-4" stroke="#ffd166" stroke-width="4"/>
+    <text x="40" y="120" fill="#aeb6e6" font-size="12" text-anchor="middle">一块谷子（徽章）</text>
+  </g>
+  <path d="M150 95 H250" stroke="#ffd166" stroke-width="4" fill="none" marker-end="url(#ar2)"/>
+  <g transform="translate(290,48)">
+    <path d="M40 72 C8 52 8 18 40 30 C72 18 72 52 40 72 Z" fill="#06d6a0"/>
+    <text x="40" y="102" fill="#aeb6e6" font-size="12" text-anchor="middle">大情绪（被懂被陪）</text>
+  </g>
+  <g transform="translate(500,52)">
+    <ellipse cx="40" cy="42" rx="34" ry="30" fill="#262b57" stroke="#ff6b9d" stroke-width="3"/>
+    <circle cx="30" cy="38" r="4" fill="#fff"/><circle cx="50" cy="38" r="4" fill="#fff"/>
+    <path d="M28 54 L34 48 L40 56 L46 48 L52 54" stroke="#fff" stroke-width="3" fill="none"/>
+    <text x="40" y="100" fill="#aeb6e6" font-size="12" text-anchor="middle">LABUBU（尖牙精灵）</text>
+  </g>
+</svg>`;
+
+const SVG_CONCEPT = `<svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC,sans-serif">
+  <rect width="680" height="200" rx="16" fill="#171a36"/>
+  <text x="340" y="26" fill="#ffd166" font-size="16" font-weight="800" text-anchor="middle">三概念：内核 / 换同伴 / 多巴胺</text>
+  <rect x="40" y="50" width="180" height="110" rx="14" fill="#262b57" stroke="#ff6b9d" stroke-width="2"/>
+  <text x="130" y="80" fill="#ff6b9d" font-size="15" font-weight="800" text-anchor="middle">情绪价值</text>
+  <text x="130" y="104" fill="#aeb6e6" font-size="12" text-anchor="middle">内核</text>
+  <text x="130" y="126" fill="#aeb6e6" font-size="11" text-anchor="middle">功能无用</text>
+  <text x="130" y="146" fill="#aeb6e6" font-size="11" text-anchor="middle">情绪有用</text>
+  <rect x="250" y="50" width="180" height="110" rx="14" fill="#262b57" stroke="#5bc0eb" stroke-width="2"/>
+  <text x="340" y="80" fill="#5bc0eb" font-size="15" font-weight="800" text-anchor="middle">社交货币</text>
+  <text x="340" y="104" fill="#aeb6e6" font-size="12" text-anchor="middle">换同伴</text>
+  <text x="340" y="126" fill="#aeb6e6" font-size="11" text-anchor="middle">别满背包</text>
+  <text x="340" y="146" fill="#aeb6e6" font-size="11" text-anchor="middle">换归属感</text>
+  <rect x="460" y="50" width="180" height="110" rx="14" fill="#262b57" stroke="#06d6a0" stroke-width="2"/>
+  <text x="550" y="80" fill="#06d6a0" font-size="15" font-weight="800" text-anchor="middle">盲盒抽奖</text>
+  <text x="550" y="104" fill="#aeb6e6" font-size="12" text-anchor="middle">多巴胺</text>
+  <text x="550" y="126" fill="#aeb6e6" font-size="11" text-anchor="middle">不确定惊喜</text>
+  <text x="550" y="146" fill="#aeb6e6" font-size="11" text-anchor="middle">刺激大脑</text>
+</svg>`;
+
+const SVG_ROOTS = `<svg viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC,sans-serif">
+  <rect width="680" height="260" rx="16" fill="#171a36"/>
+  <rect x="285" y="20" width="110" height="46" rx="10" fill="#262b57" stroke="#ffd166" stroke-width="2"/>
+  <text x="340" y="48" fill="#ffd166" font-size="15" font-weight="800" text-anchor="middle">谷子热</text>
+  <line x1="340" y1="66" x2="340" y2="120" stroke="#888" stroke-width="3"/>
+  <g stroke="#06d6a0" stroke-width="3" fill="none">
+    <path d="M340 120 C300 150 250 160 150 175"/>
+    <path d="M340 120 C310 155 280 175 220 195"/>
+    <path d="M340 120 C340 160 340 185 340 210"/>
+    <path d="M340 120 C370 155 400 175 460 195"/>
+    <path d="M340 120 C380 150 430 160 530 175"/>
+  </g>
+  <g font-size="12.5" font-weight="700" text-anchor="middle">
+    <text x="135" y="172" fill="#5bc0eb">①情绪缺电</text>
+    <text x="205" y="198" fill="#5bc0eb">②圈层归属</text>
+    <text x="340" y="228" fill="#5bc0eb">③国潮赋能</text>
+    <text x="475" y="198" fill="#5bc0eb">④算法推爆</text>
+    <text x="545" y="172" fill="#5bc0eb">⑤产业成熟</text>
+  </g>
+  <text x="340" y="250" fill="#aeb6e6" font-size="12" text-anchor="middle">五根线托起「谷子热」：根扎得清，消费才清醒</text>
+</svg>`;
+
+const SECTIONS = [
+  {t:"① 复习：年轻人养生（上节课）", lines:[0,1,2,3,4,5],
+     jingles:[{t:"上节课一句话",items:["养生：去身体里抓「掌控感」","玄学热：去庙里抓确定感","人机恋：去手机里抓回应感","今天：去消费里抓情绪价值"]}]},
+  {t:"② 新课导入：什么是「谷子」", lines:[6,7,8,9,10,11], svg:SVG_PHENOMENON, cap:"图：一块小铁片 + 一份大情绪（LABUBU）"},
+  {t:"③ 正名：不是乱花钱，是买情绪", lines:[12,13,14,15,16],
+     warn:["一看到年轻人买谷子别急着笑「智商税」——先问：为什么这届年轻人愿意为小铁片花几十上百？"]},
+  {t:"④ 三个核心概念", lines:[17,18,19,20,21], svg:SVG_CONCEPT, cap:"图：内核(情绪价值) / 换同伴(社交货币) / 多巴胺(盲盒抽奖)"},
+  {t:"⑤ 五根线（原因拆解）", lines:[22,23,24,25,26,27,28], svg:SVG_ROOTS, cap:"图：五根线托起谷子热",
+     jingles:[{t:"五根线",items:["①情绪缺电：压力孤独去找充电宝","②圈层归属：独居后找同类入场券","③国潮赋能：国产IP既面子又里子","④算法推爆：拆盒直播由外返内","⑤产业成熟：供应链+盲盒降门槛"]}]},
+  {t:"⑥ 反方警惕：四个坑", lines:[29,30,31,32,33,34],
+     warn:["第一坑：溢价炒作——一块卡牌炒到6万，别接盘","第二坑：盲目跟风——头部IP同质化易退温","第三坑：冲动透支——先吃饭后吃谷，别透支生活费","第四坑：伪疗愈——缓冲垫不是救生圈，真累先看医生"]},
+  {t:"⑦ 口诀大合集", lines:[35,36,37,38],
+     jingles:[
+       {t:"正名口诀",items:["别笑幼稚乱花钱，先问情绪为哪般；","买的不是小铁片，是被懂被伴被圈揽。"]},
+       {t:"三概念口诀",items:["情绪价值是内核，","社交货币换同伴，盲盒抽奖多巴胺。"]},
+       {t:"五根线口诀",items:["一缺情绪二圈层，三国潮四算五产成；","充电宝里找同类，国潮算法推成风。"]},
+       {t:"反方口诀",items:["溢价炒作别接盘，跟风同质易退温；","透支生活费是大坑，伪疗愈里莫沉沦。"]}
+     ]},
+  {t:"⑧ 数据演练（练读数的眼睛）", lines:[39],
+     calc:{title:"三道数据题，点「下一步」逐题揭晓", steps:[
+       {q:"题1：谷子占情绪消费多大比例？", s:"情绪消费总盘2025预计2.72万亿元=27200亿；谷子约2021亿。占比=2021÷27200≈7.4%——谷子只是情绪大湖里的一瓢。"},
+       {q:"题2：谷子涨得有多快？", s:"谷子2024年1689亿→2025年2021亿，增幅=(2021−1689)÷1689≈19.7%，与报道「同比近两成」吻合；泛二次元用户已达5.26亿。"},
+       {q:"题3：溢价有多疯？", s:"LABUBU发售价599元的联名款，二手炒到约3万。溢价倍数=30000÷599≈50倍（报道「超50倍」）。一块小塑料≈50倍原价，警示炒作别接盘。"}
+     ]}},
+  {t:"⑨ 费曼检测", lines:[40,41]},
+  {t:"⑩ 结语", lines:[42,43,44]}
+];
+
+/* ============ 学生互动气泡（飘一下，不挡讲解） ============ */
+const BUBBLES = {
+  8:{nm:"小红",txt:"LABUBU那个尖牙小怪兽我也抢到了！背着它出门好多人认出来，瞬间有话题了😆"},
+  16:{nm:"小明",txt:"原来不是我幼稚，是我需要被懂的感觉啊，松了口气"},
+  25:{nm:"小红",txt:"国谷真的支棱起来了，我买的《原神》徽章同学都来问链接"},
+  34:{nm:"小明",txt:"我先吃饭后吃谷！这个口号我喜欢，绝不透支生活费"}
+};
+
+/* ============ 费曼突袭弹题（在指定句触发） ============ */
+const QUIZZES = {
+  21:{ // 三概念讲完
+    asker:"小明", title:"突袭提问①",
+    intro:"晓晓老师，我妈说我买一堆徽章是浪费钱，可我把它们别满书包出门，总觉得「找到了组织」。这到底算情绪价值还是乱花钱啊？",
+    qs:[
+      {lab:"辨一辨",q:"用今天学的三概念，说说小明买谷子是在买什么？"},
+      {lab:"改一改",q:"怎么买才不变成「乱花钱」？给个简单标准。"}
+    ],
+    ans:"<b>参考答案：</b>小明买的是「被组织接纳」的感觉，属于<b>情绪价值</b>（被懂被陪）+ <b>社交货币</b>（换同伴归属感），不是纯浪费。三概念：内核是情绪价值，换同伴靠社交货币，多巴胺来自盲盒抽奖。但标准是：<b>先吃饭后吃谷，量力而行</b>；为开心买可以，为跟风、为透支而买就变乱花钱。记住：功能无用情绪有用，但钱包要有数。"
+  },
+  28:{ // 五根线讲完
+    asker:"小红", title:"突袭提问②",
+    intro:"五根线里我最戳的是「圈层归属」——我独居，朋友不多，但每周去谷店能和同好聊一下午。你呢？五根线你能背几句？哪一根最像你家？",
+    qs:[
+      {lab:"背一背",q:"五根线你能背出几句？哪一根和你最像？"},
+      {lab:"防坑",q:"靠谷子找归属感，最要警惕什么？怎么别变成盲目跟风？"}
+    ],
+    ans:"<b>参考答案：</b>五根线：①情绪缺电 ②圈层归属 ③国潮赋能 ④算法推爆 ⑤产业成熟。靠谷子找归属感最要警惕<b>溢价炒作</b>（别把收藏当投资、别接盘）和<b>盲目跟风</b>（别因「大家都买」才买）。找同好可以，但谷子店是社交场不是提款机；不透支生活费，二手溢价超50倍不碰。"
+  },
+  40:{ // 费曼检测主问
+    asker:"晓晓老师", title:"费曼检测（合上课本讲给我听）",
+    intro:"现在轮到你当老师了。别急着看答案，先自己讲，再对照。",
+    qs:[
+      {lab:"一句话",q:"用一句话解释年轻人为什么为谷子疯狂？举个你身边的例子。"},
+      {lab:"勾连",q:"它和玄学热、人机恋、养生的共同点是什么？（提示：都在不确定里抓一样东西）"},
+      {lab:"实战",q:"假如你是吃谷爱好者，怎么做到不透支、不盲跟？写个你的小计划。"}
+    ],
+    ans:"<b>参考答案：</b>①年轻人买谷子=用低成本的小周边，给自己买「被懂、被陪、被接纳」的情绪价值，本质是不确定世界里的情绪充电宝。例子：大学生小江把喜欢的角色徽章别满书包，说「像带着朋友去上课」。②共同点：都在「不确定」里抓一样东西——玄学热抓确定感（庙里）、人机恋抓回应感（手机里）、养生抓掌控感（身体里）、谷子抓情绪价值与归属感（消费里），是同一棵树的四根枝。③小计划：设月度谷子预算（不超零花两成）、只买真喜欢的IP不盲跟、先吃饭后吃谷、二手溢价超50倍不接盘。核心：充电可以，透支不行；真累了先睡觉。"
+  }
+};
+
+/* ============ 渲染课堂笔记 ============ */
+const stage = document.getElementById('stage');
+const calcState = {};
+let lineEls = [];
+SECTIONS.forEach((sec,si)=>{
+  const card = document.createElement('div'); card.className='sec';
+  const h = document.createElement('h2'); h.innerHTML='<span class="dot"></span>'+sec.t; card.appendChild(h);
+  if(sec.svg){const d=document.createElement('div');d.className='diagram';d.innerHTML=sec.svg;card.appendChild(d);
+    if(sec.cap){const c=document.createElement('div');c.className='cap';c.textContent='▲ '+sec.cap;card.appendChild(c);}}
+  if(sec.formula){const f=document.createElement('div');f.className='formula';f.textContent=sec.formula;card.appendChild(f);}
+  if(sec.warn){sec.warn.forEach(w=>{const b=document.createElement('div');b.className='warnbox';b.innerHTML='<span class="t">⚠ </span>'+w;card.appendChild(b);});}
+  if(sec.jingles){sec.jingles.forEach(j=>{
+    const jd=document.createElement('div');jd.className='jingle';
+    jd.innerHTML='<div class="t">'+j.t+'</div>'+j.items.map(i=>'<p>'+i+'</p>').join('');
+    card.appendChild(jd);});}
+  if(sec.calc){
+    const cd=document.createElement('div'); cd.className='calcbox';
+    cd.innerHTML='<div class="ct">'+sec.calc.title+'</div><div class="steps" id="steps_'+si+'"></div><button class="btn primary" id="calcb_'+si+'">下一步 ▶</button>';
+    card.appendChild(cd);
+    calcState[si]={n:0,steps:sec.calc.steps};
+    document.getElementById('calcb_'+si).onclick=function(){
+      const st=calcState[si]; if(st.n>=st.steps.length) return;
+      const step=st.steps[st.n];
+      const se=document.getElementById('steps_'+si);
+      const d=document.createElement('div'); d.className='step';
+      d.innerHTML='<div class="sq">'+step.q+'</div><div class="sa">'+step.s+'</div>';
+      se.appendChild(d); st.n++;
+      if(st.n>=st.steps.length){ const b=document.getElementById('calcb_'+si); b.textContent='全部揭晓 ✔'; b.disabled=true; }
+    };
+  }
+  sec.lines.forEach(li=>{
+    const p=document.createElement('p'); p.className='ln'; p.id='ln'+li;
+    p.textContent=SENT[li];
+    card.appendChild(p); lineEls[li]=p;
+  });
+  stage.appendChild(card);
+});
+
+/* ============ 语音 + 播放控制 ============ */
+const seek=document.getElementById('seek');
+const pos=document.getElementById('pos');
+const now=document.getElementById('now');
+const meta=document.getElementById('meta');
+const liveDot=document.getElementById('liveDot');
+const playBtn=document.getElementById('playBtn');
+const prevBtn=document.getElementById('prevBtn');
+const nextBtn=document.getElementById('nextBtn');
+const toast=document.getElementById('toast');
+
+const N=SENT.length;
+seek.max=N-1; pos.textContent='0 / '+N;
+let cur=0, playing=false, autoplay=true, quizOpen=false;
+let voice=null, utter=null;
+
+function loadVoices(){
+  const vs = window.speechSynthesis ? speechSynthesis.getVoices() : [];
+  voice = vs.find(v=>/Xiaoxiao|晓晓| Xiao Xiao/i.test(v.name))
+        || vs.find(v=>v.lang==='zh-CN' && /female|女|Neural/i.test(v.name))
+        || vs.find(v=>v.lang && v.lang.toLowerCase().startsWith('zh'))
+        || null;
+}
+if(window.speechSynthesis){
+  loadVoices();
+  speechSynthesis.onvoiceschanged = loadVoices;
+}
+
+function stopSpeech(){ if(window.speechSynthesis) speechSynthesis.cancel(); }
+
+function speak(i){
+  if(!window.speechSynthesis) return;
+  stopSpeech();
+  const u=new SpeechSynthesisUtterance(SENT[i]);
+  if(voice) u.voice=voice;
+  u.lang='zh-CN'; u.rate=0.98; u.pitch=1.0; u.volume=1.0;
+  u.onend=()=>{
+    if(quizOpen) return;
+    if(autoplay && playing && cur < N-1){
+      go(cur+1, true);
+    }
+  };
+  utter=u; speechSynthesis.speak(u);
+}
+
+function highlight(i){
+  lineEls.forEach((el,idx)=>{ if(el) el.classList.toggle('cur', idx===i); });
+  const el=lineEls[i];
+  if(el){ el.scrollIntoView({behavior:'smooth',block:'center'}); }
+  now.innerHTML = '<span class="who"></span>'+SENT[i];
+  seek.value=i; pos.textContent=(i+1)+' / '+N;
+}
+
+function maybeBubble(i){
+  const b=BUBBLES[i];
+  if(b){
+    toast.innerHTML='<span class="nm">'+b.nm+'：</span>'+b.txt;
+    toast.classList.add('show');
+    setTimeout(()=>toast.classList.remove('show'),4200);
+  }
+}
+
+function maybeQuiz(i){
+  const q=QUIZZES[i];
+  if(q){ openQuiz(i,q); return true; }
+  return false;
+}
+
+function go(i, fromEnd){
+  i=Math.max(0,Math.min(N-1,i));
+  cur=i;
+  highlight(i);
+  maybeBubble(i);
+  if(maybeQuiz(i)){
+    stopSpeech(); playing=false; updatePlayBtn();
+    return;
+  }
+  if(playing){ speak(i); }
+}
+
+function updatePlayBtn(){ playBtn.textContent = playing? '⏸ 暂停':'▶ 播放'; liveDot.style.display = playing? 'inline-block':'none'; }
+
+playBtn.onclick=()=>{
+  if(quizOpen) return;
+  if(playing){ playing=false; stopSpeech(); updatePlayBtn(); meta.textContent='已暂停'; }
+  else{
+    if(cur>=N-1) cur=0;
+    playing=true; autoplay=true; updatePlayBtn(); meta.textContent='晓晓老师正在朗读…';
+    if(maybeQuiz(cur)){ playing=false; updatePlayBtn(); return; }
+    speak(cur);
+  }
+};
+prevBtn.onclick=()=>{ if(quizOpen)return; playing=false; updatePlayBtn(); go(cur-1); };
+nextBtn.onclick=()=>{ if(quizOpen)return; playing=false; updatePlayBtn(); go(cur+1); };
+seek.oninput=()=>{ if(quizOpen)return; const v=parseInt(seek.value,10); playing=false; updatePlayBtn(); go(v); };
+
+/* ============ 费曼弹题 ============ */
+const mask=document.getElementById('mask');
+const quizBox=document.getElementById('quizBox');
+function openQuiz(i,q){
+  quizOpen=true; autoplay=false; playing=false; updatePlayBtn();
+  meta.textContent='⏸ 突袭提问中，请先作答';
+  let html='<h3>'+q.title+'</h3>';
+  html+='<span class="asker">'+q.asker+' 问</span>';
+  html+='<div class="q" style="background:#2a1620;border-color:#ff6b9d">'+q.intro+'</div>';
+  q.qs.forEach((qq,k)=>{
+    html+='<div class="q"><span class="lab">'+qq.lab+'</span>'+qq.q+'</div>';
+    html+='<textarea id="ta'+i+'_'+k+'" placeholder="在这里用你自己的话写答案…"></textarea>';
+  });
+  html+='<div class="ans" id="ans'+i+'">'+q.ans+'</div>';
+  html+='<div class="row">';
+  html+='<button class="btn primary" id="reveal'+i+'">提交看答案</button>';
+  html+='<button class="btn nav" id="cont'+i+'">继续上课 ⏭</button>';
+  html+='</div>';
+  quizBox.innerHTML=html;
+  mask.classList.add('show');
+  document.getElementById('reveal'+i).onclick=()=>{ document.getElementById('ans'+i).style.display='block'; };
+  document.getElementById('cont'+i).onclick=()=>{ closeQuiz(i); };
+}
+function closeQuiz(i){
+  mask.classList.remove('show'); quizOpen=false;
+  if(cur < N-1){ cur=i; playing=true; autoplay=true; updatePlayBtn(); meta.textContent='晓晓老师继续朗读…'; go(i+1); }
+  else { meta.textContent='本课已讲完 🎉'; }
+}
+window.addEventListener('click',e=>{ if(e.target===mask) { /* 点遮罩不关闭，需作答 */ } });
+
+/* 初始 */
+highlight(0);
+meta.textContent='已就绪 · 本课前半段复习「年轻人养生」，再讲新课';
+</script>
+</body>
+</html>
