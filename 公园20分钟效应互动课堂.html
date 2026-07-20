@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>晓晓老师社会现象分析课 · 第14课：年轻人为什么爱上公园20分钟效应——从科学到现象看懂免费自然处方</title>
+<style>
+  :root{
+    --bg:#0f1226; --bg2:#171a36; --card:#1e2247; --card2:#262b57;
+    --ink:#eef1ff; --sub:#aeb6e6; --accent:#ffd166; --accent2:#06d6a0;
+    --pink:#ff6b9d; --blue:#5bc0eb; --warn:#ff6b6b; --line:#333a6b;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0;background:linear-gradient(160deg,var(--bg),var(--bg2));color:var(--ink);
+    font-family:"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;line-height:1.7}
+  .topbar{position:sticky;top:0;z-index:30;background:rgba(15,18,38,.92);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);padding:10px 14px}
+  .topbar h1{font-size:17px;margin:0 0 8px;font-weight:800;letter-spacing:.5px}
+  .topbar h1 .badge{background:var(--accent);color:#222;border-radius:999px;padding:1px 9px;font-size:12px;margin-right:8px}
+  .ctrl{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .btn{border:none;border-radius:10px;padding:8px 12px;font-size:14px;font-weight:700;cursor:pointer;
+    background:var(--card2);color:var(--ink);transition:.15s;display:inline-flex;align-items:center;gap:5px}
+  .btn:hover{filter:brightness(1.15)}
+  .btn.primary{background:linear-gradient(135deg,var(--accent),#ff9f1c);color:#241a00}
+  .btn.nav{background:var(--blue);color:#04263a}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .seekwrap{flex:1;min-width:160px;display:flex;align-items:center;gap:8px}
+  input[type=range]{-webkit-appearance:none;appearance:none;height:8px;border-radius:999px;
+    background:linear-gradient(90deg,var(--accent2),var(--accent));outline:none;width:100%}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;
+    background:#fff;border:3px solid var(--accent);cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+  input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--accent);cursor:pointer}
+  .pos{font-size:12px;color:var(--sub);min-width:74px;text-align:right;font-variant-numeric:tabular-nums}
+  .hint{font-size:12px;color:var(--sub);margin-top:6px}
+  .hint b{color:var(--accent)}
+  .stage{padding:14px 14px 150px;max-width:880px;margin:0 auto}
+  .sec{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin:0 0 14px;
+    box-shadow:0 6px 20px rgba(0,0,0,.25)}
+  .sec h2{font-size:16px;margin:0 0 10px;color:var(--accent);display:flex;align-items:center;gap:8px}
+  .sec h2 .dot{width:9px;height:9px;border-radius:50%;background:var(--accent2)}
+  .ln{margin:0;padding:6px 10px;border-radius:9px;color:var(--ink);font-size:15.5px;transition:.2s;border-left:3px solid transparent}
+  .ln.cur{background:var(--card2);border-left:3px solid var(--accent);font-weight:700}
+  .ln .who{color:var(--accent2);font-weight:800;margin-right:4px}
+  .diagram{margin:10px 0 4px;text-align:center}
+  .diagram svg{max-width:100%;height:auto}
+  .cap{font-size:12px;color:var(--sub);margin-top:4px}
+  .formula{background:var(--bg2);border:1px dashed var(--accent);border-radius:10px;padding:10px 12px;
+    font-size:15px;color:var(--accent);text-align:center;margin:8px 0;font-weight:700}
+  .jingle{background:linear-gradient(135deg,#2a2150,#3a2a5e);border-radius:12px;padding:12px 14px;margin:8px 0}
+  .jingle .t{color:var(--pink);font-weight:800;font-size:13px;margin-bottom:4px}
+  .jingle p{margin:4px 0;font-size:15px;color:#ffe6f3;letter-spacing:.3px}
+  .subbar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(8,10,24,.96);
+    border-top:2px solid var(--accent);padding:14px 16px 16px;box-shadow:0 -8px 24px rgba(0,0,0,.5)}
+  .subbar .now{font-size:19px;font-weight:800;color:#fff;text-align:center;max-width:860px;margin:0 auto;
+    line-height:1.5;min-height:27px}
+  .subbar .now .who{color:var(--accent2)}
+  .subbar .meta{text-align:center;color:var(--sub);font-size:12px;margin-top:6px}
+  .live{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent2);margin-right:6px;
+    animation:pulse 1s infinite}
+  @keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+  .toast{position:fixed;right:16px;bottom:120px;z-index:45;max-width:300px;background:var(--card2);
+    border:1px solid var(--line);border-radius:14px;padding:10px 12px;font-size:14px;box-shadow:0 6px 18px rgba(0,0,0,.4);
+    opacity:0;transform:translateY(12px);transition:.4s;pointer-events:none}
+  .toast.show{opacity:1;transform:translateY(0)}
+  .toast .nm{color:var(--pink);font-weight:800;margin-right:5px}
+  .mask{position:fixed;inset:0;z-index:60;background:rgba(4,6,18,.82);display:none;align-items:center;justify-content:center;padding:18px}
+  .mask.show{display:flex}
+  .quiz{background:var(--card);border:2px solid var(--pink);border-radius:18px;max-width:560px;width:100%;
+    padding:20px;box-shadow:0 12px 40px rgba(0,0,0,.6);max-height:88vh;overflow:auto}
+  .quiz h3{margin:0 0 6px;color:var(--pink);font-size:18px}
+  .quiz .asker{display:inline-block;background:var(--pink);color:#fff;border-radius:999px;padding:2px 10px;font-size:13px;font-weight:800;margin-bottom:8px}
+  .q{background:var(--bg2);border-radius:12px;padding:11px 13px;margin:10px 0;font-size:15px}
+  .q .lab{color:var(--accent);font-weight:800;margin-right:6px}
+  textarea{width:100%;min-height:64px;border-radius:10px;border:1px solid var(--line);background:var(--bg);
+    color:var(--ink);padding:10px;font-size:14px;font-family:inherit;resize:vertical}
+  .ans{display:none;background:#16331f;border:1px solid var(--accent2);border-radius:12px;padding:12px 14px;margin-top:8px;font-size:14px;color:#d6ffe6}
+  .ans b{color:var(--accent2)}
+  .quiz .row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+  .footnote{text-align:center;color:var(--sub);font-size:12px;padding:18px}
+  .warnbox{background:#2a1620;border:1px solid var(--warn);border-radius:12px;padding:12px;margin:8px 0;font-size:14px}
+  .warnbox .t{color:var(--warn);font-weight:800}
+  .calcbox{background:#152a3a;border:1px solid var(--blue);border-radius:12px;padding:12px;margin:8px 0}
+  .calcbox .ct{color:var(--blue);font-weight:800;font-size:14px;margin-bottom:8px}
+  .calcbox .step{background:var(--bg2);border-radius:10px;padding:10px 12px;margin:8px 0}
+  .calcbox .sq{color:var(--accent);font-weight:800;font-size:14px;margin-bottom:4px}
+  .calcbox .sa{color:var(--ink);font-size:14px;line-height:1.6}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1><span class="badge">第14课</span>年轻人为什么爱上公园20分钟效应：从科学到现象看懂免费自然处方</h1>
+  <div class="ctrl">
+    <button class="btn primary" id="playBtn">▶ 播放</button>
+    <button class="btn nav" id="prevBtn">⏮ 上一句</button>
+    <button class="btn nav" id="nextBtn">下一句 ⏭</button>
+    <div class="seekwrap">
+      <input type="range" id="seek" min="0" max="0" step="1" value="0">
+      <span class="pos" id="pos">0 / 0</span>
+    </div>
+  </div>
+  <div class="hint">💡 进度条可<b>自由拖动</b>调位置；「上一句 / 下一句」逐句跳转；晓晓老师神经网络语音朗读；底部字幕不挡讲解；课中会有小明/小红突袭提问，记得答完再继续～</div>
+</div>
+
+<div class="stage" id="stage"></div>
+
+<div class="subbar">
+  <div class="now" id="now">点「播放」，晓晓老师开讲啦～</div>
+  <div class="meta"><span class="live" id="liveDot" style="display:none"></span><span id="meta">已就绪 · 本课前半段复习「谷子经济」，再讲新课</span></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="mask" id="mask">
+  <div class="quiz" id="quizBox"></div>
+</div>
+
+<div class="footnote">懒脑袋锻炼计划 · 第14课 · 数据来自2024-2026公开报道（国际环境健康研究杂志/新华社/澎湃/大公报/千瓜数据/《自然》子刊等）· 本页为自包含离线课件，请用 Edge / Chrome 打开以启用晓晓老师语音</div>
+
+<script>
+/* ============ 讲解文稿（逐句，供语音+字幕） ============ */
+const SENT = [
+ "同学们好！我是晓晓老师，懒脑袋锻炼计划第14课开讲啦。",
+ "先复习上节课：我们讲了年轻人为什么为谷子疯狂——去消费里，抓一种被懂、被陪、被接纳的情绪价值。",
+ "它和玄学热、人机恋、养生是同一棵树上的亲兄弟：玄学去庙里抓确定感，人机恋去手机里抓回应感，养生去身体里抓掌控感，谷子去消费里抓情绪价值。",
+ "今天这课，我们讲第五块拼图：年轻人为什么爱上公园20分钟效应——去自然里，抓一种不花一分钱的精神快充。",
+ "它就是：哪怕啥也不干，只要在公园坐上20分钟，心情就会由阴转晴。这是这届年轻人在高压里，给自己留的一块能喘气的空地。",
+ "好，复习完毕，进入今天的新现象。",
+
+ "先说现象：什么是公园20分钟效应？它也叫20分钟公园理论。",
+ "意思是：即便不做运动，只要在公园等自然环境中待上大约20分钟，人的情绪就会变好、压力就会下降。",
+ "这个理论不是网友瞎编的——它来自美国亚拉巴马大学团队发表在《国际环境健康研究杂志》上的研究，2020年看心情，2023年看血液里的压力激素。",
+ "2024年它在中文互联网彻底火了：小红书上相关话题浏览量冲到五千多万，抖音关注量超千万；热搜上挂满了公园20分钟是年轻人的精神快充。",
+ "更妙的是，它不只属于大城市大公园——写字楼旁的一棵树、社区的一小块草坪、甚至校园20分钟、林荫路20分钟都算。抬脚就到，零成本。",
+ "所以今天的问题不是公园有啥用，而是：一块草地、一阵风，凭什么让卷到不行的年轻人，甘心放下手机坐20分钟？",
+
+ "先正名！一看到年轻人去公园发呆，很多人第一反应是：矫情、装文艺、浪费时间。",
+ "先别急着笑。真正该问的是：为什么这届年轻人，愿意把最贵的20分钟，白白浪费在草地上？",
+ "有个生理事实叫皮质醇——它是人体内的压力荷尔蒙，你一紧张它就飙升；长期偏高会让人焦虑、失眠、免疫力下降。",
+ "记住一句话：公园不是矫情，是给紧绷的神经按暂停键。你坐的不是冷板凳，是让身体从战斗模式切回休息模式的复位键。",
+ "所以别把公园当笑话，它是这代人最便宜的精神急诊室。",
+
+ "要真懂公园效应，先抓三个核心概念。",
+ "第一个：皮质醇下降。研究表明，逛公园满约21.8分钟，唾液里的压力荷尔蒙就会明显下降；78.3%的游客皮质醇降了，平均降幅能到两成七。",
+ "第二个：注意力复位。心理学家卡普兰夫妇提出注意力恢复理论——大自然用轻柔的鸟鸣、树影吸引你的非自主注意力，让用累了的自主注意力歇口气。",
+ "第三个：内啡肽与生物亲和。晒太阳、闻草香会激发快乐物质内啡肽；演化心理学家说，人类骨子里就亲近自然，回到绿地像回了老家，大脑秒松。",
+ "记住这三词：降压力（皮质醇）、复位（注意力）、回本能（生物亲和）。后面全靠它们串。",
+
+ "那这股风从哪刮起来的？五根线，记好。",
+ "第一根：压力逃离。内卷、KPI、格子间让皮质醇长期偏高；公园用物理空间把你和城市应激源隔开，是最便宜的逃离。",
+ "第二根：低成本治愈。它比City walk还省——耗时短、花费少、抬脚可及，是精打细算的松弛感，呼应咱们讲过的消费两副面孔：该省省。",
+ "第三根：重建附近。社会学家项飙说现代人正在消灭附近；公园让人重新感知身边、和邻居随机聊两句，是轻社交，呼应搭子文化。",
+ "第四根：短逃离心态。职场不允许gap，年轻人就把20分钟当成乌托邦时间，还给生活20分钟，不跑远也能喘气。",
+ "第五根：城市公园自由。口袋公园、留白增绿让300米见绿、500米见园成真，公园免费开放率超九成，基础设施兜底，才让你随到随歇。",
+ "五根线合起来：压力逼人逃，低成本能逃，附近可 reconnect，短逃离给出口，城市把绿地送到脚边。",
+
+ "不过老师要泼冷水，几个坑必须警惕。",
+ "第一坑：不能替代治疗。它只对轻中度压力有用；真抑郁、真焦虑要找医生，别拿公园当药吃。",
+ "第二坑：研究有局限。早期样本小、缺对照组，别神话成包治百病；它是缓冲垫不是救生圈。",
+ "第三坑：绿地不平等。不是人人家楼下有公园；老小区、城中村绿地少，公园自由有城乡和区域差距，别把去公园当道德正确。",
+ "第四坑：打卡式疗愈。有人为发朋友圈而去，身在公园心在PPT，反而添了必须治愈的新KPI；没专注当下，白坐。",
+ "所以公园是充电站，不是急救包。能去就去，去不了还有看天、抱树、深呼吸；真累了，先看医生。",
+
+ "来，背口诀！正名口诀：别笑矫情浪费时，先问压力从何至；坐的不止冷板凳，是给神经按暂停。",
+ "三概念口诀：皮质醇降压自退，注意力复位脑不累，内啡肽涌回本能，自然充电最便宜。",
+ "五根线口诀：一逃压力二省钱，三连附近四短歇；城市送到脚边绿，不花一分精神充。",
+ "反方口诀：重症须寻专业医，研究局限莫神迷；绿地不均休苛责，打卡表演最无益。",
+
+ "下面练练读数的眼睛，三道数据题，一步步算。",
+
+ "好，现在轮到你当老师了。用一句话说说年轻人为什么爱上公园20分钟；再想想它和玄学热、人机恋、养生、谷子的共同点；最后，假如你今天只有20分钟，会怎么用它给自己复位？",
+ "（停顿，给学生思考时间——想好了再往下听答案。）",
+
+ "今天的课到这儿。记住：年轻人爱公园20分钟，表面是去草地发呆，里子是在卷不动的时候，想抓住一块不花钱、不靠别人、抬脚就到的喘息地。",
+ "它和玄学热、人机恋、养生、谷子是同一棵树的第五根枝——都在不确定的高压里，给自己找块能踩稳的石头。但这根枝最特别：它不花一分钱，也不靠消费。",
+ "下节课我们继续拆解新现象。作业：今天允许自己浪费20分钟——去楼下草地坐坐，看会儿天，啥也不干。同学们，再见！"
+];
+
+/* ============ 章节结构（含图示） ============ */
+const SVG_PHENOMENON = `<svg viewBox="0 0 680 210" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC,sans-serif">
+  <rect width="680" height="210" rx="16" fill="#171a36"/>
+  <text x="340" y="26" fill="#ffd166" font-size="16" font-weight="800" text-anchor="middle">公园 = 20分钟发呆 + 皮质醇下降</text>
+  <defs><marker id="ar3" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto"><path d="M0 0 L8 3 L0 6 Z" fill="#06d6a0"/></marker></defs>
+  <g transform="translate(60,55)">
+    <circle cx="40" cy="40" r="34" fill="#262b57" stroke="#ffd166" stroke-width="3"/>
+    <text x="40" y="36" fill="#ffd166" font-size="15" font-weight="800" text-anchor="middle">20</text>
+    <text x="40" y="56" fill="#aeb6e6" font-size="11" text-anchor="middle">分钟</text>
+    <line x1="40" y1="74" x2="40" y2="86" stroke="#ffd166" stroke-width="2"/>
+    <text x="40" y="104" fill="#aeb6e6" font-size="12" text-anchor="middle">坐满才起效</text>
+  </g>
+  <path d="M150 95 H250" stroke="#ffd166" stroke-width="4" fill="none" marker-end="url(#ar3)"/>
+  <g transform="translate(290,52)">
+    <path d="M0 30 L20 10 L40 30 L60 10 L80 30" stroke="#06d6a0" stroke-width="4" fill="none"/>
+    <text x="40" y="52" fill="#06d6a0" font-size="13" font-weight="800" text-anchor="middle">皮质醇↓</text>
+    <text x="40" y="74" fill="#aeb6e6" font-size="11" text-anchor="middle">压力荷尔蒙降两成七</text>
+  </g>
+  <g transform="translate(500,50)">
+    <ellipse cx="40" cy="44" rx="34" ry="26" fill="#262b57" stroke="#ff6b9d" stroke-width="3"/>
+    <circle cx="40" cy="44" r="14" fill="#ff6b9d"/>
+    <text x="40" y="92" fill="#aeb6e6" font-size="12" text-anchor="middle">草地上的你</text>
+  </g>
+</svg>`;
+
+const SVG_CONCEPT = `<svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC,sans-serif">
+  <rect width="680" height="200" rx="16" fill="#171a36"/>
+  <text x="340" y="26" fill="#ffd166" font-size="16" font-weight="800" text-anchor="middle">三概念：降压力 / 复位 / 回本能</text>
+  <rect x="40" y="50" width="180" height="110" rx="14" fill="#262b57" stroke="#ff6b9d" stroke-width="2"/>
+  <text x="130" y="80" fill="#ff6b9d" font-size="15" font-weight="800" text-anchor="middle">皮质醇下降</text>
+  <text x="130" y="104" fill="#aeb6e6" font-size="12" text-anchor="middle">降压力</text>
+  <text x="130" y="126" fill="#aeb6e6" font-size="11" text-anchor="middle">78.3%游客降了</text>
+  <text x="130" y="146" fill="#aeb6e6" font-size="11" text-anchor="middle">平均降两成七</text>
+  <rect x="250" y="50" width="180" height="110" rx="14" fill="#262b57" stroke="#5bc0eb" stroke-width="2"/>
+  <text x="340" y="80" fill="#5bc0eb" font-size="15" font-weight="800" text-anchor="middle">注意力复位</text>
+  <text x="340" y="104" fill="#aeb6e6" font-size="12" text-anchor="middle">脑不累</text>
+  <text x="340" y="126" fill="#aeb6e6" font-size="11" text-anchor="middle">卡普兰ART</text>
+  <text x="340" y="146" fill="#aeb6e6" font-size="11" text-anchor="middle">自然吸引非自主</text>
+  <rect x="460" y="50" width="180" height="110" rx="14" fill="#262b57" stroke="#06d6a0" stroke-width="2"/>
+  <text x="550" y="80" fill="#06d6a0" font-size="15" font-weight="800" text-anchor="middle">内啡肽回归</text>
+  <text x="550" y="104" fill="#aeb6e6" font-size="12" text-anchor="middle">回本能</text>
+  <text x="550" y="126" fill="#aeb6e6" font-size="11" text-anchor="middle">晒太阳激发</text>
+  <text x="550" y="146" fill="#aeb6e6" font-size="11" text-anchor="middle">生物亲和</text>
+</svg>`;
+
+const SVG_ROOTS = `<svg viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC,sans-serif">
+  <rect width="680" height="260" rx="16" fill="#171a36"/>
+  <rect x="285" y="20" width="110" height="46" rx="10" fill="#262b57" stroke="#ffd166" stroke-width="2"/>
+  <text x="340" y="48" fill="#ffd166" font-size="15" font-weight="800" text-anchor="middle">公园热</text>
+  <line x1="340" y1="66" x2="340" y2="120" stroke="#888" stroke-width="3"/>
+  <g stroke="#06d6a0" stroke-width="3" fill="none">
+    <path d="M340 120 C300 150 250 160 150 175"/>
+    <path d="M340 120 C310 155 280 175 220 195"/>
+    <path d="M340 120 C340 160 340 185 340 210"/>
+    <path d="M340 120 C370 155 400 175 460 195"/>
+    <path d="M340 120 C380 150 430 160 530 175"/>
+  </g>
+  <g font-size="12.5" font-weight="700" text-anchor="middle">
+    <text x="135" y="172" fill="#5bc0eb">①压力逃离</text>
+    <text x="205" y="198" fill="#5bc0eb">②低成本治愈</text>
+    <text x="340" y="228" fill="#5bc0eb">③重建附近</text>
+    <text x="475" y="198" fill="#5bc0eb">④短逃离心态</text>
+    <text x="545" y="172" fill="#5bc0eb">⑤公园自由</text>
+  </g>
+  <text x="340" y="250" fill="#aeb6e6" font-size="12" text-anchor="middle">五根线托起公园热：根扎得清，休息才清醒</text>
+</svg>`;
+
+const SECTIONS = [
+  {t:"① 复习：谷子经济（上节课）", lines:[0,1,2,3,4,5],
+     jingles:[{t:"上节课一句话",items:["谷子：去消费里抓情绪价值","玄学热：去庙里抓确定感","人机恋：去手机里抓回应感","养生：去身体里抓掌控感","今天：去自然里抓免费喘息"]}]},
+  {t:"② 新课导入：什么是公园20分钟效应", lines:[6,7,8,9,10,11], svg:SVG_PHENOMENON, cap:"图：20分钟 + 绿地 = 皮质醇下降"},
+  {t:"③ 正名：不是矫情，是科学", lines:[12,13,14,15,16],
+     warn:["一看到年轻人去公园发呆别急着笑「矫情」——先问：为什么这届年轻人愿意把最贵的20分钟，白白浪费在草地上？"]},
+  {t:"④ 三个核心概念", lines:[17,18,19,20,21], svg:SVG_CONCEPT, cap:"图：降压力(皮质醇) / 复位(注意力) / 回本能(生物亲和)"},
+  {t:"⑤ 五根线（原因拆解）", lines:[22,23,24,25,26,27,28], svg:SVG_ROOTS, cap:"图：五根线托起公园热",
+     jingles:[{t:"五根线",items:["①压力逃离：内卷KPI逼人逃应激源","②低成本治愈：比City walk还省，呼应消费两副面孔","③重建附近：项飙说消灭附近，公园reconnect邻居","④短逃离心态：职场不许gap，20分钟当乌托邦","⑤城市公园自由：口袋公园送到脚边，免费率超九成"]}]},
+  {t:"⑥ 反方警惕：四个坑", lines:[29,30,31,32,33,34],
+     warn:["第一坑：不能替代治疗——真抑郁真焦虑要看医生，别拿公园当药吃","第二坑：研究有局限——早期样本小缺对照组，别神话成包治百病","第三坑：绿地不平等——老小区城中村绿地少，别把去公园当道德正确","第四坑：打卡式疗愈——为发圈而去、身在公园心在PPT，反而添新KPI"]},
+  {t:"⑦ 口诀大合集", lines:[35,36,37,38],
+     jingles:[
+       {t:"正名口诀",items:["别笑矫情浪费时，先问压力从何至；","坐的不止冷板凳，是给神经按暂停。"]},
+       {t:"三概念口诀",items:["皮质醇降压自退，注意力复位脑不累；","内啡肽涌回本能，自然充电最便宜。"]},
+       {t:"五根线口诀",items:["一逃压力二省钱，三连附近四短歇；","城市送到脚边绿，不花一分精神充。"]},
+       {t:"反方口诀",items:["重症须寻专业医，研究局限莫神迷；","绿地不均休苛责，打卡表演最无益。"]}
+     ]},
+  {t:"⑧ 数据演练（练读数的眼睛）", lines:[39],
+     calc:{title:"三道数据题，点「下一步」逐题揭晓", steps:[
+       {q:"题1：研究说要坐多久皮质醇才下降？", s:"亚拉巴马大学团队发现：逛公园满约21.8分钟，唾液里的压力荷尔蒙皮质醇才明显下降。也就是说，随便坐5分钟不够，得坐够将近22分钟，身体才真正切换到休息模式。"},
+       {q:"题2：公园效应在年轻人里有多火？", s:"小红书话题浏览量约5594万，约等于0.56亿人；抖音关注量超1000万，约0.1亿。两者合计约0.66亿。全国约14亿人，相当于每21人里就有1人刷到过这个热搜——妥妥的现象级。"},
+       {q:"题3：绿地多真的少生病吗？", s:"《自然》子刊一项40万人研究发现：长期暴露在绿地环境里的人，抑郁风险低16%、焦虑风险低14%。换算一下：若1000人本可能因缺绿地而抑郁，多接触自然后预计少160人。所以公园不是矫情，是实打实的公共卫生。"}
+     ]}},
+  {t:"⑨ 费曼检测", lines:[40,41]},
+  {t:"⑩ 结语", lines:[42,43,44]}
+];
+
+/* ============ 学生互动气泡（飘一下，不挡讲解） ============ */
+const BUBBLES = {
+  8:{nm:"小红",txt:"我在小红书刷到过这个效应！上周午休溜去公司楼下草坪坐了20分钟，回来同事说我脸上班味淡了😆"},
+  16:{nm:"小明",txt:"原来不是我矫情，是身体里的皮质醇在喊停啊，顿时被理解了"},
+  25:{nm:"小红",txt:"项飙说的『消灭附近』我懂！我在公园和遛狗邻居聊过两次，居然加了微信"},
+  34:{nm:"小明",txt:"我拒绝打卡式疗愈！今天就去真实发呆，不拍照不发圈"}
+};
+
+/* ============ 费曼突袭弹题（在指定句触发） ============ */
+const QUIZZES = {
+  21:{ // 三概念讲完
+    asker:"小明", title:"突袭提问①",
+    intro:"晓晓老师，我妈说我天天往公园跑是浪费时间，可我在草地上一坐，脑子里那根弦就松了。这到底算科学还是矫情啊？",
+    qs:[
+      {lab:"辨一辨",q:"用今天学的三概念，说说小明去公园是在干啥？"},
+      {lab:"改一改",q:"怎么坐才真有效、不白坐？给个简单标准。"}
+    ],
+    ans:"<b>参考答案：</b>小明坐公园是在给神经复位，涉及三个概念：①<b>皮质醇下降</b>——压力荷尔蒙随自然环境降低；②<b>注意力复位</b>——大自然的鸟鸣树影吸引非自主注意力，让用累的自主注意力歇口气（卡普兰注意力恢复理论）；③<b>内啡肽与生物亲和</b>——晒太阳能激发快乐物质，回到绿地像回老家。标准是：<b>坐够约22分钟、放下手机、专注当下</b>；只坐5分钟或身在公园心在PPT，就白坐。记住：公园不是矫情，是给紧绷神经按暂停键。"
+  },
+  28:{ // 五根线讲完
+    asker:"小红", title:"突袭提问②",
+    intro:"五根线里我最戳的是『重建附近』——我独居，朋友不多，但在公园和遛狗的邻居聊过两次，居然加了微信。你呢？五根线你能背几句？哪一根最像你家？",
+    qs:[
+      {lab:"背一背",q:"五根线你能背出几句？哪一根和你最像？"},
+      {lab:"防坑",q:"靠公园解压，最要警惕什么？怎么别变成打卡式疗愈？"}
+    ],
+    ans:"<b>参考答案：</b>五根线：①压力逃离 ②低成本治愈 ③重建附近 ④短逃离心态 ⑤城市公园自由。靠公园解压最要警惕：<b>不能替代治疗</b>（真抑郁要看医生）、<b>绿地不平等</b>（不是人人家楼下有公园，别苛责）、<b>打卡式疗愈</b>（为发朋友圈而去、身在公园心在PPT，反而添新KPI）。有效标准：真实放下手机、专注当下、坐够20分钟；把疗愈当表演就白坐。"
+  },
+  40:{ // 费曼检测主问
+    asker:"晓晓老师", title:"费曼检测（合上课本讲给我听）",
+    intro:"现在轮到你当老师了。别急着看答案，先自己讲，再对照。",
+    qs:[
+      {lab:"一句话",q:"用一句话解释年轻人为什么爱上公园20分钟？举个你身边的例子。"},
+      {lab:"勾连",q:"它和玄学热、人机恋、养生、谷子的共同点是什么？（提示：都在高压里抓一样东西）"},
+      {lab:"实战",q:"假如你今天只有20分钟，会怎么用它给自己复位？写个你的小计划。"}
+    ],
+    ans:"<b>参考答案：</b>①年轻人爱公园20分钟=在卷不动时，用零成本、抬脚就到的自然接触，给紧绷的神经做短暂复位，抓一点不花钱的喘息。例子：白领小王每天午休去写字楼旁草坪坐20分钟看云，说『像给脑子洗了个澡』。②共同点：都在『不确定+高压』里抓一样东西——玄学热抓确定感（庙里）、人机恋抓回应感（手机里）、养生抓掌控感（身体里）、谷子抓情绪价值（消费里）、公园抓免费喘息（自然里），是同一棵树的第五根枝。③小计划：定闹钟午休溜去楼下绿地、手机调飞行模式、只看树和天不刷短视频、坐满22分钟再回；周末去口袋公园发呆不拍照。核心：这枝最特别——不花一分钱，也不靠消费。"
+  }
+};
+
+/* ============ 渲染课堂笔记 ============ */
+const stage = document.getElementById('stage');
+const calcState = {};
+let lineEls = [];
+SECTIONS.forEach((sec,si)=>{
+  const card = document.createElement('div'); card.className='sec';
+  const h = document.createElement('h2'); h.innerHTML='<span class="dot"></span>'+sec.t; card.appendChild(h);
+  if(sec.svg){const d=document.createElement('div');d.className='diagram';d.innerHTML=sec.svg;card.appendChild(d);
+    if(sec.cap){const c=document.createElement('div');c.className='cap';c.textContent='▲ '+sec.cap;card.appendChild(c);}}
+  if(sec.formula){const f=document.createElement('div');f.className='formula';f.textContent=sec.formula;card.appendChild(f);}
+  if(sec.warn){sec.warn.forEach(w=>{const b=document.createElement('div');b.className='warnbox';b.innerHTML='<span class="t">⚠ </span>'+w;card.appendChild(b);});}
+  if(sec.jingles){sec.jingles.forEach(j=>{
+    const jd=document.createElement('div');jd.className='jingle';
+    jd.innerHTML='<div class="t">'+j.t+'</div>'+j.items.map(i=>'<p>'+i+'</p>').join('');
+    card.appendChild(jd);});}
+  if(sec.calc){
+    const cd=document.createElement('div'); cd.className='calcbox';
+    cd.innerHTML='<div class="ct">'+sec.calc.title+'</div><div class="steps" id="steps_'+si+'"></div><button class="btn primary" id="calcb_'+si+'">下一步 ▶</button>';
+    card.appendChild(cd);
+    calcState[si]={n:0,steps:sec.calc.steps};
+    document.getElementById('calcb_'+si).onclick=function(){
+      const st=calcState[si]; if(st.n>=st.steps.length) return;
+      const step=st.steps[st.n];
+      const se=document.getElementById('steps_'+si);
+      const d=document.createElement('div'); d.className='step';
+      d.innerHTML='<div class="sq">'+step.q+'</div><div class="sa">'+step.s+'</div>';
+      se.appendChild(d); st.n++;
+      if(st.n>=st.steps.length){ const b=document.getElementById('calcb_'+si); b.textContent='全部揭晓 ✔'; b.disabled=true; }
+    };
+  }
+  sec.lines.forEach(li=>{
+    const p=document.createElement('p'); p.className='ln'; p.id='ln'+li;
+    p.textContent=SENT[li];
+    card.appendChild(p); lineEls[li]=p;
+  });
+  stage.appendChild(card);
+});
+
+/* ============ 语音 + 播放控制 ============ */
+const seek=document.getElementById('seek');
+const pos=document.getElementById('pos');
+const now=document.getElementById('now');
+const meta=document.getElementById('meta');
+const liveDot=document.getElementById('liveDot');
+const playBtn=document.getElementById('playBtn');
+const prevBtn=document.getElementById('prevBtn');
+const nextBtn=document.getElementById('nextBtn');
+const toast=document.getElementById('toast');
+
+const N=SENT.length;
+seek.max=N-1; pos.textContent='0 / '+N;
+let cur=0, playing=false, autoplay=true, quizOpen=false;
+let voice=null, utter=null;
+
+function loadVoices(){
+  const vs = window.speechSynthesis ? speechSynthesis.getVoices() : [];
+  voice = vs.find(v=>/Xiaoxiao|晓晓| Xiao Xiao/i.test(v.name))
+        || vs.find(v=>v.lang==='zh-CN' && /female|女|Neural/i.test(v.name))
+        || vs.find(v=>v.lang && v.lang.toLowerCase().startsWith('zh'))
+        || null;
+}
+if(window.speechSynthesis){
+  loadVoices();
+  speechSynthesis.onvoiceschanged = loadVoices;
+}
+
+function stopSpeech(){ if(window.speechSynthesis) speechSynthesis.cancel(); }
+
+function speak(i){
+  if(!window.speechSynthesis) return;
+  stopSpeech();
+  const u=new SpeechSynthesisUtterance(SENT[i]);
+  if(voice) u.voice=voice;
+  u.lang='zh-CN'; u.rate=0.98; u.pitch=1.0; u.volume=1.0;
+  u.onend=()=>{
+    if(quizOpen) return;
+    if(autoplay && playing && cur < N-1){
+      go(cur+1, true);
+    }
+  };
+  utter=u; speechSynthesis.speak(u);
+}
+
+function highlight(i){
+  lineEls.forEach((el,idx)=>{ if(el) el.classList.toggle('cur', idx===i); });
+  const el=lineEls[i];
+  if(el){ el.scrollIntoView({behavior:'smooth',block:'center'}); }
+  now.innerHTML = '<span class="who"></span>'+SENT[i];
+  seek.value=i; pos.textContent=(i+1)+' / '+N;
+}
+
+function maybeBubble(i){
+  const b=BUBBLES[i];
+  if(b){
+    toast.innerHTML='<span class="nm">'+b.nm+'：</span>'+b.txt;
+    toast.classList.add('show');
+    setTimeout(()=>toast.classList.remove('show'),4200);
+  }
+}
+
+function maybeQuiz(i){
+  const q=QUIZZES[i];
+  if(q){ openQuiz(i,q); return true; }
+  return false;
+}
+
+function go(i, fromEnd){
+  i=Math.max(0,Math.min(N-1,i));
+  cur=i;
+  highlight(i);
+  maybeBubble(i);
+  if(maybeQuiz(i)){
+    stopSpeech(); playing=false; updatePlayBtn();
+    return;
+  }
+  if(playing){ speak(i); }
+}
+
+function updatePlayBtn(){ playBtn.textContent = playing? '⏸ 暂停':'▶ 播放'; liveDot.style.display = playing? 'inline-block':'none'; }
+
+playBtn.onclick=()=>{
+  if(quizOpen) return;
+  if(playing){ playing=false; stopSpeech(); updatePlayBtn(); meta.textContent='已暂停'; }
+  else{
+    if(cur>=N-1) cur=0;
+    playing=true; autoplay=true; updatePlayBtn(); meta.textContent='晓晓老师正在朗读…';
+    if(maybeQuiz(cur)){ playing=false; updatePlayBtn(); return; }
+    speak(cur);
+  }
+};
+prevBtn.onclick=()=>{ if(quizOpen)return; playing=false; updatePlayBtn(); go(cur-1); };
+nextBtn.onclick=()=>{ if(quizOpen)return; playing=false; updatePlayBtn(); go(cur+1); };
+seek.oninput=()=>{ if(quizOpen)return; const v=parseInt(seek.value,10); playing=false; updatePlayBtn(); go(v); };
+
+/* ============ 费曼弹题 ============ */
+const mask=document.getElementById('mask');
+const quizBox=document.getElementById('quizBox');
+function openQuiz(i,q){
+  quizOpen=true; autoplay=false; playing=false; updatePlayBtn();
+  meta.textContent='⏸ 突袭提问中，请先作答';
+  let html='<h3>'+q.title+'</h3>';
+  html+='<span class="asker">'+q.asker+' 问</span>';
+  html+='<div class="q" style="background:#2a1620;border-color:#ff6b9d">'+q.intro+'</div>';
+  q.qs.forEach((qq,k)=>{
+    html+='<div class="q"><span class="lab">'+qq.lab+'</span>'+qq.q+'</div>';
+    html+='<textarea id="ta'+i+'_'+k+'" placeholder="在这里用你自己的话写答案…"></textarea>';
+  });
+  html+='<div class="ans" id="ans'+i+'">'+q.ans+'</div>';
+  html+='<div class="row">';
+  html+='<button class="btn primary" id="reveal'+i+'">提交看答案</button>';
+  html+='<button class="btn nav" id="cont'+i+'">继续上课 ⏭</button>';
+  html+='</div>';
+  quizBox.innerHTML=html;
+  mask.classList.add('show');
+  document.getElementById('reveal'+i).onclick=()=>{ document.getElementById('ans'+i).style.display='block'; };
+  document.getElementById('cont'+i).onclick=()=>{ closeQuiz(i); };
+}
+function closeQuiz(i){
+  mask.classList.remove('show'); quizOpen=false;
+  if(cur < N-1){ cur=i; playing=true; autoplay=true; updatePlayBtn(); meta.textContent='晓晓老师继续朗读…'; go(i+1); }
+  else { meta.textContent='本课已讲完 🎉'; }
+}
+window.addEventListener('click',e=>{ if(e.target===mask) { /* 点遮罩不关闭，需作答 */ } });
+
+/* 初始 */
+highlight(0);
+meta.textContent='已就绪 · 本课前半段复习「谷子经济」，再讲新课';
+</script>
+</body>
+</html>
