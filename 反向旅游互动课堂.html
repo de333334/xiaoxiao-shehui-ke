@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>晓晓老师社会现象分析课 · 第15课：年轻人为什么抛弃网红景区涌向小县城——看懂反向旅游</title>
+<style>
+  :root{
+    --bg:#0f1226; --bg2:#171a36; --card:#1e2247; --card2:#262b57;
+    --ink:#eef1ff; --sub:#aeb6e6; --accent:#ffd166; --accent2:#06d6a0;
+    --pink:#ff6b9d; --blue:#5bc0eb; --warn:#ff6b6b; --line:#333a6b;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0;background:linear-gradient(160deg,var(--bg),var(--bg2));color:var(--ink);
+    font-family:"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;line-height:1.7}
+  .topbar{position:sticky;top:0;z-index:30;background:rgba(15,18,38,.92);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);padding:10px 14px}
+  .topbar h1{font-size:17px;margin:0 0 8px;font-weight:800;letter-spacing:.5px}
+  .topbar h1 .badge{background:var(--accent);color:#222;border-radius:999px;padding:1px 9px;font-size:12px;margin-right:8px}
+  .ctrl{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .btn{border:none;border-radius:10px;padding:8px 12px;font-size:14px;font-weight:700;cursor:pointer;
+    background:var(--card2);color:var(--ink);transition:.15s;display:inline-flex;align-items:center;gap:5px}
+  .btn:hover{filter:brightness(1.15)}
+  .btn.primary{background:linear-gradient(135deg,var(--accent),#ff9f1c);color:#241a00}
+  .btn.nav{background:var(--blue);color:#04263a}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .seekwrap{flex:1;min-width:160px;display:flex;align-items:center;gap:8px}
+  input[type=range]{-webkit-appearance:none;appearance:none;height:8px;border-radius:999px;
+    background:linear-gradient(90deg,var(--accent2),var(--accent));outline:none;width:100%}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;
+    background:#fff;border:3px solid var(--accent);cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+  input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--accent);cursor:pointer}
+  .pos{font-size:12px;color:var(--sub);min-width:74px;text-align:right;font-variant-numeric:tabular-nums}
+  .hint{font-size:12px;color:var(--sub);margin-top:6px}
+  .hint b{color:var(--accent)}
+  .stage{padding:14px 14px 150px;max-width:880px;margin:0 auto}
+  .sec{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin:0 0 14px;
+    box-shadow:0 6px 20px rgba(0,0,0,.25)}
+  .sec h2{font-size:16px;margin:0 0 10px;color:var(--accent);display:flex;align-items:center;gap:8px}
+  .sec h2 .dot{width:9px;height:9px;border-radius:50%;background:var(--accent2)}
+  .ln{margin:0;padding:6px 10px;border-radius:9px;color:var(--ink);font-size:15.5px;transition:.2s;border-left:3px solid transparent}
+  .ln.cur{background:var(--card2);border-left:3px solid var(--accent);font-weight:700}
+  .ln .who{color:var(--accent2);font-weight:800;margin-right:4px}
+  .diagram{margin:10px 0 4px;text-align:center}
+  .diagram svg{max-width:100%;height:auto}
+  .cap{font-size:12px;color:var(--sub);margin-top:4px}
+  .formula{background:var(--bg2);border:1px dashed var(--accent);border-radius:10px;padding:10px 12px;
+    font-size:15px;color:var(--accent);text-align:center;margin:8px 0;font-weight:700}
+  .jingle{background:linear-gradient(135deg,#2a2150,#3a2a5e);border-radius:12px;padding:12px 14px;margin:8px 0}
+  .jingle .t{color:var(--pink);font-weight:800;font-size:13px;margin-bottom:4px}
+  .jingle p{margin:4px 0;font-size:15px;color:#ffe6f3;letter-spacing:.3px}
+  .subbar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(8,10,24,.96);
+    border-top:2px solid var(--accent);padding:14px 16px 16px;box-shadow:0 -8px 24px rgba(0,0,0,.5)}
+  .subbar .now{font-size:19px;font-weight:800;color:#fff;text-align:center;max-width:860px;margin:0 auto;
+    line-height:1.5;min-height:27px}
+  .subbar .now .who{color:var(--accent2)}
+  .subbar .meta{text-align:center;color:var(--sub);font-size:12px;margin-top:6px}
+  .live{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent2);margin-right:6px;
+    animation:pulse 1s infinite}
+  @keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+  .toast{position:fixed;right:16px;bottom:120px;z-index:45;max-width:300px;background:var(--card2);
+    border:1px solid var(--line);border-radius:14px;padding:10px 12px;font-size:14px;box-shadow:0 6px 18px rgba(0,0,0,.4);
+    opacity:0;transform:translateY(12px);transition:.4s;pointer-events:none}
+  .toast.show{opacity:1;transform:translateY(0)}
+  .toast .nm{color:var(--pink);font-weight:800;margin-right:5px}
+  .mask{position:fixed;inset:0;z-index:60;background:rgba(4,6,18,.82);display:none;align-items:center;justify-content:center;padding:18px}
+  .mask.show{display:flex}
+  .quiz{background:var(--card);border:2px solid var(--pink);border-radius:18px;max-width:560px;width:100%;
+    padding:20px;box-shadow:0 12px 40px rgba(0,0,0,.6);max-height:88vh;overflow:auto}
+  .quiz h3{margin:0 0 6px;color:var(--pink);font-size:18px}
+  .quiz .asker{display:inline-block;background:var(--pink);color:#fff;border-radius:999px;padding:2px 10px;font-size:13px;font-weight:800;margin-bottom:8px}
+  .q{background:var(--bg2);border-radius:12px;padding:11px 13px;margin:10px 0;font-size:15px}
+  .q .lab{color:var(--accent);font-weight:800;margin-right:6px}
+  textarea{width:100%;min-height:64px;border-radius:10px;border:1px solid var(--line);background:var(--bg);
+    color:var(--ink);padding:10px;font-size:14px;font-family:inherit;resize:vertical}
+  .ans{display:none;background:#16331f;border:1px solid var(--accent2);border-radius:12px;padding:12px 14px;margin-top:8px;font-size:14px;color:#d6ffe6}
+  .ans b{color:var(--accent2)}
+  .quiz .row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+  .footnote{text-align:center;color:var(--sub);font-size:12px;padding:18px}
+  .warnbox{background:#2a1620;border:1px solid var(--warn);border-radius:12px;padding:12px;margin:8px 0;font-size:14px}
+  .warnbox .t{color:var(--warn);font-weight:800}
+  .calcbox{background:#152a3a;border:1px solid var(--blue);border-radius:12px;padding:12px;margin:8px 0}
+  .calcbox .ct{color:var(--blue);font-weight:800;font-size:14px;margin-bottom:8px}
+  .calcbox .step{background:var(--bg2);border-radius:10px;padding:10px 12px;margin:8px 0}
+  .calcbox .sq{color:var(--accent);font-weight:800;font-size:14px;margin-bottom:4px}
+  .calcbox .sa{color:var(--ink);font-size:14px;line-height:1.6}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1><span class="badge">第15课</span>年轻人为什么抛弃网红景区涌向小县城：看懂反向旅游</h1>
+  <div class="ctrl">
+    <button class="btn primary" id="playBtn">▶ 播放</button>
+    <button class="btn nav" id="prevBtn">⏮ 上一句</button>
+    <button class="btn nav" id="nextBtn">下一句 ⏭</button>
+    <div class="seekwrap">
+      <input type="range" id="seek" min="0" max="0" step="1" value="0">
+      <span class="pos" id="pos">0 / 0</span>
+    </div>
+  </div>
+  <div class="hint">💡 进度条可<b>自由拖动</b>调位置；「上一句 / 下一句」逐句跳转；晓晓老师神经网络语音朗读；底部字幕不挡讲解；课中会有小明/小红突袭提问，记得答完再继续～</div>
+</div>
+
+<div class="stage" id="stage"></div>
+
+<div class="subbar">
+  <div class="now" id="now">点「播放」，晓晓老师开讲啦～</div>
+  <div class="meta"><span class="live" id="liveDot" style="display:none"></span><span id="meta">已就绪 · 本课前半段复习「公园20分钟效应」，再讲新课</span></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="mask" id="mask">
+  <div class="quiz" id="quizBox"></div>
+</div>
+
+<div class="footnote">懒脑袋锻炼计划 · 第15课 · 数据来自2026公开报道（人民日报/同程旅行/文旅部技术创新中心/中国旅游研究院/携程/去哪儿/马蜂窝/飞猪等）· 本页为自包含离线课件，请用 Edge / Chrome 打开以启用晓晓老师语音</div>
+
+<script>
+/* ============ 讲解文稿（逐句，供语音+字幕） ============ */
+const SENT = [
+ "同学们好！我是晓晓老师，懒脑袋锻炼计划第15课开讲啦。",
+ "先复习上节课：我们讲了年轻人为什么爱上公园20分钟效应——在草地上坐20分钟，给紧绷的神经按暂停键，抓一种不花一分钱的精神快充。",
+ "它和玄学热、人机恋、养生、谷子经济是同一棵树的亲兄弟：玄学去庙里抓确定，人机恋去手机里抓回应，养生去身体里抓掌控，谷子去消费里抓情绪价值，公园去自然里抓免费喘息。",
+ "今天这课，我们讲第六块拼图：年轻人为什么抛弃人挤人的网红景区，掉头涌向小县城——这股风叫反向旅游。",
+ "说白了就是：不挤、不贵、有特色、还能治愈，年轻人用脚投票，重新定义了什么叫出去玩。",
+ "好，复习完毕，进入今天的新现象。",
+
+ "先说现象：什么是反向旅游？它也叫县域旅游、小城旅游。",
+ "意思是：避开人山人海的一二线城市和老牌5A景区，改去那些名声不大、流量很小的县城、乡村、小地方，安安静静地深度体验。",
+ "这股风2026年彻底火了：今年五一，县域目的地的旅游产品预订量，比去年同期暴涨了128%（同程旅行《2026五一旅行趋势报告》）。",
+ "更反直觉的是：全国最火的50个5A级景区，2023到2025年国庆游客量连续3年下降，加起来少了约13%（文旅部技术创新中心监测）。",
+ "与此同时，2025年前三季度，省内游占了全部国内游的73.4%（中国旅游研究院报告）——大家不出远门、就在家附近玩，近程化、本地化成主流。",
+ "所以今天的问题不是年轻人还旅不旅游，而是：为什么他们宁去小县城，也不去大城市网红打卡了？",
+
+ "先正名！一看到年轻人跑去小县城，很多人第一反应是：穷游嘛，玩不起大城市呗。",
+ "先别急着下结论。反向旅游真不是没钱才去，而是一场主动选择。",
+ "他们要的是四个词：不挤、不贵、有特色、能治愈。比起在网红景区排5小时队、逛10分钟，小县城是另一种松弛。",
+ "记住一句话：反向旅游不是逃避，是用脚投票，把旅行的定义从我去过改成我体验过。",
+ "所以别再说小县城low——它可能是这届年轻人最清醒的出行答案。",
+
+ "要真懂反向旅游，先抓三个核心概念。",
+ "第一个：情绪价值优先。马蜂窝说，年轻游客的目标正从一座城缩小到一家小吃店——体验感取代目的地，成了出门的第一理由。从看风景变成过生活。",
+ "第二个：性价比理性。携程数据显示，五一县域酒店均价，只有一二线热门城市的一半。该省省、该花花，和咱们讲过的消费两副面孔是同一套清醒逻辑。",
+ "第三个：在地沉浸。小县城没被过度商业化包装，保留着原汁原味的本地生活，年轻人跑去像本地人一样住几天，而不只是举着手机拍个照就走。",
+ "记住这三词：重情绪（心价比）、讲性价比（该省省）、沉浸本地（过生活）。后面全靠它们串。",
+
+ "那这股风从哪刮起来的？五根线，记好。",
+ "第一根：人挤人疲惫。热门景区排队5小时、游览10分钟，古镇千城一面、卖的纪念品都一样，年轻人厌倦了当流水线上的观光零件。",
+ "第二根：钱包理性。县城酒店只要大城市一半价，同样的钱能住更好、玩更久；理性消费让他们把钱花在刀刃上。",
+ "第三根：情绪升级。年轻人从打卡转向充电，要的是松弛感、文化认同、情感代偿——我国67%的城镇化率，催生了大量县城出走青年，旅游成了重温乡土记忆的出口。",
+ "第四根：算法与社媒助推。小红书、抖音把平潭蓝眼泪、安吉采春茶这些冷门小城，直接推到你眼前，信息平权让宝藏小城被看见。",
+ "第五根：基建兜底。高铁网、高速公路、村村通四通八达，城乡之间来去自如，小城才可游、可居、可体验。",
+ "五根线合起来：人挤怕了要逃，钱包要算计，情绪要升级，社媒推一把，基建送到脚边。",
+
+ "不过老师要泼冷水，几个坑必须警惕。",
+ "第一坑：小城接不住。流量突然暴涨，交通接驳、停车位、卫生、临时涨价甚至宰客都可能跟不上——这是甜蜜的烦恼。",
+ "第二坑：千城一面。不少地方盲目复制古镇加小吃加文创的老套路，创新不足，游客去了发现还是那一套，照样失望。",
+ "第三坑：反向成内卷。警惕反向变新内卷——大家都涌去小城，小城又挤了，等于换了个地方排队。",
+ "第四坑：标签陷阱。别把去过当成活过——体验不等于换个地方拍照打卡，身在曹营心在写字楼，白去。",
+ "所以反向旅游是信号灯，不是万能药。能去就去，但别神化，更别跟风。",
+
+ "来，背口诀！正名口诀：不是穷游玩不起，是人从众里没自己；不挤不贵有特色，用脚投票选小城。",
+ "三概念口诀：情绪价值排第一，性价比里藏着理；在地沉浸过生活，不是看景是活过。",
+ "五根线口诀：一逃人海二省钱，三升情绪四推演；基建兜底路路通，小城逆袭正当年。",
+ "反方口诀：小城接不住要防，千城一面莫效仿；反向也会成内卷，体验莫当打卡换。",
+
+ "下面练练读数的眼睛，三道数据题，一步步算。",
+
+ "好，现在轮到你当老师了。用一句话说说年轻人为什么涌向小县城；再想想它和公园20分钟、消费两副面孔、谷子经济的共同点；最后，假如给你一个三天小长假，你会选哪种反向旅游？写个小计划。",
+ "（停顿，给学生思考时间——想好了再往下听答案。）",
+
+ "今天的课到这儿。记住：年轻人爱反向旅游，表面是去小县城玩，里子是在卷不动、贵不动的时候，想抓住一段不挤、不贵、能喘气、还真实的生活。",
+ "它和公园20分钟（免费治愈）、消费两副面孔（该省省）、谷子经济（情绪价值）是同一棵树的近亲——都在高压和不确定里，给自己找一块能踩稳、还买得起的石头。",
+ "下节课我们继续拆解新现象。作业：这个假期，试着规划一次反向旅游——挑个没去过的小城，不赶景点，只去体验一种当地生活。同学们，再见！"
+];
+
+/* ============ 章节结构（含图示） ============ */
+const SVG_PHENOMENON = `<svg viewBox="0 0 680 220" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC,sans-serif">
+  <rect width="680" height="220" rx="16" fill="#171a36"/>
+  <text x="340" y="26" fill="#ffd166" font-size="16" font-weight="800" text-anchor="middle">反向旅游 = 逃离人从众 → 涌向小县城</text>
+  <g transform="translate(40,55)">
+    <rect x="0" y="0" width="180" height="110" rx="14" fill="#2a1620" stroke="#ff6b6b" stroke-width="2"/>
+    <text x="90" y="30" fill="#ff6b6b" font-size="15" font-weight="800" text-anchor="middle">网红大城市</text>
+    <text x="90" y="54" fill="#aeb6e6" font-size="13" text-anchor="middle">人 从 众</text>
+    <text x="90" y="78" fill="#aeb6e6" font-size="12" text-anchor="middle">排队5h 逛10min</text>
+    <text x="90" y="100" fill="#aeb6e6" font-size="12" text-anchor="middle">千城一面</text>
+  </g>
+  <defs><marker id="ar15" markerWidth="12" markerHeight="12" refX="7" refY="3.5" orient="auto"><path d="M0 0 L9 3.5 L0 7 Z" fill="#06d6a0"/></marker></defs>
+  <text x="270" y="100" fill="#06d6a0" font-size="13" font-weight="800" text-anchor="middle">反向 ↩</text>
+  <path d="M230 110 H290" stroke="#06d6a0" stroke-width="4" fill="none" marker-end="url(#ar15)"/>
+  <g transform="translate(460,55)">
+    <rect x="0" y="0" width="180" height="110" rx="14" fill="#152a3a" stroke="#06d6a0" stroke-width="2"/>
+    <text x="90" y="30" fill="#06d6a0" font-size="15" font-weight="800" text-anchor="middle">宝藏小县城</text>
+    <text x="90" y="54" fill="#aeb6e6" font-size="13" text-anchor="middle">不挤·不贵</text>
+    <text x="90" y="78" fill="#aeb6e6" font-size="12" text-anchor="middle">有特色·能治愈</text>
+    <text x="90" y="100" fill="#aeb6e6" font-size="12" text-anchor="middle">过生活</text>
+  </g>
+  <text x="340" y="200" fill="#aeb6e6" font-size="12" text-anchor="middle">2026五一县域预订 +128% · 前50名5A景区3年 -13%</text>
+</svg>`;
+
+const SVG_CONCEPT = `<svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC,sans-serif">
+  <rect width="680" height="200" rx="16" fill="#171a36"/>
+  <text x="340" y="26" fill="#ffd166" font-size="16" font-weight="800" text-anchor="middle">三概念：重情绪 / 讲性价比 / 沉浸本地</text>
+  <rect x="40" y="50" width="180" height="110" rx="14" fill="#262b57" stroke="#ff6b9d" stroke-width="2"/>
+  <text x="130" y="80" fill="#ff6b9d" font-size="15" font-weight="800" text-anchor="middle">情绪价值优先</text>
+  <text x="130" y="104" fill="#aeb6e6" font-size="12" text-anchor="middle">重情绪</text>
+  <text x="130" y="126" fill="#aeb6e6" font-size="11" text-anchor="middle">心价比</text>
+  <text x="130" y="146" fill="#aeb6e6" font-size="11" text-anchor="middle">看风景→过生活</text>
+  <rect x="250" y="50" width="180" height="110" rx="14" fill="#262b57" stroke="#5bc0eb" stroke-width="2"/>
+  <text x="340" y="80" fill="#5bc0eb" font-size="15" font-weight="800" text-anchor="middle">性价比理性</text>
+  <text x="340" y="104" fill="#aeb6e6" font-size="12" text-anchor="middle">讲性价比</text>
+  <text x="340" y="126" fill="#aeb6e6" font-size="11" text-anchor="middle">酒店仅半价</text>
+  <text x="340" y="146" fill="#aeb6e6" font-size="11" text-anchor="middle">该省省该花花</text>
+  <rect x="460" y="50" width="180" height="110" rx="14" fill="#262b57" stroke="#06d6a0" stroke-width="2"/>
+  <text x="550" y="80" fill="#06d6a0" font-size="15" font-weight="800" text-anchor="middle">在地沉浸</text>
+  <text x="550" y="104" fill="#aeb6e6" font-size="12" text-anchor="middle">沉浸本地</text>
+  <text x="550" y="126" fill="#aeb6e6" font-size="11" text-anchor="middle">原生文化</text>
+  <text x="550" y="146" fill="#aeb6e6" font-size="11" text-anchor="middle">像本地人住几天</text>
+</svg>`;
+
+const SVG_ROOTS = `<svg viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC,sans-serif">
+  <rect width="680" height="260" rx="16" fill="#171a36"/>
+  <rect x="285" y="20" width="110" height="46" rx="10" fill="#262b57" stroke="#ffd166" stroke-width="2"/>
+  <text x="340" y="48" fill="#ffd166" font-size="15" font-weight="800" text-anchor="middle">反向旅游</text>
+  <line x1="340" y1="66" x2="340" y2="120" stroke="#888" stroke-width="3"/>
+  <g stroke="#06d6a0" stroke-width="3" fill="none">
+    <path d="M340 120 C300 150 250 160 150 175"/>
+    <path d="M340 120 C310 155 280 175 220 195"/>
+    <path d="M340 120 C340 160 340 185 340 210"/>
+    <path d="M340 120 C370 155 400 175 460 195"/>
+    <path d="M340 120 C380 150 430 160 530 175"/>
+  </g>
+  <g font-size="12.5" font-weight="700" text-anchor="middle">
+    <text x="135" y="172" fill="#5bc0eb">①人挤人疲惫</text>
+    <text x="205" y="198" fill="#5bc0eb">②钱包理性</text>
+    <text x="340" y="228" fill="#5bc0eb">③情绪升级</text>
+    <text x="475" y="198" fill="#5bc0eb">④社媒助推</text>
+    <text x="545" y="172" fill="#5bc0eb">⑤基建兜底</text>
+  </g>
+  <text x="340" y="250" fill="#aeb6e6" font-size="12" text-anchor="middle">五根线托起反向旅游：根扎得清，出行才清醒</text>
+</svg>`;
+
+const SECTIONS = [
+  {t:"① 复习：公园20分钟效应（上节课）", lines:[0,1,2,3,4,5],
+     jingles:[{t:"上节课一句话",items:["公园20分钟：去自然里抓免费喘息","玄学热：去庙里抓确定感","人机恋：去手机里抓回应感","养生：去身体里抓掌控感","谷子：去消费里抓情绪价值","今天：去小县城抓不挤不贵的真实"]}]},
+  {t:"② 新课导入：什么是反向旅游", lines:[6,7,8,9,10,11], svg:SVG_PHENOMENON, cap:"图：逃离人从众，掉头去小城"},
+  {t:"③ 正名：不是穷游，是主动选择", lines:[12,13,14,15,16],
+     warn:["一看到年轻人跑去小县城，别急着说「穷游玩不起」——先问：为什么这届年轻人愿意放弃大城市网红，掉头去小地方？"]},
+  {t:"④ 三个核心概念", lines:[17,18,19,20,21], svg:SVG_CONCEPT, cap:"图：重情绪(心价比) / 讲性价比(半价) / 沉浸本地(过生活)"},
+  {t:"⑤ 五根线（原因拆解）", lines:[22,23,24,25,26,27,28], svg:SVG_ROOTS, cap:"图：五根线托起反向旅游",
+     jingles:[{t:"五根线",items:["①人挤人疲惫：排队5h逛10min，古镇千城一面","②钱包理性：县城酒店仅半价，呼应消费两副面孔","③情绪升级：从打卡到充电，67%城镇化催生县城出走青年","④社媒助推：小红书抖音把宝藏小城推到你眼前","⑤基建兜底：高铁高速村村通，城乡来去自如"]}]},
+  {t:"⑥ 反方警惕：四个坑", lines:[29,30,31,32,33,34],
+     warn:["第一坑：小城接不住——流量暴涨，交通/停车/卫生/宰客可能跟不上","第二坑：千城一面——盲目复制古镇+小吃+文创，创新不足","第三坑：反向成内卷——大家都去小城，小城又挤了","第四坑：标签陷阱——把去过当活过，换地方拍照打卡等于白去"]},
+  {t:"⑦ 口诀大合集", lines:[35,36,37,38],
+     jingles:[
+       {t:"正名口诀",items:["不是穷游玩不起，是人从众里没自己；","不挤不贵有特色，用脚投票选小城。"]},
+       {t:"三概念口诀",items:["情绪价值排第一，性价比里藏着理；","在地沉浸过生活，不是看景是活过。"]},
+       {t:"五根线口诀",items:["一逃人海二省钱，三升情绪四推演；","基建兜底路路通，小城逆袭正当年。"]},
+       {t:"反方口诀",items:["小城接不住要防，千城一面莫效仿；","反向也会成内卷，体验莫当打卡换。"]}
+     ]},
+  {t:"⑧ 数据演练（练读数的眼睛）", lines:[39],
+     calc:{title:"三道数据题，点「下一步」逐题揭晓", steps:[
+       {q:"题1：甘肃天水，一碗人均30元的麻辣烫，能撬动多少额外消费？", s:"去哪儿大数据测算：游客为这碗麻辣烫来到天水，人均还会在住宿、交通、购物上多花约650元。放大倍数 = 650 ÷ 30 ≈ 21.7，也就是超过21倍。所以小县城不是便宜没赚头，是一碗面带火一整座城。"},
+       {q:"题2：2026五一，县域旅游预订量涨了多少？", s:"同程旅行《2026五一旅行趋势报告》显示：县域目的地旅游产品预订量同比上涨128%。意思是若去年基数是100，今年就是228，增速远超省会大城市。再加上县域精品民宿预订同比+92%，部分提前15天就一房难求。"},
+       {q:"题3：年轻人是真不去大城市了吗？", s:"不是不去，是重新分配。全国最火50个5A景区2023到2025国庆连续3年下降、累计约-13%（若第1年100，第3年约87）；而2025前三季度省内游占全部国内游73.4%。说明大家从远方人从众，转回近程、本地、小城——用脚投票换松弛。"}
+     ]}},
+  {t:"⑨ 费曼检测", lines:[40,41]},
+  {t:"⑩ 结语", lines:[42,43,44]}
+];
+
+/* ============ 学生互动气泡（飘一下，不挡讲解） ============ */
+const BUBBLES = {
+  8:{nm:"小红",txt:"我在小红书刷到平潭蓝眼泪，五一真去了！人不多还便宜，比挤大城市舒服多了😆"},
+  16:{nm:"小明",txt:"原来不是没钱才去，是我主动不想去人挤人——瞬间被理解了"},
+  25:{nm:"小红",txt:"我是县城考出来的，去小城旅游像回外婆家，吃碗棒棒茶特别治愈"},
+  34:{nm:"小明",txt:"我拒绝打卡式旅游！下次去就真住下来，不拍照不发圈"}
+};
+
+/* ============ 费曼突袭弹题（在指定句触发） ============ */
+const QUIZZES = {
+  21:{ // 三概念讲完
+    asker:"小明", title:"突袭提问①",
+    intro:"晓晓老师，我妈说我放着大城市不去、非要钻小县城是浪费钱，可我在小城慢悠悠住三天，比在大城市排队爽多了。这到底算清醒还是穷酸啊？",
+    qs:[
+      {lab:"辨一辨",q:"用今天学的三概念，说说小明跑去小县城是在干啥？"},
+      {lab:"改一改",q:"怎样的反向旅游才真有效、不白去？给个简单标准。"}
+    ],
+    ans:"<b>参考答案：</b>小明去小县城是在做「清醒选择」，对应三个概念：①<b>情绪价值优先</b>——体验感取代目的地，从看风景变成过生活（心价比）；②<b>性价比理性</b>——县城酒店仅大城市半价，该省省该花花（呼应消费两副面孔）；③<b>在地沉浸</b>——保留原汁原味本地生活，像本地人住几天。有效标准是：<b>不赶景点、住下来体验、放下手机专注当下</b>；只换个地方拍照打卡、身在曹营心在写字楼，就白去。记住：反向旅游不是逃避，是用脚投票把旅行定义成我体验过。"
+  },
+  28:{ // 五根线讲完
+    asker:"小红", title:"突袭提问②",
+    intro:"五根线里我最戳的是「情绪升级」——我是县城考出来的，去小城像回外婆家。你呢？五根线你能背几句？哪一根最像你家？",
+    qs:[
+      {lab:"背一背",q:"五根线你能背出几句？哪一根和你最像？"},
+      {lab:"防坑",q:"反向旅游最要警惕什么？怎么别变成打卡式或新内卷？"}
+    ],
+    ans:"<b>参考答案：</b>五根线：①人挤人疲惫 ②钱包理性 ③情绪升级 ④社媒助推 ⑤基建兜底。最要警惕：<b>小城接不住</b>（流量暴涨，交通/停车/卫生/宰客跟不上）、<b>千城一面</b>（盲目复制古镇+小吃+文创）、<b>反向成内卷</b>（大家都去小城，小城又挤了）、<b>标签陷阱</b>（把去过当活过）。有效标准：真实住下来、体验当地生活、不跟风不打卡；把反向旅游当表演或换地方排队，就白去。"
+  },
+  40:{ // 费曼检测主问
+    asker:"晓晓老师", title:"费曼检测（合上课本讲给我听）",
+    intro:"现在轮到你当老师了。别急着看答案，先自己讲，再对照。",
+    qs:[
+      {lab:"一句话",q:"用一句话解释年轻人为什么涌向小县城？举个你身边的例子。"},
+      {lab:"勾连",q:"它和公园20分钟、消费两副面孔、谷子经济的共同点是什么？（提示：都在高压里抓一样东西）"},
+      {lab:"实战",q:"假如给你三天小长假，你会选哪种反向旅游？写个你的小计划。"}
+    ],
+    ans:"<b>参考答案：</b>①年轻人爱反向旅游=在卷不动、贵不动时，用不挤不贵、有特色能治愈的小城深度体验，重新定义旅行意义（从我去过到我体验过）。例子：白领小周五一没去大城市，去了福建平潭追蓝眼泪、住民宿三天，说「像给脑子放了假」。②共同点：都在不确定+高压里抓一样东西——公园20分钟抓免费喘息（自然里）、消费两副面孔抓理性省钱（该省省）、谷子经济抓情绪价值（消费里）、反向旅游抓不挤不贵的真实生活（空间里），是同一棵树的近亲。③小计划：挑个没去过的小城（如山西平遥/安徽黟县），不排景点清单、订一间本地民宿住三天、每天只体验一种当地生活（赶集/学做一道菜/逛老街不拍照），手机调飞行模式，把旅行当生活不是当打卡。"
+  }
+};
+
+/* ============ 渲染课堂笔记 ============ */
+const stage = document.getElementById('stage');
+const calcState = {};
+let lineEls = [];
+SECTIONS.forEach((sec,si)=>{
+  const card = document.createElement('div'); card.className='sec';
+  const h = document.createElement('h2'); h.innerHTML='<span class="dot"></span>'+sec.t; card.appendChild(h);
+  if(sec.svg){const d=document.createElement('div');d.className='diagram';d.innerHTML=sec.svg;card.appendChild(d);
+    if(sec.cap){const c=document.createElement('div');c.className='cap';c.textContent='▲ '+sec.cap;card.appendChild(c);}}
+  if(sec.formula){const f=document.createElement('div');f.className='formula';f.textContent=sec.formula;card.appendChild(f);}
+  if(sec.warn){sec.warn.forEach(w=>{const b=document.createElement('div');b.className='warnbox';b.innerHTML='<span class="t">⚠ </span>'+w;card.appendChild(b);});}
+  if(sec.jingles){sec.jingles.forEach(j=>{
+    const jd=document.createElement('div');jd.className='jingle';
+    jd.innerHTML='<div class="t">'+j.t+'</div>'+j.items.map(i=>'<p>'+i+'</p>').join('');
+    card.appendChild(jd);});}
+  if(sec.calc){
+    const cd=document.createElement('div'); cd.className='calcbox';
+    cd.innerHTML='<div class="ct">'+sec.calc.title+'</div><div class="steps" id="steps_'+si+'"></div><button class="btn primary" id="calcb_'+si+'">下一步 ▶</button>';
+    card.appendChild(cd);
+    calcState[si]={n:0,steps:sec.calc.steps};
+    document.getElementById('calcb_'+si).onclick=function(){
+      const st=calcState[si]; if(st.n>=st.steps.length) return;
+      const step=st.steps[st.n];
+      const se=document.getElementById('steps_'+si);
+      const d=document.createElement('div'); d.className='step';
+      d.innerHTML='<div class="sq">'+step.q+'</div><div class="sa">'+step.s+'</div>';
+      se.appendChild(d); st.n++;
+      if(st.n>=st.steps.length){ const b=document.getElementById('calcb_'+si); b.textContent='全部揭晓 ✔'; b.disabled=true; }
+    };
+  }
+  sec.lines.forEach(li=>{
+    const p=document.createElement('p'); p.className='ln'; p.id='ln'+li;
+    p.textContent=SENT[li];
+    card.appendChild(p); lineEls[li]=p;
+  });
+  stage.appendChild(card);
+});
+
+/* ============ 语音 + 播放控制 ============ */
+const seek=document.getElementById('seek');
+const pos=document.getElementById('pos');
+const now=document.getElementById('now');
+const meta=document.getElementById('meta');
+const liveDot=document.getElementById('liveDot');
+const playBtn=document.getElementById('playBtn');
+const prevBtn=document.getElementById('prevBtn');
+const nextBtn=document.getElementById('nextBtn');
+const toast=document.getElementById('toast');
+
+const N=SENT.length;
+seek.max=N-1; pos.textContent='0 / '+N;
+let cur=0, playing=false, autoplay=true, quizOpen=false;
+let voice=null, utter=null;
+
+function loadVoices(){
+  const vs = window.speechSynthesis ? speechSynthesis.getVoices() : [];
+  voice = vs.find(v=>/Xiaoxiao|晓晓| Xiao Xiao/i.test(v.name))
+        || vs.find(v=>v.lang==='zh-CN' && /female|女|Neural/i.test(v.name))
+        || vs.find(v=>v.lang && v.lang.toLowerCase().startsWith('zh'))
+        || null;
+}
+if(window.speechSynthesis){
+  loadVoices();
+  speechSynthesis.onvoiceschanged = loadVoices;
+}
+
+function stopSpeech(){ if(window.speechSynthesis) speechSynthesis.cancel(); }
+
+function speak(i){
+  if(!window.speechSynthesis) return;
+  stopSpeech();
+  const u=new SpeechSynthesisUtterance(SENT[i]);
+  if(voice) u.voice=voice;
+  u.lang='zh-CN'; u.rate=0.98; u.pitch=1.0; u.volume=1.0;
+  u.onend=()=>{
+    if(quizOpen) return;
+    if(autoplay && playing && cur < N-1){
+      go(cur+1, true);
+    }
+  };
+  utter=u; speechSynthesis.speak(u);
+}
+
+function highlight(i){
+  lineEls.forEach((el,idx)=>{ if(el) el.classList.toggle('cur', idx===i); });
+  const el=lineEls[i];
+  if(el){ el.scrollIntoView({behavior:'smooth',block:'center'}); }
+  now.innerHTML = '<span class="who"></span>'+SENT[i];
+  seek.value=i; pos.textContent=(i+1)+' / '+N;
+}
+
+function maybeBubble(i){
+  const b=BUBBLES[i];
+  if(b){
+    toast.innerHTML='<span class="nm">'+b.nm+'：</span>'+b.txt;
+    toast.classList.add('show');
+    setTimeout(()=>toast.classList.remove('show'),4200);
+  }
+}
+
+function maybeQuiz(i){
+  const q=QUIZZES[i];
+  if(q){ openQuiz(i,q); return true; }
+  return false;
+}
+
+function go(i, fromEnd){
+  i=Math.max(0,Math.min(N-1,i));
+  cur=i;
+  highlight(i);
+  maybeBubble(i);
+  if(maybeQuiz(i)){
+    stopSpeech(); playing=false; updatePlayBtn();
+    return;
+  }
+  if(playing){ speak(i); }
+}
+
+function updatePlayBtn(){ playBtn.textContent = playing? '⏸ 暂停':'▶ 播放'; liveDot.style.display = playing? 'inline-block':'none'; }
+
+playBtn.onclick=()=>{
+  if(quizOpen) return;
+  if(playing){ playing=false; stopSpeech(); updatePlayBtn(); meta.textContent='已暂停'; }
+  else{
+    if(cur>=N-1) cur=0;
+    playing=true; autoplay=true; updatePlayBtn(); meta.textContent='晓晓老师正在朗读…';
+    if(maybeQuiz(cur)){ playing=false; updatePlayBtn(); return; }
+    speak(cur);
+  }
+};
+prevBtn.onclick=()=>{ if(quizOpen)return; playing=false; updatePlayBtn(); go(cur-1); };
+nextBtn.onclick=()=>{ if(quizOpen)return; playing=false; updatePlayBtn(); go(cur+1); };
+seek.oninput=()=>{ if(quizOpen)return; const v=parseInt(seek.value,10); playing=false; updatePlayBtn(); go(v); };
+
+/* ============ 费曼弹题 ============ */
+const mask=document.getElementById('mask');
+const quizBox=document.getElementById('quizBox');
+function openQuiz(i,q){
+  quizOpen=true; autoplay=false; playing=false; updatePlayBtn();
+  meta.textContent='⏸ 突袭提问中，请先作答';
+  let html='<h3>'+q.title+'</h3>';
+  html+='<span class="asker">'+q.asker+' 问</span>';
+  html+='<div class="q" style="background:#2a1620;border-color:#ff6b9d">'+q.intro+'</div>';
+  q.qs.forEach((qq,k)=>{
+    html+='<div class="q"><span class="lab">'+qq.lab+'</span>'+qq.q+'</div>';
+    html+='<textarea id="ta'+i+'_'+k+'" placeholder="在这里用你自己的话写答案…"></textarea>';
+  });
+  html+='<div class="ans" id="ans'+i+'">'+q.ans+'</div>';
+  html+='<div class="row">';
+  html+='<button class="btn primary" id="reveal'+i+'">提交看答案</button>';
+  html+='<button class="btn nav" id="cont'+i+'">继续上课 ⏭</button>';
+  html+='</div>';
+  quizBox.innerHTML=html;
+  mask.classList.add('show');
+  document.getElementById('reveal'+i).onclick=()=>{ document.getElementById('ans'+i).style.display='block'; };
+  document.getElementById('cont'+i).onclick=()=>{ closeQuiz(i); };
+}
+function closeQuiz(i){
+  mask.classList.remove('show'); quizOpen=false;
+  if(cur < N-1){ cur=i; playing=true; autoplay=true; updatePlayBtn(); meta.textContent='晓晓老师继续朗读…'; go(i+1); }
+  else { meta.textContent='本课已讲完 🎉'; }
+}
+window.addEventListener('click',e=>{ if(e.target===mask) { /* 点遮罩不关闭，需作答 */ } });
+
+/* 初始 */
+highlight(0);
+meta.textContent='已就绪 · 本课前半段复习「公园20分钟效应」，再讲新课';
+</script>
+</body>
+</html>
