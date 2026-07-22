@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>晓晓老师社会现象分析课 · 第16课：年轻人为什么争当"淡人"——看懂淡淡综合征</title>
+<style>
+  :root{
+    --bg:#0f1226; --bg2:#171a36; --card:#1e2247; --card2:#262b57;
+    --ink:#eef1ff; --sub:#aeb6e6; --accent:#ffd166; --accent2:#06d6a0;
+    --pink:#ff6b9d; --blue:#5bc0eb; --warn:#ff6b6b; --line:#333a6b;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0;background:linear-gradient(160deg,var(--bg),var(--bg2));color:var(--ink);
+    font-family:"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;line-height:1.7}
+  .topbar{position:sticky;top:0;z-index:30;background:rgba(15,18,38,.92);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);padding:10px 14px}
+  .topbar h1{font-size:17px;margin:0 0 8px;font-weight:800;letter-spacing:.5px}
+  .topbar h1 .badge{background:var(--accent);color:#222;border-radius:999px;padding:1px 9px;font-size:12px;margin-right:8px}
+  .ctrl{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .btn{border:none;border-radius:10px;padding:8px 12px;font-size:14px;font-weight:700;cursor:pointer;
+    background:var(--card2);color:var(--ink);transition:.15s;display:inline-flex;align-items:center;gap:5px}
+  .btn:hover{filter:brightness(1.15)}
+  .btn.primary{background:linear-gradient(135deg,var(--accent),#ff9f1c);color:#241a00}
+  .btn.nav{background:var(--blue);color:#04263a}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .seekwrap{flex:1;min-width:160px;display:flex;align-items:center;gap:8px}
+  input[type=range]{-webkit-appearance:none;appearance:none;height:8px;border-radius:999px;
+    background:linear-gradient(90deg,var(--accent2),var(--accent));outline:none;width:100%}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;
+    background:#fff;border:3px solid var(--accent);cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+  input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--accent);cursor:pointer}
+  .pos{font-size:12px;color:var(--sub);min-width:74px;text-align:right;font-variant-numeric:tabular-nums}
+  .hint{font-size:12px;color:var(--sub);margin-top:6px}
+  .hint b{color:var(--accent)}
+  .stage{padding:14px 14px 150px;max-width:880px;margin:0 auto}
+  .sec{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin:0 0 14px;
+    box-shadow:0 6px 20px rgba(0,0,0,.25)}
+  .sec h2{font-size:16px;margin:0 0 10px;color:var(--accent);display:flex;align-items:center;gap:8px}
+  .sec h2 .dot{width:9px;height:9px;border-radius:50%;background:var(--accent2)}
+  .ln{margin:0;padding:6px 10px;border-radius:9px;color:var(--ink);font-size:15.5px;transition:.2s;border-left:3px solid transparent}
+  .ln.cur{background:var(--card2);border-left:3px solid var(--accent);font-weight:700}
+  .ln .who{color:var(--accent2);font-weight:800;margin-right:4px}
+  .diagram{margin:10px 0 4px;text-align:center}
+  .diagram svg{max-width:100%;height:auto}
+  .cap{font-size:12px;color:var(--sub);margin-top:4px}
+  .formula{background:var(--bg2);border:1px dashed var(--accent);border-radius:10px;padding:10px 12px;
+    font-size:15px;color:var(--accent);text-align:center;margin:8px 0;font-weight:700}
+  .jingle{background:linear-gradient(135deg,#2a2150,#3a2a5e);border-radius:12px;padding:12px 14px;margin:8px 0}
+  .jingle .t{color:var(--pink);font-weight:800;font-size:13px;margin-bottom:4px}
+  .jingle p{margin:4px 0;font-size:15px;color:#ffe6f3;letter-spacing:.3px}
+  .subbar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(8,10,24,.96);
+    border-top:2px solid var(--accent);padding:14px 16px 16px;box-shadow:0 -8px 24px rgba(0,0,0,.5)}
+  .subbar .now{font-size:19px;font-weight:800;color:#fff;text-align:center;max-width:860px;margin:0 auto;
+    line-height:1.5;min-height:27px}
+  .subbar .now .who{color:var(--accent2)}
+  .subbar .meta{text-align:center;color:var(--sub);font-size:12px;margin-top:6px}
+  .live{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent2);margin-right:6px;
+    animation:pulse 1s infinite}
+  @keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+  .toast{position:fixed;right:16px;bottom:120px;z-index:45;max-width:300px;background:var(--card2);
+    border:1px solid var(--line);border-radius:14px;padding:10px 12px;font-size:14px;box-shadow:0 6px 18px rgba(0,0,0,.4);
+    opacity:0;transform:translateY(12px);transition:.4s;pointer-events:none}
+  .toast.show{opacity:1;transform:translateY(0)}
+  .toast .nm{color:var(--pink);font-weight:800;margin-right:5px}
+  .mask{position:fixed;inset:0;z-index:60;background:rgba(4,6,18,.82);display:none;align-items:center;justify-content:center;padding:18px}
+  .mask.show{display:flex}
+  .quiz{background:var(--card);border:2px solid var(--pink);border-radius:18px;max-width:560px;width:100%;
+    padding:20px;box-shadow:0 12px 40px rgba(0,0,0,.6);max-height:88vh;overflow:auto}
+  .quiz h3{margin:0 0 6px;color:var(--pink);font-size:18px}
+  .quiz .asker{display:inline-block;background:var(--pink);color:#fff;border-radius:999px;padding:2px 10px;font-size:13px;font-weight:800;margin-bottom:8px}
+  .q{background:var(--bg2);border-radius:12px;padding:11px 13px;margin:10px 0;font-size:15px}
+  .q .lab{color:var(--accent);font-weight:800;margin-right:6px}
+  textarea{width:100%;min-height:64px;border-radius:10px;border:1px solid var(--line);background:var(--bg);
+    color:var(--ink);padding:10px;font-size:14px;font-family:inherit;resize:vertical}
+  .ans{display:none;background:#16331f;border:1px solid var(--accent2);border-radius:12px;padding:12px 14px;margin-top:8px;font-size:14px;color:#d6ffe6}
+  .ans b{color:var(--accent2)}
+  .quiz .row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+  .footnote{text-align:center;color:var(--sub);font-size:12px;padding:18px}
+  .warnbox{background:#2a1620;border:1px solid var(--warn);border-radius:12px;padding:12px;margin:8px 0;font-size:14px}
+  .warnbox .t{color:var(--warn);font-weight:800}
+  .calcbox{background:#152a3a;border:1px solid var(--blue);border-radius:12px;padding:12px;margin:8px 0}
+  .calcbox .ct{color:var(--blue);font-weight:800;font-size:14px;margin-bottom:8px}
+  .calcbox .step{background:var(--bg2);border-radius:10px;padding:10px 12px;margin:8px 0}
+  .calcbox .sq{color:var(--accent);font-weight:800;font-size:14px;margin-bottom:4px}
+  .calcbox .sa{color:var(--ink);font-size:14px;line-height:1.6}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1><span class="badge">第16课</span>年轻人为什么争当"淡人"：看懂淡淡综合征（情绪节能模式）</h1>
+  <div class="ctrl">
+    <button class="btn primary" id="playBtn">▶ 播放</button>
+    <button class="btn nav" id="prevBtn">⏮ 上一句</button>
+    <button class="btn nav" id="nextBtn">下一句 ⏭</button>
+    <div class="seekwrap">
+      <input type="range" id="seek" min="0" max="0" step="1" value="0">
+      <span class="pos" id="pos">0 / 0</span>
+    </div>
+  </div>
+  <div class="hint">💡 进度条可<b>自由拖动</b>调位置；「上一句 / 下一句」逐句跳转；晓晓老师神经网络语音朗读；底部字幕不挡讲解；课中会有小明/小红突袭提问，记得答完再继续～</div>
+</div>
+
+<div class="stage" id="stage"></div>
+
+<div class="subbar">
+  <div class="now" id="now">点「播放」，晓晓老师开讲啦～</div>
+  <div class="meta"><span class="live" id="liveDot" style="display:none"></span><span id="meta">已就绪 · 本课前半段复习「反向旅游」，再讲新课</span></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="mask" id="mask">
+  <div class="quiz" id="quizBox"></div>
+</div>
+
+<div class="footnote">懒脑袋锻炼计划 · 第16课 · 数据来自2024–2026公开报道（多家主流媒体/调研转述）· 本页为自包含离线课件，请用 Edge / Chrome 打开以启用晓晓老师语音</div>
+
+<script>
+/* ============ 讲解文稿（逐句，供语音+字幕） ============ */
+const SENT = [
+ "同学们好！我是晓晓老师，懒脑袋锻炼计划第16课开讲啦。",
+ "先复习上节课：我们讲了年轻人为什么抛弃网红景区、涌向小县城——这股风叫反向旅游，本质是用脚投票，抓住不挤、不贵、能治愈的真实生活。",
+ "它和玄学热（去庙里抓确定）、人机恋（去手机里抓回应）、养生（去身体里抓掌控）、谷子（去消费里抓情绪价值）、公园20分钟（去自然里抓免费喘息）是同一棵树的亲兄弟。",
+ "今天这课，我们讲第七块拼图，也是最底层的一块：年轻人为什么争当淡人——这股风叫淡淡综合征。",
+ "说白了就是：对啥都淡淡的，不争不抢不内耗，像一只情绪稳定的水豚。表面佛系，里子是在给过载的情绪电量按下省电模式。",
+ "好，复习完毕，进入今天的新现象。",
+
+ "先说现象：什么是淡人？他们说话淡淡的——好、收到、OK、都行，是标准语；爱好淡淡的——你问真喜欢吗，回答也可以不玩；感情淡淡的——随便吧、都可以、没必要。",
+ "这股风2024年3月就冲上社交媒体热搜，越来越多年轻人主动给自己确诊淡淡综合征，还研究出一门淡学。",
+ "网上有个超火的比喻：淡人就像卡皮巴拉——也就是水豚，一种情绪超级稳定的动物，被踩被淋都不急，半睁着眼泡澡，精神状态领先三十年。",
+ "所以淡人不是病人，而是一种2024年新冒出来的社交人设：倡导一种不带情绪、低能耗的生活态度。",
+ "更关键的是：浓人和淡人，都是年轻人主动选择的结果——只不过一个向外释放，一个向内收着。",
+ "今天的问题就是：为什么这届年轻人，集体把情绪调成了低功耗模式？",
+
+ "先正名！一看到年轻人啥都淡淡的，很多人第一反应是：这是躺平摆烂、没心没肺的咸鱼。",
+ "先别急着贴标签。淡人真不等于躺平——躺平是放弃，淡人是看清之后做欲望减法、把精力留给真正重要的事。",
+ "记住一句话：淡，是以消极的姿态做积极的调整；是看穿了单一成功标准后，主动给情绪账户省电。",
+ "所以别再说淡人冷漠——他们只是把社交调成低功耗，把情绪收回自己手里，对自己温柔一点。",
+ "真正的危险不是淡，是淡着淡着，把意义感也淡没了——这个我们反方环节再讲。",
+
+ "要真懂淡人，先抓三个核心概念。",
+ "第一个：情绪账户透支。调研说88.2%的青年自认处于压力状态，大多数人的情绪账户已经严重透支，连自给自足都难，更难有余力给别人提供稳定的情绪价值。",
+ "第二个：边界感保护。淡，是给自己划一道缓冲地带——不吵架不生气、不退群也不强聊，用一种超然态度保全内心秩序，挡住别人的评价和眼光。",
+ "第三个：钝感力（情绪稳定）。像水豚一样，外界风吹雨打我岿然不动，不急不慌不比较，用稳定的状态面对挑战，这其实是种心理铠甲。",
+ "记住这三词：账户空（先存自己）、边界清（护住自己）、钝感强（稳住自己）。后面全靠它们串。",
+
+ "那这股风从哪刮起来的？五根线，记好。",
+ "第一根：信息过载。每天被短视频、热搜、群消息轰炸，注意力被切成碎片，脑子电量被讯海抽干，只想淡一点护住仅剩的注意力。",
+ "第二根：压力透支。88.2%的青年自认有压力，情绪账户早就见底，没余力再做情绪劳动，先把情绪收回来自己用。",
+ "第三根：社交耗能。维持浓的关系太累——点赞、秒回、陪聊都是隐形成本；和咱们讲过的断亲潮同款，淡人淡淡退群、删好友、有打招呼障碍和电话恐惧症。",
+ "第四根：意义感重估。对升职加薪这套单一标准祛魅，他强由他强，清风拂山岗，不再为虚妄标准扭曲自己，主动做欲望的减法。",
+ "第五根：算法与围观助推。社交媒体把淡人标签、卡皮巴拉梗推成潮流，自嘲变成身份认同，水豚精神状态领先三十年，越传越上头。",
+ "五根线合起来：讯海抽干电量，压力见底要先存，社交太累调低耗，标准祛魅做减法，平台推波又助澜。",
+
+ "不过老师要泼冷水，几个坑必须警惕。",
+ "第一坑：真麻木。如果淡是意义感缺失的麻木，而不是主动选择，那淡学变成咸鱼学——整个社会失去活力与创造，就危险了。",
+ "第二坑：社交退化。淡淡退群、删好友，从断联滑向孤立；打招呼障碍变成真的人际萎缩，最后孤零零一个人。",
+ "第三坑：职场被边缘。警惕变异的淡淡综合征——部分年轻人甚至年轻干部，志气锐气底气不足，在岗位上躺成透明人，错过成长。",
+ "第四坑：结构性滑落。社会学家默顿说，有些人因缺乏安全感、焦虑而变成只求稳妥的社会仪式主义者；若淡源于对竞争挫败的预判，可能滑向彻底退出社会，即公共人的衰落。",
+ "所以淡人是信号灯，不是终点站。能淡是本事，但别让淡变成逃。",
+
+ "来，背口诀！正名口诀：淡人不是躺平咸，是做欲望的减法；看穿标准护情绪，低功耗里藏清醒。",
+ "三概念口诀：情绪账户先存己，边界保护挡风雨；钝感力是铠甲衣，稳如卡皮不着急。",
+ "五根线口诀：一过载二压力，三社交耗四祛魅；平台助推第五根，低功耗里找自己。",
+ "反方口诀：真麻木要分清，社交退化别孤零；职场透明莫躺平，结构滑落最该警。",
+
+ "下面练练读数的眼睛，三道数据题，一步步算。",
+
+ "好，现在轮到你当老师了。用一句话说说年轻人为什么争当淡人；再想想它和断亲潮、玄学热、养生、谷子经济的共同点；最后，给你一件最近想淡淡放下的事，写个小打算。",
+ "（停顿，给学生思考时间——想好了再往下听答案。）",
+
+ "今天的课到这儿。记住：年轻人爱当淡人，表面是对啥都淡淡的，里子是在信息爆炸、压力透支的时候，想抓住一种不内耗、能自保、还真实的生活节奏。",
+ "它和断亲潮（社交省电）、玄学热（抓确定）、养生（护精力）、谷子经济（人际淡自我浓）、公园20分钟（免费治愈）、反向旅游（空间逃离）是同一棵树的近亲——都在高压和不确定里，给自己找一块能省电、还买得起的石头。",
+ "下节课我们继续拆解新现象。作业：今天挑一件让你内耗的小事，试着对它说一句淡淡的算了没必要，把省下的电量留给自己。同学们，再见！"
+];
+
+/* ============ 章节结构（含图示） ============ */
+const SVG_PHENOMENON = `<svg viewBox="0 0 680 220" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC,sans-serif">
+  <rect width="680" height="220" rx="16" fill="#171a36"/>
+  <text x="340" y="26" fill="#ffd166" font-size="16" font-weight="800" text-anchor="middle">淡人 = 从高能耗「浓」→ 调成低功耗「淡」</text>
+  <g transform="translate(40,55)">
+    <rect x="0" y="0" width="180" height="110" rx="14" fill="#2a1620" stroke="#ff6b6b" stroke-width="2"/>
+    <text x="90" y="30" fill="#ff6b6b" font-size="15" font-weight="800" text-anchor="middle">浓人(高能耗)</text>
+    <text x="90" y="54" fill="#aeb6e6" font-size="12" text-anchor="middle">秒回·陪聊·内耗</text>
+    <text x="90" y="78" fill="#aeb6e6" font-size="12" text-anchor="middle">情绪劳动满格</text>
+    <text x="90" y="100" fill="#aeb6e6" font-size="12" text-anchor="middle">电量被抽干</text>
+  </g>
+  <defs><marker id="ar16" markerWidth="12" markerHeight="12" refX="7" refY="3.5" orient="auto"><path d="M0 0 L9 3.5 L0 7 Z" fill="#06d6a0"/></marker></defs>
+  <text x="270" y="100" fill="#06d6a0" font-size="13" font-weight="800" text-anchor="middle">省电 ↩</text>
+  <path d="M230 110 H290" stroke="#06d6a0" stroke-width="4" fill="none" marker-end="url(#ar16)"/>
+  <g transform="translate(460,55)">
+    <rect x="0" y="0" width="180" height="110" rx="14" fill="#152a3a" stroke="#06d6a0" stroke-width="2"/>
+    <text x="90" y="30" fill="#06d6a0" font-size="15" font-weight="800" text-anchor="middle">淡人(低功耗)</text>
+    <text x="90" y="54" fill="#aeb6e6" font-size="12" text-anchor="middle">收到·OK·都行</text>
+    <text x="90" y="78" fill="#aeb6e6" font-size="12" text-anchor="middle">稳如卡皮巴拉</text>
+    <text x="90" y="100" fill="#aeb6e6" font-size="12" text-anchor="middle">电量留给自己</text>
+  </g>
+  <text x="340" y="200" fill="#aeb6e6" font-size="12" text-anchor="middle">2024-03 冲上热搜 · 88.2% 青年自认有压力</text>
+</svg>`;
+
+const SVG_CONCEPT = `<svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC,sans-serif">
+  <rect width="680" height="200" rx="16" fill="#171a36"/>
+  <text x="340" y="26" fill="#ffd166" font-size="16" font-weight="800" text-anchor="middle">三概念：账户空 / 边界清 / 钝感强</text>
+  <rect x="40" y="50" width="180" height="110" rx="14" fill="#262b57" stroke="#ff6b9d" stroke-width="2"/>
+  <text x="130" y="80" fill="#ff6b9d" font-size="15" font-weight="800" text-anchor="middle">情绪账户透支</text>
+  <text x="130" y="104" fill="#aeb6e6" font-size="12" text-anchor="middle">账户空</text>
+  <text x="130" y="126" fill="#aeb6e6" font-size="11" text-anchor="middle">先存自己</text>
+  <text x="130" y="146" fill="#aeb6e6" font-size="11" text-anchor="middle">88.2%有压力</text>
+  <rect x="250" y="50" width="180" height="110" rx="14" fill="#262b57" stroke="#5bc0eb" stroke-width="2"/>
+  <text x="340" y="80" fill="#5bc0eb" font-size="15" font-weight="800" text-anchor="middle">边界感保护</text>
+  <text x="340" y="104" fill="#aeb6e6" font-size="12" text-anchor="middle">边界清</text>
+  <text x="340" y="126" fill="#aeb6e6" font-size="11" text-anchor="middle">护住自己</text>
+  <text x="340" y="146" fill="#aeb6e6" font-size="11" text-anchor="middle">挡评价眼光</text>
+  <rect x="460" y="50" width="180" height="110" rx="14" fill="#262b57" stroke="#06d6a0" stroke-width="2"/>
+  <text x="550" y="80" fill="#06d6a0" font-size="15" font-weight="800" text-anchor="middle">钝感力稳定</text>
+  <text x="550" y="104" fill="#aeb6e6" font-size="12" text-anchor="middle">钝感强</text>
+  <text x="550" y="126" fill="#aeb6e6" font-size="11" text-anchor="middle">稳住自己</text>
+  <text x="550" y="146" fill="#aeb6e6" font-size="11" text-anchor="middle">稳如卡皮</text>
+</svg>`;
+
+const SVG_ROOTS = `<svg viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC,sans-serif">
+  <rect width="680" height="260" rx="16" fill="#171a36"/>
+  <rect x="285" y="20" width="110" height="46" rx="10" fill="#262b57" stroke="#ffd166" stroke-width="2"/>
+  <text x="340" y="48" fill="#ffd166" font-size="15" font-weight="800" text-anchor="middle">淡淡综合征</text>
+  <line x1="340" y1="66" x2="340" y2="120" stroke="#888" stroke-width="3"/>
+  <g stroke="#06d6a0" stroke-width="3" fill="none">
+    <path d="M340 120 C300 150 250 160 150 175"/>
+    <path d="M340 120 C310 155 280 175 220 195"/>
+    <path d="M340 120 C340 160 340 185 340 210"/>
+    <path d="M340 120 C370 155 400 175 460 195"/>
+    <path d="M340 120 C380 150 430 160 530 175"/>
+  </g>
+  <g font-size="12.5" font-weight="700" text-anchor="middle">
+    <text x="135" y="172" fill="#5bc0eb">①信息过载</text>
+    <text x="205" y="198" fill="#5bc0eb">②压力透支</text>
+    <text x="340" y="228" fill="#5bc0eb">③社交耗能</text>
+    <text x="475" y="198" fill="#5bc0eb">④意义祛魅</text>
+    <text x="545" y="172" fill="#5bc0eb">⑤平台助推</text>
+  </g>
+  <text x="340" y="250" fill="#aeb6e6" font-size="12" text-anchor="middle">五根线托起淡淡综合征：根扎得清，淡得才清醒</text>
+</svg>`;
+
+const SECTIONS = [
+  {t:"① 复习：反向旅游（上节课）", lines:[0,1,2,3,4,5],
+     jingles:[{t:"上节课一句话",items:["反向旅游：用脚投票抓不挤不贵的真实","玄学热：去庙里抓确定感","人机恋：去手机里抓回应感","养生：去身体里抓掌控感","谷子：去消费里抓情绪价值","公园20分钟：去自然里抓免费喘息"]}]},
+  {t:"② 新课导入：什么是淡人 / 淡淡综合征", lines:[6,7,8,9,10,11], svg:SVG_PHENOMENON, cap:"图：从高能耗「浓」调成低功耗「淡」"},
+  {t:"③ 正名：不是躺平，是情绪节能", lines:[12,13,14,15,16],
+     warn:["一看到年轻人啥都淡淡的，别急着说「躺平摆烂咸鱼」——先问：为什么这届年轻人愿意把情绪调成低功耗？"]},
+  {t:"④ 三个核心概念", lines:[17,18,19,20,21], svg:SVG_CONCEPT, cap:"图：账户空(先存己) / 边界清(护住己) / 钝感强(稳住己)"},
+  {t:"⑤ 五根线（原因拆解）", lines:[22,23,24,25,26,27,28], svg:SVG_ROOTS, cap:"图：五根线托起淡淡综合征",
+     jingles:[{t:"五根线",items:["①信息过载：短视频热搜轰炸，注意力被切碎，电量被抽干","②压力透支：88.2%青年有压力，情绪账户见底","③社交耗能：维持浓关系太累，同断亲潮，淡淡退群删好友","④意义祛魅：对升职加薪标准祛魅，做欲望减法","⑤平台助推：淡人标签、卡皮巴拉梗被算法推成潮流"]}]},
+  {t:"⑥ 反方警惕：四个坑", lines:[29,30,31,32,33,34],
+     warn:["第一坑：真麻木——淡变成意义缺失，社会失活力","第二坑：社交退化——断联滑向孤立，人际萎缩","第三坑：职场透明——变异淡淡综合征，错过成长","第四坑：结构滑落——默顿社会仪式主义→公共人的衰落"]},
+  {t:"⑦ 口诀大合集", lines:[35,36,37,38],
+     jingles:[
+       {t:"正名口诀",items:["淡人不是躺平咸，是做欲望的减法；","看穿标准护情绪，低功耗里藏清醒。"]},
+       {t:"三概念口诀",items:["情绪账户先存己，边界保护挡风雨；","钝感力是铠甲衣，稳如卡皮不着急。"]},
+       {t:"五根线口诀",items:["一过载二压力，三社交耗四祛魅；","平台助推第五根，低功耗里找自己。"]},
+       {t:"反方口诀",items:["真麻木要分清，社交退化别孤零；","职场透明莫躺平，结构滑落最该警。"]}
+     ]},
+  {t:"⑧ 数据演练（练读数的眼睛）", lines:[39],
+     calc:{title:"三道数据题，点「下一步」逐题揭晓", steps:[
+       {q:"题1：调研说 88.2% 的青年自认处于压力状态。那反过来，没明显压力感的青年大约占多少？", s:"100% − 88.2% = 11.8%。也就是说，大约每 10 个年轻人里，将近 9 个（8.82 个）觉得自己有压力。情绪账户普遍见底，这正是淡人把情绪调成低功耗的大背景。"},
+       {q:"题2：近六成（约 60%）青年愿为情绪价值买单；2025 年中国情绪消费市场规模突破 2 万亿元。若某青年月零花钱 2000 元，按六成愿意为情绪价值花，一个月大约能花多少在取悦自己上？", s:"2000 元 × 60% = 1200 元。人际上淡淡的，自我取悦上浓浓的——淡人和情绪消费是一体两面：对外省电，对内充电。"},
+       {q:"题3：一个浓人每天做情绪劳动（回消息、陪聊、维稳关系）假设耗 2 小时；调成淡人后只留必要的，每天省下 1.5 小时。一年按 300 天算，能省出多少时间？约合几天？", s:"1.5 小时 × 300 天 = 450 小时。一天 24 小时，450 ÷ 24 ≈ 18.75 天。等于凭空多出一个半月给自己——这就是低功耗模式攒下的真实红利。"}
+     ]}},
+  {t:"⑨ 费曼检测", lines:[40,41]},
+  {t:"⑩ 结语", lines:[42,43,44]}
+];
+
+/* ============ 学生互动气泡（飘一下，不挡讲解） ============ */
+const BUBBLES = {
+  8:{nm:"小红",txt:"卡皮巴拉太治愈了！我最近也是，啥事都不急不慌，同事说我像水豚附体😆"},
+  16:{nm:"小明",txt:"原来不是冷漠，是把社交调成低功耗——瞬间理解了自己为什么不想回群消息"},
+  25:{nm:"小红",txt:"我有电话恐惧症，看到陌生来电就当没看见，原来这叫社交耗能省电模式"},
+  34:{nm:"小明",txt:"我拒绝当透明人！淡可以，但该争取的时候还是要举手"}
+};
+
+/* ============ 费曼突袭弹题（在指定句触发） ============ */
+const QUIZZES = {
+  21:{ // 三概念讲完
+    asker:"小明", title:"突袭提问①",
+    intro:"晓晓老师，我妈说我整天收到OK都行是没上进心，可我调淡之后不内耗了，干活反而更稳。这到底算清醒还是咸鱼啊？",
+    qs:[
+      {lab:"辨一辨",q:"用今天学的三概念，说说小明把情绪调成低功耗是在干啥？"},
+      {lab:"改一改",q:"怎样的淡才有效、不白淡？给个简单标准。"}
+    ],
+    ans:"<b>参考答案：</b>小明是在做清醒的「情绪节能」，对应三个概念：①<b>情绪账户透支</b>——先把情绪收回来存够自己（账户空）；②<b>边界感保护</b>——不强迫秒回、不勉强社交，护住内心秩序（边界清）；③<b>钝感力</b>——稳如卡皮巴拉，不急不慌面对挑战（钝感强）。有效标准是：<b>淡是主动选择、留电量做重要的事；不是麻木逃避</b>。记住：淡，是以消极姿态做积极调整——能淡是本事，但别让淡变成逃。"
+  },
+  28:{ // 五根线讲完
+    asker:"小红", title:"突袭提问②",
+    intro:"五根线里我最戳的是社交耗能——我退了三个群，世界清净多了。你呢？五根线你能背几句？哪一根最像你家？",
+    qs:[
+      {lab:"背一背",q:"五根线你能背出几句？哪一根和你最像？"},
+      {lab:"防坑",q:"淡淡综合征最要警惕什么？怎么别滑向孤立或透明？"}
+    ],
+    ans:"<b>参考答案：</b>五根线：①信息过载 ②压力透支 ③社交耗能 ④意义祛魅 ⑤平台助推。最要警惕：<b>真麻木</b>（意义缺失变咸鱼）、<b>社交退化</b>（断联滑向孤立）、<b>职场透明</b>（变异淡淡综合征错过成长）、<b>结构滑落</b>（默顿社会仪式主义→公共人的衰落）。有效标准：主动选择+留电量做正事；该社交时社交、该争取时举手，不躲进孤岛也不躺成透明人。"
+  },
+  40:{ // 费曼检测主问
+    asker:"晓晓老师", title:"费曼检测（合上课本讲给我听）",
+    intro:"现在轮到你当老师了。别急着看答案，先自己讲，再对照。",
+    qs:[
+      {lab:"一句话",q:"用一句话解释年轻人为什么争当淡人？举个你身边的例子。"},
+      {lab:"勾连",q:"它和断亲潮、玄学热、养生、谷子经济的共同点是什么？（提示：都在高压里抓一样东西）"},
+      {lab:"实战",q:"给你一件最近想淡淡放下的事，写个你的小打算。"}
+    ],
+    ans:"<b>参考答案：</b>①年轻人争当淡人=在信息爆炸、压力透支时，主动把情绪调成低功耗模式，抓住不内耗、能自保、还真实的生活节奏（欲望减法）。例子：白领小A退了三个闲聊群、不再秒回非紧急消息，说「世界清净了，干活更稳」。②共同点：都在高压+不确定里抓一样东西——断亲潮抓社交省电、玄学热抓确定感、养生抓精力、谷子经济抓情绪价值（人际淡自我浓）、淡人抓情绪节能（最底层操作系统），是同一棵树的近亲。③小打算：挑一件内耗小事（如反复看别人朋友圈比惨），对它说句淡淡的「算了，没必要」，把省下的电量留给自己，去做一件真正喜欢的事。"
+  }
+};
+
+/* ============ 渲染课堂笔记 ============ */
+const stage = document.getElementById('stage');
+const calcState = {};
+let lineEls = [];
+SECTIONS.forEach((sec,si)=>{
+  const card = document.createElement('div'); card.className='sec';
+  const h = document.createElement('h2'); h.innerHTML='<span class="dot"></span>'+sec.t; card.appendChild(h);
+  if(sec.svg){const d=document.createElement('div');d.className='diagram';d.innerHTML=sec.svg;card.appendChild(d);
+    if(sec.cap){const c=document.createElement('div');c.className='cap';c.textContent='▲ '+sec.cap;card.appendChild(c);}}
+  if(sec.formula){const f=document.createElement('div');f.className='formula';f.textContent=sec.formula;card.appendChild(f);}
+  if(sec.warn){sec.warn.forEach(w=>{const b=document.createElement('div');b.className='warnbox';b.innerHTML='<span class="t">⚠ </span>'+w;card.appendChild(b);});}
+  if(sec.jingles){sec.jingles.forEach(j=>{
+    const jd=document.createElement('div');jd.className='jingle';
+    jd.innerHTML='<div class="t">'+j.t+'</div>'+j.items.map(i=>'<p>'+i+'</p>').join('');
+    card.appendChild(jd);});}
+  if(sec.calc){
+    const cd=document.createElement('div'); cd.className='calcbox';
+    cd.innerHTML='<div class="ct">'+sec.calc.title+'</div><div class="steps" id="steps_'+si+'"></div><button class="btn primary" id="calcb_'+si+'">下一步 ▶</button>';
+    card.appendChild(cd);
+    calcState[si]={n:0,steps:sec.calc.steps};
+    document.getElementById('calcb_'+si).onclick=function(){
+      const st=calcState[si]; if(st.n>=st.steps.length) return;
+      const step=st.steps[st.n];
+      const se=document.getElementById('steps_'+si);
+      const d=document.createElement('div'); d.className='step';
+      d.innerHTML='<div class="sq">'+step.q+'</div><div class="sa">'+step.s+'</div>';
+      se.appendChild(d); st.n++;
+      if(st.n>=st.steps.length){ const b=document.getElementById('calcb_'+si); b.textContent='全部揭晓 ✔'; b.disabled=true; }
+    };
+  }
+  sec.lines.forEach(li=>{
+    const p=document.createElement('p'); p.className='ln'; p.id='ln'+li;
+    p.textContent=SENT[li];
+    card.appendChild(p); lineEls[li]=p;
+  });
+  stage.appendChild(card);
+});
+
+/* ============ 语音 + 播放控制 ============ */
+const seek=document.getElementById('seek');
+const pos=document.getElementById('pos');
+const now=document.getElementById('now');
+const meta=document.getElementById('meta');
+const liveDot=document.getElementById('liveDot');
+const playBtn=document.getElementById('playBtn');
+const prevBtn=document.getElementById('prevBtn');
+const nextBtn=document.getElementById('nextBtn');
+const toast=document.getElementById('toast');
+
+const N=SENT.length;
+seek.max=N-1; pos.textContent='0 / '+N;
+let cur=0, playing=false, autoplay=true, quizOpen=false;
+let voice=null, utter=null;
+
+function loadVoices(){
+  const vs = window.speechSynthesis ? speechSynthesis.getVoices() : [];
+  voice = vs.find(v=>/Xiaoxiao|晓晓| Xiao Xiao/i.test(v.name))
+        || vs.find(v=>v.lang==='zh-CN' && /female|女|Neural/i.test(v.name))
+        || vs.find(v=>v.lang && v.lang.toLowerCase().startsWith('zh'))
+        || null;
+}
+if(window.speechSynthesis){
+  loadVoices();
+  speechSynthesis.onvoiceschanged = loadVoices;
+}
+
+function stopSpeech(){ if(window.speechSynthesis) speechSynthesis.cancel(); }
+
+function speak(i){
+  if(!window.speechSynthesis) return;
+  stopSpeech();
+  const u=new SpeechSynthesisUtterance(SENT[i]);
+  if(voice) u.voice=voice;
+  u.lang='zh-CN'; u.rate=0.98; u.pitch=1.0; u.volume=1.0;
+  u.onend=()=>{
+    if(quizOpen) return;
+    if(autoplay && playing && cur < N-1){
+      go(cur+1, true);
+    }
+  };
+  utter=u; speechSynthesis.speak(u);
+}
+
+function highlight(i){
+  lineEls.forEach((el,idx)=>{ if(el) el.classList.toggle('cur', idx===i); });
+  const el=lineEls[i];
+  if(el){ el.scrollIntoView({behavior:'smooth',block:'center'}); }
+  now.innerHTML = '<span class="who"></span>'+SENT[i];
+  seek.value=i; pos.textContent=(i+1)+' / '+N;
+}
+
+function maybeBubble(i){
+  const b=BUBBLES[i];
+  if(b){
+    toast.innerHTML='<span class="nm">'+b.nm+'：</span>'+b.txt;
+    toast.classList.add('show');
+    setTimeout(()=>toast.classList.remove('show'),4200);
+  }
+}
+
+function maybeQuiz(i){
+  const q=QUIZZES[i];
+  if(q){ openQuiz(i,q); return true; }
+  return false;
+}
+
+function go(i, fromEnd){
+  i=Math.max(0,Math.min(N-1,i));
+  cur=i;
+  highlight(i);
+  maybeBubble(i);
+  if(maybeQuiz(i)){
+    stopSpeech(); playing=false; updatePlayBtn();
+    return;
+  }
+  if(playing){ speak(i); }
+}
+
+function updatePlayBtn(){ playBtn.textContent = playing? '⏸ 暂停':'▶ 播放'; liveDot.style.display = playing? 'inline-block':'none'; }
+
+playBtn.onclick=()=>{
+  if(quizOpen) return;
+  if(playing){ playing=false; stopSpeech(); updatePlayBtn(); meta.textContent='已暂停'; }
+  else{
+    if(cur>=N-1) cur=0;
+    playing=true; autoplay=true; updatePlayBtn(); meta.textContent='晓晓老师正在朗读…';
+    if(maybeQuiz(cur)){ playing=false; updatePlayBtn(); return; }
+    speak(cur);
+  }
+};
+prevBtn.onclick=()=>{ if(quizOpen)return; playing=false; updatePlayBtn(); go(cur-1); };
+nextBtn.onclick=()=>{ if(quizOpen)return; playing=false; updatePlayBtn(); go(cur+1); };
+seek.oninput=()=>{ if(quizOpen)return; const v=parseInt(seek.value,10); playing=false; updatePlayBtn(); go(v); };
+
+/* ============ 费曼弹题 ============ */
+const mask=document.getElementById('mask');
+const quizBox=document.getElementById('quizBox');
+function openQuiz(i,q){
+  quizOpen=true; autoplay=false; playing=false; updatePlayBtn();
+  meta.textContent='⏸ 突袭提问中，请先作答';
+  let html='<h3>'+q.title+'</h3>';
+  html+='<span class="asker">'+q.asker+' 问</span>';
+  html+='<div class="q" style="background:#2a1620;border-color:#ff6b9d">'+q.intro+'</div>';
+  q.qs.forEach((qq,k)=>{
+    html+='<div class="q"><span class="lab">'+qq.lab+'</span>'+qq.q+'</div>';
+    html+='<textarea id="ta'+i+'_'+k+'" placeholder="在这里用你自己的话写答案…"></textarea>';
+  });
+  html+='<div class="ans" id="ans'+i+'">'+q.ans+'</div>';
+  html+='<div class="row">';
+  html+='<button class="btn primary" id="reveal'+i+'">提交看答案</button>';
+  html+='<button class="btn nav" id="cont'+i+'">继续上课 ⏭</button>';
+  html+='</div>';
+  quizBox.innerHTML=html;
+  mask.classList.add('show');
+  document.getElementById('reveal'+i).onclick=()=>{ document.getElementById('ans'+i).style.display='block'; };
+  document.getElementById('cont'+i).onclick=()=>{ closeQuiz(i); };
+}
+function closeQuiz(i){
+  mask.classList.remove('show'); quizOpen=false;
+  if(cur < N-1){ cur=i; playing=true; autoplay=true; updatePlayBtn(); meta.textContent='晓晓老师继续朗读…'; go(i+1); }
+  else { meta.textContent='本课已讲完 🎉'; }
+}
+window.addEventListener('click',e=>{ if(e.target===mask) { /* 点遮罩不关闭，需作答 */ } });
+
+/* 初始 */
+highlight(0);
+meta.textContent='已就绪 · 本课前半段复习「反向旅游」，再讲新课';
+</script>
+</body>
+</html>
