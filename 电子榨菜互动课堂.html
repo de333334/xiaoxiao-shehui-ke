@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>晓晓老师社会现象分析课 · 第17课：年轻人为什么离不开"电子榨菜"——看懂饭桌上的赛博搭子</title>
+<style>
+  :root{
+    --bg:#0f1226; --bg2:#171a36; --card:#1e2247; --card2:#262b57;
+    --ink:#eef1ff; --sub:#aeb6e6; --accent:#ffd166; --accent2:#06d6a0;
+    --pink:#ff6b9d; --blue:#5bc0eb; --warn:#ff6b6b; --line:#333a6b;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0;background:linear-gradient(160deg,var(--bg),var(--bg2));color:var(--ink);
+    font-family:"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;line-height:1.7}
+  .topbar{position:sticky;top:0;z-index:30;background:rgba(15,18,38,.92);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);padding:10px 14px}
+  .topbar h1{font-size:17px;margin:0 0 8px;font-weight:800;letter-spacing:.5px}
+  .topbar h1 .badge{background:var(--accent);color:#222;border-radius:999px;padding:1px 9px;font-size:12px;margin-right:8px}
+  .ctrl{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .btn{border:none;border-radius:10px;padding:8px 12px;font-size:14px;font-weight:700;cursor:pointer;
+    background:var(--card2);color:var(--ink);transition:.15s;display:inline-flex;align-items:center;gap:5px}
+  .btn:hover{filter:brightness(1.15)}
+  .btn.primary{background:linear-gradient(135deg,var(--accent),#ff9f1c);color:#241a00}
+  .btn.nav{background:var(--blue);color:#04263a}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .seekwrap{flex:1;min-width:160px;display:flex;align-items:center;gap:8px}
+  input[type=range]{-webkit-appearance:none;appearance:none;height:8px;border-radius:999px;
+    background:linear-gradient(90deg,var(--accent2),var(--accent));outline:none;width:100%}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;
+    background:#fff;border:3px solid var(--accent);cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+  input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid var(--accent);cursor:pointer}
+  .pos{font-size:12px;color:var(--sub);min-width:74px;text-align:right;font-variant-numeric:tabular-nums}
+  .hint{font-size:12px;color:var(--sub);margin-top:6px}
+  .hint b{color:var(--accent)}
+  .stage{padding:14px 14px 150px;max-width:880px;margin:0 auto}
+  .sec{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin:0 0 14px;
+    box-shadow:0 6px 20px rgba(0,0,0,.25)}
+  .sec h2{font-size:16px;margin:0 0 10px;color:var(--accent);display:flex;align-items:center;gap:8px}
+  .sec h2 .dot{width:9px;height:9px;border-radius:50%;background:var(--accent2)}
+  .ln{margin:0;padding:6px 10px;border-radius:9px;color:var(--ink);font-size:15.5px;transition:.2s;border-left:3px solid transparent}
+  .ln.cur{background:var(--card2);border-left:3px solid var(--accent);font-weight:700}
+  .ln .who{color:var(--accent2);font-weight:800;margin-right:4px}
+  .diagram{margin:10px 0 4px;text-align:center}
+  .diagram svg{max-width:100%;height:auto}
+  .cap{font-size:12px;color:var(--sub);margin-top:4px}
+  .formula{background:var(--bg2);border:1px dashed var(--accent);border-radius:10px;padding:10px 12px;
+    font-size:15px;color:var(--accent);text-align:center;margin:8px 0;font-weight:700}
+  .jingle{background:linear-gradient(135deg,#2a2150,#3a2a5e);border-radius:12px;padding:12px 14px;margin:8px 0}
+  .jingle .t{color:var(--pink);font-weight:800;font-size:13px;margin-bottom:4px}
+  .jingle p{margin:4px 0;font-size:15px;color:#ffe6f3;letter-spacing:.3px}
+  .subbar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(8,10,24,.96);
+    border-top:2px solid var(--accent);padding:14px 16px 16px;box-shadow:0 -8px 24px rgba(0,0,0,.5)}
+  .subbar .now{font-size:19px;font-weight:800;color:#fff;text-align:center;max-width:860px;margin:0 auto;
+    line-height:1.5;min-height:27px}
+  .subbar .now .who{color:var(--accent2)}
+  .subbar .meta{text-align:center;color:var(--sub);font-size:12px;margin-top:6px}
+  .live{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent2);margin-right:6px;
+    animation:pulse 1s infinite}
+  @keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+  .toast{position:fixed;right:16px;bottom:120px;z-index:45;max-width:300px;background:var(--card2);
+    border:1px solid var(--line);border-radius:14px;padding:10px 12px;font-size:14px;box-shadow:0 6px 18px rgba(0,0,0,.4);
+    opacity:0;transform:translateY(12px);transition:.4s;pointer-events:none}
+  .toast.show{opacity:1;transform:translateY(0)}
+  .toast .nm{color:var(--pink);font-weight:800;margin-right:5px}
+  .mask{position:fixed;inset:0;z-index:60;background:rgba(4,6,18,.82);display:none;align-items:center;justify-content:center;padding:18px}
+  .mask.show{display:flex}
+  .quiz{background:var(--card);border:2px solid var(--pink);border-radius:18px;max-width:560px;width:100%;
+    padding:20px;box-shadow:0 12px 40px rgba(0,0,0,.6);max-height:88vh;overflow:auto}
+  .quiz h3{margin:0 0 6px;color:var(--pink);font-size:18px}
+  .quiz .asker{display:inline-block;background:var(--pink);color:#fff;border-radius:999px;padding:2px 10px;font-size:13px;font-weight:800;margin-bottom:8px}
+  .q{background:var(--bg2);border-radius:12px;padding:11px 13px;margin:10px 0;font-size:15px}
+  .q .lab{color:var(--accent);font-weight:800;margin-right:6px}
+  textarea{width:100%;min-height:64px;border-radius:10px;border:1px solid var(--line);background:var(--bg);
+    color:var(--ink);padding:10px;font-size:14px;font-family:inherit;resize:vertical}
+  .ans{display:none;background:#16331f;border:1px solid var(--accent2);border-radius:12px;padding:12px 14px;margin-top:8px;font-size:14px;color:#d6ffe6}
+  .ans b{color:var(--accent2)}
+  .quiz .row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+  .footnote{text-align:center;color:var(--sub);font-size:12px;padding:18px}
+  .warnbox{background:#2a1620;border:1px solid var(--warn);border-radius:12px;padding:12px;margin:8px 0;font-size:14px}
+  .warnbox .t{color:var(--warn);font-weight:800}
+  .calcbox{background:#152a3a;border:1px solid var(--blue);border-radius:12px;padding:12px;margin:8px 0}
+  .calcbox .ct{color:var(--blue);font-weight:800;font-size:14px;margin-bottom:8px}
+  .calcbox .step{background:var(--bg2);border-radius:10px;padding:10px 12px;margin:8px 0}
+  .calcbox .sq{color:var(--accent);font-weight:800;font-size:14px;margin-bottom:4px}
+  .calcbox .sa{color:var(--ink);font-size:14px;line-height:1.6}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1><span class="badge">第17课</span>年轻人为什么离不开"电子榨菜"：看懂饭桌上的赛博搭子（一人食·虚拟陪伴）</h1>
+  <div class="ctrl">
+    <button class="btn primary" id="playBtn">▶ 播放</button>
+    <button class="btn nav" id="prevBtn">⏮ 上一句</button>
+    <button class="btn nav" id="nextBtn">下一句 ⏭</button>
+    <div class="seekwrap">
+      <input type="range" id="seek" min="0" max="0" step="1" value="0">
+      <span class="pos" id="pos">0 / 0</span>
+    </div>
+  </div>
+  <div class="hint">💡 进度条可<b>自由拖动</b>调位置；「上一句 / 下一句」逐句跳转；晓晓老师神经网络语音朗读；底部字幕不挡讲解；课中会有小明/小红突袭提问，记得答完再继续～</div>
+</div>
+
+<div class="stage" id="stage"></div>
+
+<div class="subbar">
+  <div class="now" id="now">点「播放」，晓晓老师开讲啦～</div>
+  <div class="meta"><span class="live" id="liveDot" style="display:none"></span><span id="meta">已就绪 · 本课前半段复习「淡人」，再讲新课</span></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="mask" id="mask">
+  <div class="quiz" id="quizBox"></div>
+</div>
+
+<div class="footnote">懒脑袋锻炼计划 · 第17课 · 数据来自2025–2026公开报道（湖南日报/财新/QuestMobile/千瓜数据/多家媒体）· 本页为自包含离线课件，请用 Edge / Chrome 打开以启用晓晓老师语音</div>
+
+<script>
+/* ============ 讲解文稿（逐句，供语音+字幕） ============ */
+const SENT = [
+ "同学们好！我是晓晓老师，懒脑袋锻炼计划第17课开讲啦。",
+ "先复习上节课：我们讲了年轻人为什么争当淡人——把情绪调成低功耗模式，不内耗、能自保、还真实。",
+ "它和断亲潮（社交省电）、玄学热（抓确定）、养生（护精力）、谷子经济（人际淡自我浓）、公园20分钟（免费治愈）、反向旅游（空间逃离）是同一棵树的近亲。",
+ "今天这课，我们接着讲年轻人的一个人生活：当一个人吃饭时，屏幕成了饭桌上的第三个人——这股风叫电子榨菜。",
+ "说白了：一个人吃饭，手机往筷子边一搁，没这下饭视频就觉得饭少一半味儿，主打一个借别人的热闹下自己的饭。",
+ "好，复习完毕，进入今天的饭桌搭子。",
+
+ "先说现象：什么是电子榨菜？就是吃饭时搭配的数字内容——短视频、剧综切片、吃播、直播，屏幕一响，碗里的白饭都能多扒两口。",
+ "它有多普遍？湖南日报一份大学生调研回收386份问卷，超过七成学生吃饭会习惯性开视频下饭；18.28%几乎餐餐都吃，也有人坚持吃饭不看屏。",
+ "QuestMobile的报告更狠：2025年用户日均电子榨菜消费时长78分钟，主要是短视频占62%、播客23%、ASMR助眠音15%。",
+ "00后还发明了电子榨菜盲盒——随机点开一部剧，3分钟内决定下饭不下饭；还有下饭剧鄙视链：青铜《甄嬛传》《武林外传》，黄金《风味人间》，王者《种地吧》。",
+ "某视频平台午间12到14点的播放峰值里，78%的用户都在边吃边看——电子榨菜，已经成了这届年轻人的隐形餐具。",
+ "所以电子榨菜不是个别怪癖，是数字时代最典型的一人食生活方式切片：一个人，也能吃得很热闹。",
+
+ "先正名！一看到一个人吃饭还要刷手机，很多人第一反应：这是孤独、社恐、不会和人打交道。",
+ "先别急着贴标签。电子榨菜真不等于孤独病态——它更像一个赛博饭搭子：不抢菜、不催婚、不问工资，情绪稳定得感人。",
+ "记住一句话：电子榨菜，是把一个人吃饭的空填上借来的热闹；是在效率暴政里，给吃饭这半小时抢回一点只属于自己的快乐。",
+ "所以别再说刷手机吃饭是浪费——只要不本末倒置，它是成年人难得的过家家：一个人也把日子过得有声有色。",
+ "真正的危险不是看视频吃饭，是看着看着，把屏幕里的热闹当成了唯一的陪伴，把真实的关系淡成了背景音。",
+
+ "要真懂电子榨菜，先抓三个核心概念。",
+ "第一个：虚拟陪伴代偿。心理学叫陪伴缺失补偿——屏幕里的热闹暂时缓解独处焦虑，一个人吃饭也不慌，像饭桌边坐了个老朋友。",
+ "第二个：碎片仪式感。996下平均用餐才27分钟，电子榨菜是压缩式娱乐的最优解；63%的人吃饭二刷熟剧而非追新，要的不是跌宕，是无需动脑的安全感。",
+ "第三个：注意力填充。吃饭本是最容易走神发呆的碎片时间，塞一段内容进去，既打发了无聊、又快速拿到多巴胺——这顿饭的卡路里是零，占的时间和注意力却一点不少。",
+ "记住这三词：借热闹（虚拟陪伴）、抢安全（仪式感）、填空白（注意力）。后面全靠它们串。",
+
+ "那这股风从哪刮起来的？五根线，记好。",
+ "第一根：独居一人食爆发。单身经济从三千多亿干到近万亿，独居青年越来越多，一个人吃饭成了日常，饭桌自然缺个搭子。",
+ "第二根：效率暴政挤占。工作节奏快、通勤长，吃饭被当成必须高效利用的碎片时间，电子榨菜把吃饭顺手变成娱乐，一举两得。",
+ "第三根：内容平台赋能。短视频、切片、吃播海量且免费，随手点开就有，比约人吃饭成本低太多——这是它取代真人搭子的关键。",
+ "第四根：社交降噪省电。和咱们讲过的搭子、淡人同款：真人饭局要寒暄、要埋单、要接话，电子榨菜零社交成本，想吃就吃、想停就停。",
+ "第五根：算法投喂加码。平台越推越懂你，搞笑推搞笑、治愈推治愈，电子榨菜盲盒越刷越上头，把临时陪伴养成日常刚需。",
+ "五根线合起来：一个人住缺搭子，时间碎了要填缝，屏幕免费又省电，算法还来添把火——饭桌上的第三个人，就这么坐下了。",
+
+ "不过老师要泼冷水，几个坑必须警惕。",
+ "第一坑：本末倒置。变成好好刷视频、顺便吃饭，为配饭专门建收藏夹，饭吃没吃进去都不记得，营养和健康都让步给屏幕。",
+ "第二坑：虚假陪伴。屏幕里的热闹是借来的，视频一断饭就难以下咽，安静得发慌——它填了空，却可能让你更不想经营真关系，越刷越孤。",
+ "第三坑：信息茧房。你越爱看轻松，算法越推轻松，久而久之失去深度思考的耐力，脑袋被榨菜腌成了不用动脑的口味。",
+ "第四坑：肠胃代偿。医学研究证实，边看屏幕边进食容易过量摄入、消化变慢——赛博代吃爽了嘴，累了胃。",
+ "所以电子榨菜是调味品，不是主食；是下饭的榨菜，不是人生的搭子。",
+
+ "来，背口诀！正名口诀：电子榨菜非孤僻，赛博搭子情绪稳；借来热闹下自己的饭，半小时快乐属于己。",
+ "三概念口诀：虚拟陪伴代偿空，碎片仪式抢安全；注意力填空白处，零卡占满时间和眼。",
+ "五根线口诀：一独居二效率，三平台四省电；算法助推第五根，饭桌第三人坐得稳。",
+ "反方口诀：本末倒置饭白吃，虚假陪伴越刷孤；茧房腌坏思考力，肠胃代偿要当心。",
+
+ "下面练练读数的眼睛，三道数据题，一步步算。",
+
+ "好，现在轮到你当老师了。用一句话说说电子榨菜是什么、为什么火；再想想它和搭子文化、淡人、断亲潮的共同点；最后，给你一个自己吃饭的场景，写写你的下饭搭子怎么配才健康。",
+ "（停顿，给学生思考时间——想好了再往下听答案。）",
+
+ "今天的课到这儿。记住：电子榨菜，表面是吃饭刷手机，里子是在一个人住、时间碎、社交累的时候，想抓住一点不贵、不累、还热闹的陪伴。",
+ "它和断亲潮（一个人）、搭子文化（饭桌搭子变赛博搭子）、淡人（低能耗陪伴）、谷子（情绪消费）、玄学热（抓确定）、公园20分钟（免费治愈）是同一棵树的近亲——都在高压和不确定里，给自己找一块买得起的、能喘口气的小角落。",
+ "下节课我们继续拆解新现象。作业：今天一个人吃饭时，挑一段真正让你放松的榨菜，但定个时——吃完就关，把剩下的时间留给真实的自己。同学们，再见！"
+];
+
+/* ============ 章节结构（含图示） ============ */
+const SVG_PHENOMENON = `<svg viewBox="0 0 680 220" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC,sans-serif">
+  <rect width="680" height="220" rx="16" fill="#171a36"/>
+  <text x="340" y="26" fill="#ffd166" font-size="16" font-weight="800" text-anchor="middle">电子榨菜 = 一个人吃饭 + 屏幕当饭桌上的第三人</text>
+  <g transform="translate(40,55)">
+    <rect x="0" y="0" width="180" height="110" rx="14" fill="#2a1620" stroke="#ff6b6b" stroke-width="2"/>
+    <text x="90" y="30" fill="#ff6b6b" font-size="15" font-weight="800" text-anchor="middle">一个人吃饭</text>
+    <text x="90" y="54" fill="#aeb6e6" font-size="12" text-anchor="middle">空桌·无声音</text>
+    <text x="90" y="78" fill="#aeb6e6" font-size="12" text-anchor="middle">饭桌缺个搭子</text>
+    <text x="90" y="100" fill="#aeb6e6" font-size="12" text-anchor="middle">容易发慌孤单</text>
+  </g>
+  <defs><marker id="ar17" markerWidth="12" markerHeight="12" refX="7" refY="3.5" orient="auto"><path d="M0 0 L9 3.5 L0 7 Z" fill="#06d6a0"/></marker></defs>
+  <text x="270" y="100" fill="#06d6a0" font-size="13" font-weight="800" text-anchor="middle">加屏幕 ↩</text>
+  <path d="M230 110 H290" stroke="#06d6a0" stroke-width="4" fill="none" marker-end="url(#ar17)"/>
+  <g transform="translate(460,55)">
+    <rect x="0" y="0" width="180" height="110" rx="14" fill="#152a3a" stroke="#06d6a0" stroke-width="2"/>
+    <text x="90" y="30" fill="#06d6a0" font-size="15" font-weight="800" text-anchor="middle">赛博饭搭子</text>
+    <text x="90" y="54" fill="#aeb6e6" font-size="12" text-anchor="middle">借来的热闹</text>
+    <text x="90" y="78" fill="#aeb6e6" font-size="12" text-anchor="middle">不催婚不闲聊</text>
+    <text x="90" y="100" fill="#aeb6e6" font-size="12" text-anchor="middle">情绪稳定感人</text>
+  </g>
+  <text x="340" y="200" fill="#aeb6e6" font-size="12" text-anchor="middle">超七成大学生下饭标配 · 日均78分钟 · 午间峰值78%边吃边看</text>
+</svg>`;
+
+const SVG_CONCEPT = `<svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC,sans-serif">
+  <rect width="680" height="200" rx="16" fill="#171a36"/>
+  <text x="340" y="26" fill="#ffd166" font-size="16" font-weight="800" text-anchor="middle">三概念：借热闹 / 抢安全 / 填空白</text>
+  <rect x="40" y="50" width="180" height="110" rx="14" fill="#262b57" stroke="#ff6b9d" stroke-width="2"/>
+  <text x="130" y="80" fill="#ff6b9d" font-size="14" font-weight="800" text-anchor="middle">虚拟陪伴代偿</text>
+  <text x="130" y="104" fill="#aeb6e6" font-size="12" text-anchor="middle">借热闹</text>
+  <text x="130" y="126" fill="#aeb6e6" font-size="11" text-anchor="middle">缓解独处焦虑</text>
+  <text x="130" y="146" fill="#aeb6e6" font-size="11" text-anchor="middle">饭桌坐老友</text>
+  <rect x="250" y="50" width="180" height="110" rx="14" fill="#262b57" stroke="#5bc0eb" stroke-width="2"/>
+  <text x="340" y="80" fill="#5bc0eb" font-size="14" font-weight="800" text-anchor="middle">碎片仪式感</text>
+  <text x="340" y="104" fill="#aeb6e6" font-size="12" text-anchor="middle">抢安全</text>
+  <text x="340" y="126" fill="#aeb6e6" font-size="11" text-anchor="middle">压缩娱乐最优解</text>
+  <text x="340" y="146" fill="#aeb6e6" font-size="11" text-anchor="middle">二刷熟剧求稳</text>
+  <rect x="460" y="50" width="180" height="110" rx="14" fill="#262b57" stroke="#06d6a0" stroke-width="2"/>
+  <text x="550" y="80" fill="#06d6a0" font-size="14" font-weight="800" text-anchor="middle">注意力填充</text>
+  <text x="550" y="104" fill="#aeb6e6" font-size="12" text-anchor="middle">填空白</text>
+  <text x="550" y="126" fill="#aeb6e6" font-size="11" text-anchor="middle">打发无聊</text>
+  <text x="550" y="146" fill="#aeb6e6" font-size="11" text-anchor="middle">零卡拿多巴胺</text>
+</svg>`;
+
+const SVG_ROOTS = `<svg viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg" font-family="PingFang SC,sans-serif">
+  <rect width="680" height="260" rx="16" fill="#171a36"/>
+  <rect x="285" y="20" width="110" height="46" rx="10" fill="#262b57" stroke="#ffd166" stroke-width="2"/>
+  <text x="340" y="48" fill="#ffd166" font-size="15" font-weight="800" text-anchor="middle">电子榨菜</text>
+  <line x1="340" y1="66" x2="340" y2="120" stroke="#888" stroke-width="3"/>
+  <g stroke="#06d6a0" stroke-width="3" fill="none">
+    <path d="M340 120 C300 150 250 160 150 175"/>
+    <path d="M340 120 C310 155 280 175 220 195"/>
+    <path d="M340 120 C340 160 340 185 340 210"/>
+    <path d="M340 120 C370 155 400 175 460 195"/>
+    <path d="M340 120 C380 150 430 160 530 175"/>
+  </g>
+  <g font-size="12.5" font-weight="700" text-anchor="middle">
+    <text x="135" y="172" fill="#5bc0eb">①独居爆发</text>
+    <text x="205" y="198" fill="#5bc0eb">②效率暴政</text>
+    <text x="340" y="228" fill="#5bc0eb">③平台赋能</text>
+    <text x="475" y="198" fill="#5bc0eb">④社交省电</text>
+    <text x="545" y="172" fill="#5bc0eb">⑤算法助推</text>
+  </g>
+  <text x="340" y="250" fill="#aeb6e6" font-size="12" text-anchor="middle">五根线托起电子榨菜：根扎得清，饭桌第三人坐得稳</text>
+</svg>`;
+
+const SECTIONS = [
+  {t:"① 复习：淡人（上节课）", lines:[0,1,2,3,4,5],
+     jingles:[{t:"上节课一句话",items:["淡人：把情绪调成低功耗，不内耗能自保","断亲潮：社交省电","玄学热：去庙里抓确定感","养生：去身体里抓掌控感","谷子：去消费里抓情绪价值","公园20分钟/反向旅游：自然与空间的免费喘息"]}]},
+  {t:"② 新课导入：什么是电子榨菜", lines:[6,7,8,9,10,11], svg:SVG_PHENOMENON, cap:"图：一个人吃饭 + 屏幕当饭桌上的第三人"},
+  {t:"③ 正名：不是孤僻，是赛博搭子", lines:[12,13,14,15,16],
+     warn:["一看到一个人吃饭刷手机，别急着说「孤独社恐不会交际」——先问：为什么这届年轻人愿意让屏幕坐上饭桌？"]},
+  {t:"④ 三个核心概念", lines:[17,18,19,20,21], svg:SVG_CONCEPT, cap:"图：借热闹(虚拟陪伴) / 抢安全(仪式感) / 填空白(注意力)"},
+  {t:"⑤ 五根线（原因拆解）", lines:[22,23,24,25,26,27,28], svg:SVG_ROOTS, cap:"图：五根线托起电子榨菜",
+     jingles:[{t:"五根线",items:["①独居爆发：单身经济近万亿，独居青年多了，饭桌缺搭子","②效率暴政：吃饭被当碎片时间，顺手娱乐一举两得","③平台赋能：短视频吃播海量免费，成本低于约真人","④社交省电：真饭局寒暄埋单接话累，屏幕零社交成本","⑤算法助推：越推越懂你，盲盒越刷越上头"]}]},
+  {t:"⑥ 反方警惕：四个坑", lines:[29,30,31,32,33,34],
+     warn:["第一坑：本末倒置——为看剧吃饭，饭吃没吃进去都不记得","第二坑：虚假陪伴——越刷越孤，真实关系淡成背景音","第三坑：信息茧房——思考耐力退化，脑袋被腌成不用动脑","第四坑：肠胃代偿——边看边吃易过量，爽嘴累胃"]},
+  {t:"⑦ 口诀大合集", lines:[35,36,37,38],
+     jingles:[
+       {t:"正名口诀",items:["电子榨菜非孤僻，赛博搭子情绪稳；","借来热闹下自己的饭，半小时快乐属于己。"]},
+       {t:"三概念口诀",items:["虚拟陪伴代偿空，碎片仪式抢安全；","注意力填空白处，零卡占满时间和眼。"]},
+       {t:"五根线口诀",items:["一独居二效率，三平台四省电；","算法助推第五根，饭桌第三人坐得稳。"]},
+       {t:"反方口诀",items:["本末倒置饭白吃，虚假陪伴越刷孤；","茧房腌坏思考力，肠胃代偿要当心。"]}
+     ]},
+  {t:"⑧ 数据演练（练读数的眼睛）", lines:[39],
+     calc:{title:"三道数据题，点「下一步」逐题揭晓", steps:[
+       {q:"题1：湖南日报调研回收386份问卷，其中307人有电子榨菜习惯（超七成）。那没有这习惯、坚持吃饭不看屏的约有多少人？占比多少？", s:"386 − 307 = 79人，79 ÷ 386 ≈ 20.5%。也就是说约每5个里有1个坚持吃饭不看屏——和调研里「20.47%坚持不看」几乎对得上。电子榨菜是主流，但不是全员，它也只是一种可选项。"},
+       {q:"题2：2025年用户日均电子榨菜78分钟，其中短视频占62%。一天刷短视频下饭多少分钟？一年365天累计约多少小时（合多少天）？", s:"78 × 62% ≈ 48.4分钟/天。一年 48.4 × 365 ≈ 17666分钟 ≈ 294.4小时，÷24 ≈ 12.3天。等于一年有半个多月，是边吃饭边看短视频度过的——这笔时间账，挺吓人。"},
+       {q:"题3：某平台午间峰值78%用户边吃边看。若公司午餐100人，约多少人同时开着视频下饭？若其中「几乎餐餐都吃」的重度依赖占18.28%，这100人里约几人属重度？", s:"100 × 78% = 78人边吃边看。100 × 18.28% ≈ 18人几乎餐餐都吃、重度依赖。一个百人办公室，午饭时近八成在刷屏、约两成把它当刚需——这正是它从个人习惯变成群体现象的缩影。"}
+     ]}},
+  {t:"⑨ 费曼检测", lines:[40,41]},
+  {t:"⑩ 结语", lines:[42,43,44]}
+];
+
+/* ============ 学生互动气泡（飘一下，不挡讲解） ============ */
+const BUBBLES = {
+  8:{nm:"小红",txt:"一个人住后，吃饭没下饭视频真的难以下咽，屏幕就像饭桌搭子，不催婚不闲聊，太香了😆"},
+  16:{nm:"小明",txt:"所以刷手机吃饭不是孤僻，是给自己抢半小时快乐——懂了，但我会定个闹钟，别刷忘了"},
+  26:{nm:"小红",txt:"和真饭局一比，电子榨菜零社交成本，想吃就吃想停就停，社恐狂喜"},
+  34:{nm:"小明",txt:"我以后二刷老剧就好，不刷算法投喂的爽文，省得脑袋被腌成不用动脑"}
+};
+
+/* ============ 费曼突袭弹题（在指定句触发） ============ */
+const QUIZZES = {
+  21:{ // 三概念讲完
+    asker:"小明", title:"突袭提问①",
+    intro:"晓晓老师，我一个人住，每顿饭必须开视频才吃得香，这算虚拟陪伴还是真孤僻啊？我有点慌。",
+    qs:[
+      {lab:"辨一辨",q:"用今天学的三概念，说说小明把屏幕放上饭桌是在干啥？"},
+      {lab:"改一改",q:"怎样的电子榨菜才健康、不本末倒置？给个简单标准。"}
+    ],
+    ans:"<b>参考答案：</b>小明是在做清醒的「虚拟陪伴代偿」，对应三个概念：①<b>虚拟陪伴代偿</b>——屏幕热闹缓解独处焦虑，饭桌像坐了个老友（借热闹）；②<b>碎片仪式感</b>——压缩式娱乐，二刷熟剧求无需动脑的安全感（抢安全）；③<b>注意力填充</b>——填饱饭时的空白、快速拿多巴胺（填空白）。它是代偿不是病态。健康标准：<b>电子榨菜是调味品不是主食</b>——定个时、别边看边暴食、别用它替代所有真实关系。记住：借来的热闹是糖，真关系是饭，糖不能当饭吃。"
+  },
+  28:{ // 五根线讲完
+    asker:"小红", title:"突袭提问②",
+    intro:"五根线里最戳我的是社交省电——真饭局要寒暄埋单接话太累。你呢？五根线你能背几句？哪一根最像你家？",
+    qs:[
+      {lab:"背一背",q:"五根线你能背出几句？哪一根和你最像？"},
+      {lab:"防坑",q:"电子榨菜最要警惕什么？怎么别滑向虚假陪伴或茧房？"}
+    ],
+    ans:"<b>参考答案：</b>五根线：①独居爆发 ②效率暴政 ③平台赋能 ④社交省电 ⑤算法助推。最要警惕：<b>本末倒置</b>（为看剧吃饭）、<b>虚假陪伴</b>（越刷越孤，真实关系淡成背景音）、<b>信息茧房</b>（思考耐力退化）、<b>肠胃代偿</b>（边看边吃易过量）。有效标准：它是下饭的榨菜不是人生的搭子；该见面时还是见真实的人，每周留一顿「无屏饭」陪自己或朋友。"
+  },
+  40:{ // 费曼检测主问
+    asker:"晓晓老师", title:"费曼检测（合上课本讲给我听）",
+    intro:"现在轮到你当老师了。别急着看答案，先自己讲，再对照。",
+    qs:[
+      {lab:"一句话",q:"用一句话解释电子榨菜是什么、为什么火？举个你身边的例子。"},
+      {lab:"勾连",q:"它和搭子文化、淡人、断亲潮的共同点是什么？（提示：都在把陪伴拆成低功耗版本）"},
+      {lab:"实战",q:"给你一个自己吃饭的场景，写写你的下饭搭子怎么配才健康。"}
+    ],
+    ans:"<b>参考答案：</b>①电子榨菜=一人食时搭配数字内容（短视频/剧/吃播）当作「饭桌搭子」，在独居、时间碎、社交累时抓不贵、不累、还热闹的陪伴。例子：独居白领煮面开《脱口秀大会》，仿佛客厅坐满朋友。②共同点：和断亲潮（一个人）、搭子文化（饭桌真人搭子变赛博搭子）、淡人（低能耗陪伴·情绪节能）是同一棵树的近亲——都在高压里把「陪伴」拆成低功耗版本，买得起的那种。③小打算：一个人吃饭时挑一段真正放松的老剧/播客，定20分钟闹钟，吃完就关，不边看边暴食，每周留一顿无屏饭陪真实的人或自己。"
+  }
+};
+
+/* ============ 渲染课堂笔记 ============ */
+const stage = document.getElementById('stage');
+const calcState = {};
+let lineEls = [];
+SECTIONS.forEach((sec,si)=>{
+  const card = document.createElement('div'); card.className='sec';
+  const h = document.createElement('h2'); h.innerHTML='<span class="dot"></span>'+sec.t; card.appendChild(h);
+  if(sec.svg){const d=document.createElement('div');d.className='diagram';d.innerHTML=sec.svg;card.appendChild(d);
+    if(sec.cap){const c=document.createElement('div');c.className='cap';c.textContent='▲ '+sec.cap;card.appendChild(c);}}
+  if(sec.formula){const f=document.createElement('div');f.className='formula';f.textContent=sec.formula;card.appendChild(f);}
+  if(sec.warn){sec.warn.forEach(w=>{const b=document.createElement('div');b.className='warnbox';b.innerHTML='<span class="t">⚠ </span>'+w;card.appendChild(b);});}
+  if(sec.jingles){sec.jingles.forEach(j=>{
+    const jd=document.createElement('div');jd.className='jingle';
+    jd.innerHTML='<div class="t">'+j.t+'</div>'+j.items.map(i=>'<p>'+i+'</p>').join('');
+    card.appendChild(jd);});}
+  if(sec.calc){
+    const cd=document.createElement('div'); cd.className='calcbox';
+    cd.innerHTML='<div class="ct">'+sec.calc.title+'</div><div class="steps" id="steps_'+si+'"></div><button class="btn primary" id="calcb_'+si+'">下一步 ▶</button>';
+    card.appendChild(cd);
+    calcState[si]={n:0,steps:sec.calc.steps};
+    document.getElementById('calcb_'+si).onclick=function(){
+      const st=calcState[si]; if(st.n>=st.steps.length) return;
+      const step=st.steps[st.n];
+      const se=document.getElementById('steps_'+si);
+      const d=document.createElement('div'); d.className='step';
+      d.innerHTML='<div class="sq">'+step.q+'</div><div class="sa">'+step.s+'</div>';
+      se.appendChild(d); st.n++;
+      if(st.n>=st.steps.length){ const b=document.getElementById('calcb_'+si); b.textContent='全部揭晓 ✔'; b.disabled=true; }
+    };
+  }
+  sec.lines.forEach(li=>{
+    const p=document.createElement('p'); p.className='ln'; p.id='ln'+li;
+    p.textContent=SENT[li];
+    card.appendChild(p); lineEls[li]=p;
+  });
+  stage.appendChild(card);
+});
+
+/* ============ 语音 + 播放控制 ============ */
+const seek=document.getElementById('seek');
+const pos=document.getElementById('pos');
+const now=document.getElementById('now');
+const meta=document.getElementById('meta');
+const liveDot=document.getElementById('liveDot');
+const playBtn=document.getElementById('playBtn');
+const prevBtn=document.getElementById('prevBtn');
+const nextBtn=document.getElementById('nextBtn');
+const toast=document.getElementById('toast');
+
+const N=SENT.length;
+seek.max=N-1; pos.textContent='0 / '+N;
+let cur=0, playing=false, autoplay=true, quizOpen=false;
+let voice=null, utter=null;
+
+function loadVoices(){
+  const vs = window.speechSynthesis ? speechSynthesis.getVoices() : [];
+  voice = vs.find(v=>/Xiaoxiao|晓晓| Xiao Xiao/i.test(v.name))
+        || vs.find(v=>v.lang==='zh-CN' && /female|女|Neural/i.test(v.name))
+        || vs.find(v=>v.lang && v.lang.toLowerCase().startsWith('zh'))
+        || null;
+}
+if(window.speechSynthesis){
+  loadVoices();
+  speechSynthesis.onvoiceschanged = loadVoices;
+}
+
+function stopSpeech(){ if(window.speechSynthesis) speechSynthesis.cancel(); }
+
+function speak(i){
+  if(!window.speechSynthesis) return;
+  stopSpeech();
+  const u=new SpeechSynthesisUtterance(SENT[i]);
+  if(voice) u.voice=voice;
+  u.lang='zh-CN'; u.rate=0.98; u.pitch=1.0; u.volume=1.0;
+  u.onend=()=>{
+    if(quizOpen) return;
+    if(autoplay && playing && cur < N-1){
+      go(cur+1, true);
+    }
+  };
+  utter=u; speechSynthesis.speak(u);
+}
+
+function highlight(i){
+  lineEls.forEach((el,idx)=>{ if(el) el.classList.toggle('cur', idx===i); });
+  const el=lineEls[i];
+  if(el){ el.scrollIntoView({behavior:'smooth',block:'center'}); }
+  now.innerHTML = '<span class="who"></span>'+SENT[i];
+  seek.value=i; pos.textContent=(i+1)+' / '+N;
+}
+
+function maybeBubble(i){
+  const b=BUBBLES[i];
+  if(b){
+    toast.innerHTML='<span class="nm">'+b.nm+'：</span>'+b.txt;
+    toast.classList.add('show');
+    setTimeout(()=>toast.classList.remove('show'),4200);
+  }
+}
+
+function maybeQuiz(i){
+  const q=QUIZZES[i];
+  if(q){ openQuiz(i,q); return true; }
+  return false;
+}
+
+function go(i, fromEnd){
+  i=Math.max(0,Math.min(N-1,i));
+  cur=i;
+  highlight(i);
+  maybeBubble(i);
+  if(maybeQuiz(i)){
+    stopSpeech(); playing=false; updatePlayBtn();
+    return;
+  }
+  if(playing){ speak(i); }
+}
+
+function updatePlayBtn(){ playBtn.textContent = playing? '⏸ 暂停':'▶ 播放'; liveDot.style.display = playing? 'inline-block':'none'; }
+
+playBtn.onclick=()=>{
+  if(quizOpen) return;
+  if(playing){ playing=false; stopSpeech(); updatePlayBtn(); meta.textContent='已暂停'; }
+  else{
+    if(cur>=N-1) cur=0;
+    playing=true; autoplay=true; updatePlayBtn(); meta.textContent='晓晓老师正在朗读…';
+    if(maybeQuiz(cur)){ playing=false; updatePlayBtn(); return; }
+    speak(cur);
+  }
+};
+prevBtn.onclick=()=>{ if(quizOpen)return; playing=false; updatePlayBtn(); go(cur-1); };
+nextBtn.onclick=()=>{ if(quizOpen)return; playing=false; updatePlayBtn(); go(cur+1); };
+seek.oninput=()=>{ if(quizOpen)return; const v=parseInt(seek.value,10); playing=false; updatePlayBtn(); go(v); };
+
+/* ============ 费曼弹题 ============ */
+const mask=document.getElementById('mask');
+const quizBox=document.getElementById('quizBox');
+function openQuiz(i,q){
+  quizOpen=true; autoplay=false; playing=false; updatePlayBtn();
+  meta.textContent='⏸ 突袭提问中，请先作答';
+  let html='<h3>'+q.title+'</h3>';
+  html+='<span class="asker">'+q.asker+' 问</span>';
+  html+='<div class="q" style="background:#2a1620;border-color:#ff6b9d">'+q.intro+'</div>';
+  q.qs.forEach((qq,k)=>{
+    html+='<div class="q"><span class="lab">'+qq.lab+'</span>'+qq.q+'</div>';
+    html+='<textarea id="ta'+i+'_'+k+'" placeholder="在这里用你自己的话写答案…"></textarea>';
+  });
+  html+='<div class="ans" id="ans'+i+'">'+q.ans+'</div>';
+  html+='<div class="row">';
+  html+='<button class="btn primary" id="reveal'+i+'">提交看答案</button>';
+  html+='<button class="btn nav" id="cont'+i+'">继续上课 ⏭</button>';
+  html+='</div>';
+  quizBox.innerHTML=html;
+  mask.classList.add('show');
+  document.getElementById('reveal'+i).onclick=()=>{ document.getElementById('ans'+i).style.display='block'; };
+  document.getElementById('cont'+i).onclick=()=>{ closeQuiz(i); };
+}
+function closeQuiz(i){
+  mask.classList.remove('show'); quizOpen=false;
+  if(cur < N-1){ cur=i; playing=true; autoplay=true; updatePlayBtn(); meta.textContent='晓晓老师继续朗读…'; go(i+1); }
+  else { meta.textContent='本课已讲完 🎉'; }
+}
+window.addEventListener('click',e=>{ if(e.target===mask) { /* 点遮罩不关闭，需作答 */ } });
+
+/* 初始 */
+highlight(0);
+meta.textContent='已就绪 · 本课前半段复习「淡人」，再讲新课';
+</script>
+</body>
+</html>
